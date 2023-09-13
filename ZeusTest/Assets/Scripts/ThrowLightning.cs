@@ -33,9 +33,9 @@ public class ThrowLightning : MonoBehaviour
             if(Physics.Raycast(ray, out hit)) // If the raycast hit something
             {
                 Debug.Log(hit.collider.gameObject.name);
-                if(hit.collider.gameObject.tag == "canBeDestroyed") // If the object can be destroyed, destroy it
+                if(hit.collider.gameObject.tag == "canBeDestroyed") // If the object can be destroyed, make it take damage
                 {
-                    Destroy(hit.collider.gameObject);
+                    hit.collider.gameObject.GetComponent<ObjectToDestroy>().TakeDamage(energie);
                 }
                 SetEnergie(0);
             }

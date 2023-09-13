@@ -9,6 +9,7 @@ public class InputController : MonoBehaviour
     private float timePressed = 0;
     private ThrowLightning throwLightning;
     private float x,y;
+    private float xWhenPressed, yWhenPressed;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,17 +24,24 @@ public class InputController : MonoBehaviour
     {
         if(Input.GetMouseButton(0)) // If player left click
         {
-            timePressed += Time.deltaTime;
             //Rotate the planet
             x = Input.GetAxis("Mouse X");
             y = Input.GetAxis("Mouse Y");
             planetMovement.rotate(x,y);
-        }
-        else // the player stop clicking
-        {
-            if(timePressed < timeBtwClickAndHold && timePressed > 0)
+            if(timePressed == 0) // If the player just clicked
             {
-                throwLightning.Throw();
+                xWhenPressed = x;
+                yWhenPressed = y;
+            }
+
+            timePressed += Time.deltaTime;
+        }
+        else 
+        {
+            if(timePressed < timeBtwClickAndHold && timePressed > 0) // Check if the player hold the click or not
+            {
+                if(xWhenPressed == x && yWhenPressed == y) // If the player didn't move the mouse
+                    throwLightning.Throw();
             }
             timePressed = 0;
         }
