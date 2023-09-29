@@ -8,7 +8,10 @@ public class ObjectToDestroy : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
+        GameManager.instance.SetDamageText(damage, life);
+
         life -= damage;
+
         if(life <= 0)
         {
             Destroy(gameObject);
