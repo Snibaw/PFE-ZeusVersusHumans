@@ -13,14 +13,13 @@ public class InputController : MonoBehaviour
     private float timePressed = 0;
 
     //* This is for PC *//
-
-    // private float xWhenPressed, yWhenPressed;
+    #if UNITY_EDITOR
+        private float xWhenPressed, yWhenPressed;
+    #endif
     
-    // Start is called before the first frame update
     void Start()
     {
         throwLightning = GetComponent<ThrowLightning>();
-        // timePressed = 0;
     }
 
     // Update is called once per frame
@@ -67,29 +66,30 @@ public class InputController : MonoBehaviour
         }
 
         //* This is for PC *//
+        #if UNITY_EDITOR
+            if(Input.GetMouseButton(0)) // If player left click
+            {
+                //Rotate the planet
+                x = Input.GetAxis("Mouse X");
+                y = Input.GetAxis("Mouse Y");
+                planetMovement.rotate(x,y);
+                if(timePressed == 0) // If the player just clicked
+                {
+                    xWhenPressed = x;
+                    yWhenPressed = y;
+                }
 
-        // if(Input.GetMouseButton(0)) // If player left click
-        // {
-        //     //Rotate the planet
-        //     x = Input.GetAxis("Mouse X");
-        //     y = Input.GetAxis("Mouse Y");
-        //     planetMovement.rotate(x,y);
-        //     if(timePressed == 0) // If the player just clicked
-        //     {
-        //         xWhenPressed = x;
-        //         yWhenPressed = y;
-        //     }
-
-        //     timePressed += Time.deltaTime;
-        // }
-        // else 
-        // {
-        //     if(timePressed < timeBtwClickAndHold && timePressed > 0) // Check if the player hold the click or not
-        //     {
-        //         if(xWhenPressed == x && yWhenPressed == y) // If the player didn't move the mouse
-        //             throwLightning.Throw();
-        //     }
-        //     timePressed = 0;
-        // }
+                timePressed += Time.deltaTime;
+            }
+            else 
+            {
+                if(timePressed < timeBtwClickAndHold && timePressed > 0) // Check if the player hold the click or not
+                {
+                    if(xWhenPressed == x && yWhenPressed == y) // If the player didn't move the mouse
+                        throwLightning.Throw();
+                }
+                timePressed = 0;
+            }
+        #endif
     }
 }
