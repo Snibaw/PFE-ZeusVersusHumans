@@ -7,11 +7,14 @@ TagManager:
   - canBeDestroyed
   - Ground
   - Water
+  - wood
+  - stone
+  - house
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - CanBeDestroyed
   - Water
   - UI
   - 
