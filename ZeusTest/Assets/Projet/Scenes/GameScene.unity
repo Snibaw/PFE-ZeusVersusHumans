@@ -1144,10 +1144,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetCollider: {fileID: 8632055957462253285}
+  earthThickness: 0.15
   maxIterationToFindAPosition: 100
   folderParentOfRessources: {fileID: 581936805}
   ressourcesToSpawn:
   - {fileID: 11400000, guid: dec4f5951129e77498641343da2629c5, type: 2}
+  - {fileID: 11400000, guid: 00595b8595f18b147bf02fcaa26f4047, type: 2}
 --- !u!1 &2170301097257471260
 GameObject:
   m_ObjectHideFlags: 0
