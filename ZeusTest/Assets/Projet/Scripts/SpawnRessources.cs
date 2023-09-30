@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnRessources : MonoBehaviour
+public class SpawnResources : MonoBehaviour
 {
     [Header("Parameters")]
     [SerializeField] private MeshCollider planetCollider;
@@ -11,57 +11,57 @@ public class SpawnRessources : MonoBehaviour
     [SerializeField] private float earthThickness = 0.3f; // Need to adapt this value if there are hills on the planet
     [SerializeField] private int maxIterationToFindAPosition = 100;
 
-    [Header("RessourcesToSpawn")]
-    [SerializeField] private GameObject folderParentOfRessources;
+    [Header("ResourcesToSpawn")]
+    [SerializeField] private GameObject folderParentOfResources;
 
-    [SerializeField] private RessourceToSpawn[] ressourcesToSpawn;
+    [SerializeField] private ResourceToSpawn[] ResourcesToSpawn;
     
 
     private void Start() 
     {
         planetRadius = planetCollider.bounds.extents.x;
         planetCenter = planetCollider.bounds.center;
-        InitSpawnRessourcesOnPlanet();
+        InitSpawnResourcesOnPlanet();
     }
-    private void InitSpawnRessourcesOnPlanet()
+    private void InitSpawnResourcesOnPlanet()
     {
-        foreach (RessourceToSpawn ressource in ressourcesToSpawn)
+        foreach (ResourceToSpawn Resource in ResourcesToSpawn)
         {
-            if(ressource.spawnOnGroup)
+            if(Resource.spawnOnGroup)
             {
-                for(int i = 0; i < ressource.numberOfGroupToSpawn; i++)
+                for(int i = 0; i < Resource.numberOfGroupToSpawn; i++)
                 {
-                    // Spawn one ressource then spawn other ressources around it, good idea ??
-                    Vector3 spawnPointOfFirstRessource = SpawnSingleRessource(ressource.prefab);
-                    SpawnMultipleRessources(ressource, spawnPointOfFirstRessource);
+                    // Spawn one Resource then spawn other Resources around it, good idea ??
+                    Vector3 spawnPointOfFirstResource = SpawnSingleResource(Resource.prefab);
+                    SpawnMultipleResources(Resource, spawnPointOfFirstResource);
                 }
             }
             else
             {
-                //Spawn the ressource independently
-                for(int i = 0; i< ressource.numberToSpawn; i++)
+                //Spawn the Resource independently
+                for(int i = 0; i< Resource.numberToSpawn; i++)
                 {
-                    SpawnSingleRessource(ressource.prefab);
+                    SpawnSingleResource(Resource.prefab);
                 }
             }
         }
     }
-    private Vector3 SpawnSingleRessource(GameObject prefab)
+    private Vector3 SpawnSingleResource(GameObject prefab)
     {
         Vector3 spawnPoint;
         spawnPoint = SearchAPositionToSpawn(prefab, "Random");
-        spawnPoint += spawnPoint.normalized * earthThickness; // Spawn the ressource a little bit above so it's on the surface of the planet
-        InstantiateRessource(prefab, spawnPoint);
+        spawnPoint += spawnPoint.normalized * earthThickness; // Spawn the Resource a little bit above so it's on the surface of the planet
+        InstantiateResource(prefab, spawnPoint);
         return spawnPoint;
     }
-    private void SpawnMultipleRessources(RessourceToSpawn ressource, Vector3 spawnPointOfFirstRessource)
+    private void SpawnMultipleResources(ResourceToSpawn Resource, Vector3 spawnPointOfFirstResource)
     {
-        Vector3 spawnPoint = spawnPointOfFirstRessource;
-        for(int i = 0; i < ressource.numberToSpawn - 1; i++) // First ressource was already spawned
+        Vector3 spawnPoint = spawnPointOfFirstResource;
+        for(int i = 0; i < Resource.numberToSpawn - 1; i++) // First Resource was already spawned
         {
-            spawnPoint = SearchAPositionToSpawn(ressource.prefab, "NearPoint", spawnPoint);
-            spawnPoint += spawnPoint.normalized * earthThickness; // Spawn the ressource a little bit above so it's on the surface of the planet
-            InstantiateRessource(ressource.prefab, spawnPoint);
+            spawnPoint = SearchAPositionToSpawn(Resource.prefab, "NearPoint", spawnPoint);
+            spawnPoint += spawnPoint.normalized * earthThickness; // Spawn the Resource a little bit above so it's on the surface of the planet
+            InstantiateResource(Resource.prefab, spawnPoint);
         }
     }
     private Vector3 SearchAPositionToSpawn(GameObject prefab, string typeOfPositionToSearch, Vector3 nearPoint = new Vector3())
@@ -106,11 +106,11 @@ public class SpawnRessources : MonoBehaviour
                 return Vector3.zero;
         }
     }
-    private void InstantiateRessource(GameObject prefab, Vector3 spawnPoint)
+    private void InstantiateResource(GameObject prefab, Vector3 spawnPoint)
     {
         GameObject objSpawned = Instantiate(prefab, spawnPoint, Quaternion.identity);
         objSpawned.transform.rotation = Quaternion.FromToRotation(Vector3.up, objSpawned.transform.position - planetCenter); // Set the rotation
-        objSpawned.transform.parent = folderParentOfRessources.transform; // Set the parent
+        objSpawned.transform.parent = folderParentOfResources.transform; // Set the parent
     }
 
 }

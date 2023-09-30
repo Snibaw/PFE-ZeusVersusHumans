@@ -25,20 +25,22 @@ public class ThrowLightning : MonoBehaviour
     {
         if(energie > minEnergieToThrowLightning)
         {
-            //Create a raycast from the camera to the mouse position and show it in the editor
+            //Create a raycast from the camera to the mouse position but only hit the layer "CanBeDestroyed"
+            
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow, 5f);
             RaycastHit hit;
 
-            if(Physics.Raycast(ray, out hit)) // If the raycast hit something
+            if(Physics.Raycast(ray, out hit, 100f))
             {
-                Debug.Log(hit.collider.gameObject.name + " was hit with your lightning");
-                if(hit.collider.gameObject.tag == "canBeDestroyed") // If the object can be destroyed, make it take damage
+                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("CanBeDestroyed"))
                 {
+                    Debug.Log(hit.collider.gameObject.name + " was hit with your lightning");
                     hit.collider.gameObject.GetComponent<ObjectToDestroy>().TakeDamage(energie);
+                    SetEnergie(0);
                 }
-                SetEnergie(0);
-            }
+                
+            }            
         }
     }
     private void FixedUpdate() {

@@ -177,9 +177,9 @@ GameObject:
   - component: {fileID: 3782897377841857195}
   - component: {fileID: 5181421661121540495}
   - component: {fileID: 8455569664892077455}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ArbreTest
-  m_TagString: canBeDestroyed
+  m_TagString: wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

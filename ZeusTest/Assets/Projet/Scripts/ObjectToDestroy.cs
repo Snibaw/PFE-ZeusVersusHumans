@@ -8,7 +8,9 @@ public class ObjectToDestroy : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
-        GameManager.instance.SetDamageText(damage, life);
+        #if UNITY_EDITOR 
+            GameManager.instance.SetDamageText(damage, life); 
+        #endif
 
         life -= damage;
 

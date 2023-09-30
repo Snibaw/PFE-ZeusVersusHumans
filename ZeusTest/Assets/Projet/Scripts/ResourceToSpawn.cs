@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New RessourceToSpawn", menuName = "RessourceToSpawn")]
-public class RessourceToSpawn : ScriptableObject
+[CreateAssetMenu(fileName = "New ResourceToSpawn", menuName = "ResourceToSpawn")]
+public class ResourceToSpawn : ScriptableObject
 {
     public GameObject prefab;
     public int numberToSpawn = 5;
