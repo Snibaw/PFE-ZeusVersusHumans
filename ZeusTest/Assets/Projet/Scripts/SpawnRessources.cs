@@ -109,6 +109,10 @@ public class SpawnResources : MonoBehaviour
     private void InstantiateResource(GameObject prefab, Vector3 spawnPoint)
     {
         GameObject objSpawned = Instantiate(prefab, spawnPoint, Quaternion.identity);
+        SetRotationAndParent(objSpawned);
+    }
+    public void SetRotationAndParent(GameObject objSpawned)
+    {
         objSpawned.transform.rotation = Quaternion.FromToRotation(Vector3.up, objSpawned.transform.position - planetCenter); // Set the rotation
         objSpawned.transform.parent = folderParentOfResources.transform; // Set the parent
     }

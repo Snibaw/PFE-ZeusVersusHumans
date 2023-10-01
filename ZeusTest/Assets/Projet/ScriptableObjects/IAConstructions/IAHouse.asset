@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 7928200180542378709, guid: 52e72d3ef81dbda4992e2e037a6b13c0, type: 3}
   numberMaxToSpawn: 3
-  woodCost: 3
-  stoneCost: 5
+  woodCost: 1
+  stoneCost: 1
