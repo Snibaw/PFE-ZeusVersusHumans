@@ -596,6 +596,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 750679030}
     m_Modifications:
+    - target: {fileID: 3293655026467646341, guid: ad7f2efa07ffa864c8545266195fdcf1,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3624775437018658799, guid: ad7f2efa07ffa864c8545266195fdcf1,
         type: 3}
       propertyPath: m_Name
@@ -1505,6 +1510,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 750679030}
     m_Modifications:
+    - target: {fileID: 3293655026467646341, guid: ad7f2efa07ffa864c8545266195fdcf1,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3624775437018658799, guid: ad7f2efa07ffa864c8545266195fdcf1,
         type: 3}
       propertyPath: m_Name
@@ -1576,6 +1586,11 @@ PrefabInstance:
     - target: {fileID: -3987000892971913051, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 795313133609391371, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_AutoBraking
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1924416899607500103, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
