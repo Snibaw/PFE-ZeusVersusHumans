@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class HumanAIBehaviour : MonoBehaviour
 {
@@ -10,11 +11,13 @@ public class HumanAIBehaviour : MonoBehaviour
     [SerializeField] private TypeOfResources resourceObjective;
     [SerializeField] private GameObject nearestResource;
     private bool canFindRessource = false;
+    private NavMeshAgent _navMeshAgent;
     // Start is called before the first frame update
     void Start()
     {
         //Let the time for resources to spawn
         Invoke("FindAnObjective", 1f);
+        _navMeshAgent = GetComponent<NavMeshAgent>();
     }
     private void Update() 
     {
@@ -72,9 +75,10 @@ public class HumanAIBehaviour : MonoBehaviour
     }
     private void MoveTo(Vector3 position)
     {
-        transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
-        
-        if(transform.position == position) // Change this to a distance check or collider check with the resource
+        //transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
+        _navMeshAgent.SetDestination(position);
+
+        if (Vector3.Distance(transform.position,position) < 1) // Change this to a distance check or collider check with the resource
         {
             // This would be a good idea, add a component so the resource do all the work about addind 1 to IAResourceManager ... but for now, I do simple
             // nearestResource.GetComponent<Resource>().TakeResource();
