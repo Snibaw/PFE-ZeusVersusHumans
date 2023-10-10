@@ -1520,6 +1520,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanAI (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3954538163722845878, guid: ad7f2efa07ffa864c8545266195fdcf1,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4039371520644906275, guid: ad7f2efa07ffa864c8545266195fdcf1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1598,6 +1603,17 @@ PrefabInstance:
       propertyPath: m_NavMeshData
       value: 
       objectReference: {fileID: 23800000, guid: 620f1884a2df52b45b7563d3e73afb61,
+        type: 2}
+    - target: {fileID: 2091848405090338958, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: ResourcesToSpawn.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2091848405090338958, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: ResourcesToSpawn.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a2f3d45f12025734281593831dc5c976,
         type: 2}
     - target: {fileID: 2211925062958400429, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
