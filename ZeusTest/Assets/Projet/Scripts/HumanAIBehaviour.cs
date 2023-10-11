@@ -78,16 +78,9 @@ public class HumanAIBehaviour : MonoBehaviour
         //transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
         _navMeshAgent.SetDestination(position);
 
-        if (Vector3.Distance(transform.position,position) < 0.5) // Change this to a distance check or collider check with the resource
+        if (Vector3.Distance(transform.position,position) < 0.1f) // Change this to a distance check or collider check with the resource
         {
-            // This would be a good idea, add a component so the resource do all the work about addind 1 to IAResourceManager ... but for now, I do simple
-            // nearestResource.GetComponent<Resource>().TakeResource();
-            IAResourceManager.instance.ChangeResourceNumber(resourceObjective, 1);
-            Destroy(nearestResource);
-            nearestResource = null;
-            canFindRessource = false;
-            // Add a delay before finding a new objective
-            StartCoroutine("WaitBeforeFindingAnObjective");
+            CollectResource();
         }
 
     }
@@ -95,5 +88,25 @@ public class HumanAIBehaviour : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         FindAnObjective();
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject == nearestResource)
+        {
+            CollectResource();
+        }
+            
+    }
+    private void CollectResource()
+    {
+        
+        // This would be a good idea, add a component so the resource do all the work about addind 1 to IAResourceManager ... but for now, I do simple
+        // nearestResource.GetComponent<Resource>().TakeResource();
+        IAResourceManager.instance.ChangeResourceNumber(resourceObjective, 1);
+        Destroy(nearestResource);
+        nearestResource = null;
+        canFindRessource = false;
+        // Add a delay before finding a new objective
+        StartCoroutine("WaitBeforeFindingAnObjective");
     }
 }
