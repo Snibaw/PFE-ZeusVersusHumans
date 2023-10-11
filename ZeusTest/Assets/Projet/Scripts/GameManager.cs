@@ -8,7 +8,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     [SerializeField] private TMP_Text damageText;
     private void Awake() {
-        if(instance == null) instance = this;
+
+        Application.targetFrameRate = 60;
+
+        if (instance == null) instance = this;
         else if(instance != this) Destroy(gameObject);
     }
     

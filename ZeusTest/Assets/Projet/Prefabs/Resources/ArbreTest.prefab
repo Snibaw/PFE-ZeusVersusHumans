@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 3782897377841857195}
   - component: {fileID: 5181421661121540495}
   - component: {fileID: 8455569664892077455}
+  - component: {fileID: -38787210741102500}
   m_Layer: 3
   m_Name: ArbreTest
   m_TagString: wood
@@ -235,3 +236,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 100
+--- !u!208 &-38787210741102500
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8382960416130671182}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1.25, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.745, z: 0}
+  m_TimeToStationary: 0.5

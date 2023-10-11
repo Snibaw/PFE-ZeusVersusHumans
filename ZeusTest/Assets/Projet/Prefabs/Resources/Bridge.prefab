@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2575160036401143808}
   - component: {fileID: 8422419729471761887}
   - component: {fileID: 8785884838287326312}
+  - component: {fileID: 8849123317533396547}
   m_Layer: 0
   m_Name: Bridge
   m_TagString: canBeDestroyed
@@ -119,3 +120,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 50
+--- !u!208 &8849123317533396547
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428973485195188147}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.351, y: 0.23200001, z: 0.32700002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.282, y: 0.20700002, z: -0.1}
+  m_TimeToStationary: 0.5

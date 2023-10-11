@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8142013212787112338}
   - component: {fileID: 5239169334842951235}
   - component: {fileID: 8142267005677775319}
+  - component: {fileID: 7971464630111256466}
   m_Layer: 0
   m_Name: house
   m_TagString: canBeDestroyed
@@ -124,3 +125,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 100
+--- !u!208 &7971464630111256466
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070822430711701336}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.386, y: 0.39600003, z: 0.395}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.002, z: 0.37600002}
+  m_TimeToStationary: 0.5

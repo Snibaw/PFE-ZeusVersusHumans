@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6613036025978723829}
   - component: {fileID: 1774065096497782554}
   - component: {fileID: 2868423992136969301}
+  - component: {fileID: 8863273810723321947}
   m_Layer: 0
   m_Name: sign
   m_TagString: canBeDestroyed
@@ -121,3 +122,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 30
+--- !u!208 &8863273810723321947
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549717445501708794}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.349, y: 0.12900001, z: 0.455}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.040000003, y: -0.025, z: 0.45600003}
+  m_TimeToStationary: 0.5

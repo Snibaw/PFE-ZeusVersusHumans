@@ -81,9 +81,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2850179558725972274}
   - {fileID: 4000808012541692149}
   - {fileID: 7704226556774592327}
+  - {fileID: 2211925062958400429}
   m_Father: {fileID: 2679446357967905133}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1383636856132970476
@@ -1413,7 +1413,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.9696004
   m_Center: {x: -0.00000023841858, y: 0.00000011920927, z: 0}
@@ -1774,9 +1774,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad7f2efa07ffa864c8545266195fdcf1, type: 3}
---- !u!4 &2850179558725972274 stripped
+--- !u!4 &2211925062958400429 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 85906948738109372, guid: ad7f2efa07ffa864c8545266195fdcf1,
+  m_CorrespondingSourceObject: {fileID: 4039371520644906275, guid: ad7f2efa07ffa864c8545266195fdcf1,
     type: 3}
   m_PrefabInstance: {fileID: 2791366311663713934}
   m_PrefabAsset: {fileID: 0}
