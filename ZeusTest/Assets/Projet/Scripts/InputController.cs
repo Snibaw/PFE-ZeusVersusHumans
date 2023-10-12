@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    [SerializeField] private PlanetMovement planetMovement;
+    [SerializeField] private CameraMovement cameraMovement;
     private ThrowLightning throwLightning;
     private float x,y;
     private bool fingerHasMoved = false;
@@ -46,7 +46,8 @@ public class InputController : MonoBehaviour
                     //Rotate the planet
                     x = touch.deltaPosition.x;
                     y = touch.deltaPosition.y;
-                    planetMovement.rotate(x,y);
+                    cameraMovement.RotateAround(x,y);
+
                     break;
 
                 case TouchPhase.Stationary: // If the player didn't move his finger
@@ -72,7 +73,7 @@ public class InputController : MonoBehaviour
                 //Rotate the planet
                 x = Input.GetAxis("Mouse X");
                 y = Input.GetAxis("Mouse Y");
-                planetMovement.rotate(x,y);
+                cameraMovement.RotateAround(x,y);
                 if(timePressed == 0) // If the player just clicked
                 {
                     xWhenPressed = x;
