@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class SpawnResources : MonoBehaviour
 {
     [Header("Parameters")]
@@ -15,7 +16,10 @@ public class SpawnResources : MonoBehaviour
     [SerializeField] private GameObject folderParentOfResources;
 
     [SerializeField] private ResourceToSpawn[] ResourcesToSpawn;
+
+
     
+
 
     private void Start() 
     {
@@ -45,6 +49,7 @@ public class SpawnResources : MonoBehaviour
                 }
             }
         }
+        
     }
     private Vector3 SpawnSingleResource(GameObject prefab)
     {
@@ -52,6 +57,9 @@ public class SpawnResources : MonoBehaviour
         spawnPoint = SearchAPositionToSpawn(prefab, "Random");
         spawnPoint += spawnPoint.normalized * earthThickness; // Spawn the Resource a little bit above so it's on the surface of the planet
         InstantiateResource(prefab, spawnPoint);
+
+        NavmeshManager.UpdateNavMesh();
+
         return spawnPoint;
     }
     private void SpawnMultipleResources(ResourceToSpawn Resource, Vector3 spawnPointOfFirstResource)
@@ -62,6 +70,9 @@ public class SpawnResources : MonoBehaviour
             spawnPoint = SearchAPositionToSpawn(Resource.prefab, "NearPoint", spawnPoint);
             spawnPoint += spawnPoint.normalized * earthThickness; // Spawn the Resource a little bit above so it's on the surface of the planet
             InstantiateResource(Resource.prefab, spawnPoint);
+
+            NavmeshManager.UpdateNavMesh();
+
         }
     }
     private Vector3 SearchAPositionToSpawn(GameObject prefab, string typeOfPositionToSearch, Vector3 nearPoint = new Vector3())
@@ -110,6 +121,8 @@ public class SpawnResources : MonoBehaviour
     {
         GameObject objSpawned = Instantiate(prefab, spawnPoint, Quaternion.identity);
         SetRotationAndParent(objSpawned);
+        NavmeshManager.UpdateNavMesh();
+
     }
     public void SetRotationAndParent(GameObject objSpawned)
     {
