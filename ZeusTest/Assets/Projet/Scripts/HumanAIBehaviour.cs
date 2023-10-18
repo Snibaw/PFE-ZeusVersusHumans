@@ -33,6 +33,9 @@ public class HumanAIBehaviour : MonoBehaviour
             }
         }
 
+        transform.LookAt(GameManager.instance.planet.transform.position );
+        transform.Rotate(new Vector3(90,0,0));
+
     }
     private void FindAnObjective()
     {   

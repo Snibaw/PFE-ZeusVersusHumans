@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     [SerializeField] private TMP_Text damageText;
+    [SerializeField] public GameObject planet;
     private void Awake() {
 
         Application.targetFrameRate = 60;
