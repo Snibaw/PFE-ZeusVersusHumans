@@ -10,6 +10,8 @@ public class InputController : MonoBehaviour
     private bool fingerHasMoved = false;
 
     [SerializeField] private float timeBtwClickAndHold = 0.5f;
+    [SerializeField] private float yBorderBtwRotationAndLightning = 0.25f;
+    private bool isBelowYBorder = false;
     private float timePressed = 0;
 
     //* This is for PC *//
@@ -60,7 +62,7 @@ public class InputController : MonoBehaviour
 
                     if(!fingerHasMoved && timePressed < timeBtwClickAndHold) // If the player didn't hold the touch and didn't move his finger, throw lightning
                     {
-                        throwLightning.Throw();
+                        // throwLightning.Throw();
                     }
                     break;
             } 
@@ -68,26 +70,42 @@ public class InputController : MonoBehaviour
 
         //* This is for PC *//
         #if UNITY_EDITOR
-            if(Input.GetMouseButton(0)) // If player left click
+            // At the first input we check if its below or above the yborder between rotation and lightning
+            if(Input.GetMouseButtonDown(0)) // First left click input
             {
-                //Rotate the planet
-                x = Input.GetAxis("Mouse X");
-                y = Input.GetAxis("Mouse Y");
-                cameraMovement.RotateAround(x,y);
-                if(timePressed == 0) // If the player just clicked
+                if(Input.mousePosition.y < Screen.height * yBorderBtwRotationAndLightning)
+                    isBelowYBorder = true;
+                else
+                    isBelowYBorder = false;
+                
+                xWhenPressed = Input.mousePosition.x;
+                yWhenPressed = Input.mousePosition.y;
+            }
+            if(Input.GetMouseButton(0)) // If player hold left click
+            {
+                if(isBelowYBorder) 
                 {
-                    xWhenPressed = x;
-                    yWhenPressed = y;
+                    x = Input.mousePosition.x;
+                    y = Input.mousePosition.y;
                 }
-
+                else //Rotate the planet
+                {
+                    x = Input.GetAxis("Mouse X");
+                    y = Input.GetAxis("Mouse Y");
+                    cameraMovement.RotateAround(x,y);
+                }
                 timePressed += Time.deltaTime;
             }
             else 
             {
-                if(timePressed < timeBtwClickAndHold && timePressed > 0) // Check if the player hold the click or not
+                if(isBelowYBorder && timePressed > 0) // The player wants to throw lightning
                 {
-                    if(xWhenPressed == x && yWhenPressed == y) // If the player didn't move the mouse
-                        throwLightning.Throw();
+                    if(xWhenPressed != x || yWhenPressed != y) // If the player move the mouse
+                    {
+                        Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
+                        throwLightning.Throw(lightningDirection.normalized, lightningDirection.magnitude, timePressed);
+                    }
+                        
                 }
                 timePressed = 0;
             }
