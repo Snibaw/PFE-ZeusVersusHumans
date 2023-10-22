@@ -11,7 +11,10 @@ public class HumanAIBehaviour : MonoBehaviour
     [SerializeField] private TypeOfResources resourceObjective;
     [SerializeField] private GameObject nearestResource; 
     [SerializeField] private List<GameObject> obstaclesToBuild;
+    private Vector3 positionToBuild;
     private bool canFindRessource = false;
+    private bool canBuild = false;
+    
     private NavMeshAgent _navMeshAgent;
    
     // Start is called before the first frame update
@@ -35,6 +38,17 @@ public class HumanAIBehaviour : MonoBehaviour
                 FindAnObjective();
             }
         }
+        else if(canBuild)
+        {
+            if(positionToBuild != Vector3.zero)
+            {
+                MoveTo(positionToBuild);
+            }
+            else //A problem ocurred, find a new objective
+            {
+                FindAnObjective();
+            }
+        }
 
         transform.LookAt(GameManager.instance.planet.transform.position );
         transform.Rotate(new Vector3(90,0,0));
@@ -52,6 +66,7 @@ public class HumanAIBehaviour : MonoBehaviour
                 nearestResource = obstaclesToBuild[0];
                 obstaclesToBuild.RemoveAt(0);
                 canFindRessource = true;
+                canBuild = false;
                 return;
         }
 
@@ -59,19 +74,18 @@ public class HumanAIBehaviour : MonoBehaviour
         {
             IAConstructionManager.instance.SetConstructionPosition(transform.position);
             obstaclesToBuild = IAConstructionManager.instance.GetAllBuildObstacles(transform.position);
-            Debug.Log(obstaclesToBuild.Count);
             if (obstaclesToBuild.Count == 0)
             {
-                IAConstructionManager.instance.BuildConstruction(currentConstructionObjective, transform.position);
+                positionToBuild = IAConstructionManager.instance.FindPositionToBuild(transform.position, transform.forward);
                 canFindRessource = false;
-                currentConstructionObjective = null;
-                StartCoroutine("WaitBeforeFindingAnObjective");
+                canBuild = true;
             }
             else
             {
                 nearestResource = obstaclesToBuild[0];
                 obstaclesToBuild.RemoveAt(0);
                 canFindRessource = true;
+                canBuild = false;
             }
         }
         else
@@ -79,6 +93,7 @@ public class HumanAIBehaviour : MonoBehaviour
             resourceObjective = IAConstructionManager.instance.GetAResourceObjective(currentConstructionObjective);
             nearestResource = FindNearestResource(resourceObjective);
             canFindRessource = true;
+            canBuild = false;
         }
     }
 
@@ -105,7 +120,8 @@ public class HumanAIBehaviour : MonoBehaviour
 
         if (Vector3.Distance(transform.position,position) < 0.1f) // Change this to a distance check or collider check with the resource
         {
-            CollectResource();
+            if(canFindRessource) CollectResource();
+            if(canBuild) buildConstruction();
         }
 
     }
@@ -132,6 +148,16 @@ public class HumanAIBehaviour : MonoBehaviour
         nearestResource = null;
         canFindRessource = false;
         // Add a delay before finding a new objective
+        StartCoroutine("WaitBeforeFindingAnObjective");
+    }
+
+    private void buildConstruction()
+    {
+        IAConstructionManager.instance.BuildConstruction(currentConstructionObjective, transform.position);
+        canFindRessource = false;
+        canBuild = false;
+        currentConstructionObjective = null;
+        positionToBuild = Vector3.zero;
         StartCoroutine("WaitBeforeFindingAnObjective");
     }
 }

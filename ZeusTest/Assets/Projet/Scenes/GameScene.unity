@@ -619,6 +619,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanAI (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3624775437018658799, guid: ad7f2efa07ffa864c8545266195fdcf1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4039371520644906275, guid: ad7f2efa07ffa864c8545266195fdcf1,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -736,6 +741,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HumanAI (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624775437018658799, guid: ad7f2efa07ffa864c8545266195fdcf1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4039371520644906275, guid: ad7f2efa07ffa864c8545266195fdcf1,
         type: 3}

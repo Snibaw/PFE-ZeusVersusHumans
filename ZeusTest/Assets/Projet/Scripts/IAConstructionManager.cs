@@ -33,6 +33,7 @@ public class IAConstructionManager : MonoBehaviour
 
     public void SetConstructionPosition(Vector3 constructionPosition)
     {
+        // Only if it hasn't been set or has been reset before.
         if (currentConstructionPosition == Vector3.zero) currentConstructionPosition = constructionPosition;
         
     }
@@ -51,6 +52,13 @@ public class IAConstructionManager : MonoBehaviour
             }
         }
         return obstacles;
+    }
+
+    public Vector3 FindPositionToBuild(Vector3 IAposition, Vector3 IAforward)
+    {
+        // For now, we don't take into account the building size.
+        if(currentConstructionPosition == Vector3.zero || Vector3.Distance(IAposition, currentConstructionPosition) < 0.1f) return IAposition - IAforward;
+        return currentConstructionPosition + ( currentConstructionPosition - IAposition).normalized;
     }
 
     public void BuildConstruction(IAConstruction construction, Vector3 IAposition)
