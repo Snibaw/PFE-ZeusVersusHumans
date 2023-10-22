@@ -5,12 +5,24 @@ using UnityEngine;
 public class ObjectToDestroy : MonoBehaviour
 {
     [SerializeField] private float life;
+    [SerializeField] private HealthBarRessources healthBar;
+
+	void Start()
+{
+}	
     
     public void TakeDamage(float damage)
     {
         #if UNITY_EDITOR 
             GameManager.instance.SetDamageText(damage, life); 
         #endif
+        
+        // if (!healthBar.gameObject.activeSelf)
+        // {
+        //     healthBar.ActivateHealthBar();
+        // }
+        healthBar.SetMaxHealth(life);
+        healthBar.DamageRessource(damage);
 
         life -= damage;
 

@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.616072, g: 1, b: 0.30727762, a: 1}
+  m_Color: {r: 1, g: 0.66940147, b: 0.033692718, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -460,6 +460,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9421f1d0569d347a030651930736c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealthOfRessource: 10
+  healthBarSlider: {fileID: 5720826159402435698}
 --- !u!1 &6224085450591906501
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,9 +628,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 1
+  m_MaxValue: 10
+  m_WholeNumbers: 1
+  m_Value: 6
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -703,6 +705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 100
+  healthBar: {fileID: 4390304860774274795}
 --- !u!208 &-38787210741102500
 NavMeshObstacle:
   m_ObjectHideFlags: 0
