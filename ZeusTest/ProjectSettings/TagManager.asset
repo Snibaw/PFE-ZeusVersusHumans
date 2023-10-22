@@ -11,6 +11,9 @@ TagManager:
   - stone
   - house
   - metal
+  - town
+  - sawmill
+  - mine
   layers:
   - Default
   - TransparentFX

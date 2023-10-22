@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageText: {fileID: 2011217571}
-  planet: {fileID: 1064493455}
+  planet: {fileID: 1998815436}
 --- !u!4 &17660860
 Transform:
   m_ObjectHideFlags: 0
@@ -1001,6 +1001,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constructions:
   - {fileID: 11400000, guid: 6ffae54d35c675248a27b38be7d7d57c, type: 2}
+  - {fileID: 11400000, guid: 58ebfbc16a883224da973414dc819d0a, type: 2}
+  - {fileID: 11400000, guid: 0a9fed349e74dbe4f9d2bca344b2c766, type: 2}
+  - {fileID: 11400000, guid: bd3921104dcbaf948867aa77339d73a0, type: 2}
   currentConstructionObjective: {fileID: 0}
   constructionText: {fileID: 1791678101}
   spawnResources: {fileID: 198092628330722494}
@@ -1400,6 +1403,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946928509}
   m_CullTransparentMesh: 1
+--- !u!1 &1998815436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4424615238809328101, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2285710095489055792}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2011217569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,7 +1635,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 2285710095489055792}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1064493455}
+  m_GameObject: {fileID: 1998815436}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34fdd0c81d6dada498871f0f832e2542, type: 3}
@@ -1648,7 +1657,7 @@ PrefabInstance:
     - target: {fileID: 419166132053993959, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 533604934889652634, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
