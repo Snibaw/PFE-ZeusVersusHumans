@@ -9,6 +9,7 @@ public class IAConstructionManager : MonoBehaviour
     public IAConstruction currentConstructionObjective;
     [SerializeField] private TMP_Text constructionText;
     [SerializeField] private SpawnResources spawnResources;
+    Vector3 currentConstructionPosition = Vector3.zero;
     public static IAConstructionManager instance;
 
     private void Awake() {
@@ -29,12 +30,36 @@ public class IAConstructionManager : MonoBehaviour
         }
         return true;
     }
+
+    public void SetConstructionPosition(Vector3 constructionPosition)
+    {
+        if (currentConstructionPosition == Vector3.zero) currentConstructionPosition = constructionPosition;
+        
+    }
+
+    public List<GameObject> GetAllBuildObstacles(Vector3 IAposition)
+    {
+        // If the building point hasn't been set properly, check around where the IA is.
+        Vector3 spherePosition = currentConstructionPosition == Vector3.zero ? IAposition : currentConstructionPosition;
+        Collider[] unfiltered = Physics.OverlapSphere(spherePosition, 2.0f);
+        List<GameObject> obstacles = new List<GameObject>();
+        foreach (Collider collider in unfiltered)
+        {
+            if (collider.gameObject.transform.parent.gameObject.tag == "Resources")
+            {
+                obstacles.Add(collider.gameObject);
+            }
+        }
+        return obstacles;
+    }
+
     public void BuildConstruction(IAConstruction construction, Vector3 IAposition)
     {
-        // For now : Build the construction where the IA is
-        // Later : Build the construction where in an empty space near the IA
-        GameObject objSpawned = Instantiate(construction.prefab, IAposition, Quaternion.identity);
+        // If the building point hasn't been set properly, build the construction where the IA is.
+        Vector3 spawnPosition = currentConstructionPosition == Vector3.zero ? IAposition : currentConstructionPosition;
+        GameObject objSpawned = Instantiate(construction.prefab, spawnPosition, Quaternion.identity);
         spawnResources.SetRotationAndParent(objSpawned);
+        currentConstructionPosition = Vector3.zero;
 
         ConstructionWasBuilt(construction);        
     }

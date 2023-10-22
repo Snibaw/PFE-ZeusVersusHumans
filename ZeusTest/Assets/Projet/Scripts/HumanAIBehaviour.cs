@@ -9,9 +9,11 @@ public class HumanAIBehaviour : MonoBehaviour
     [Header("For Debug")]
     [SerializeField] private IAConstruction currentConstructionObjective;
     [SerializeField] private TypeOfResources resourceObjective;
-    [SerializeField] private GameObject nearestResource;
+    [SerializeField] private GameObject nearestResource; 
+    [SerializeField] private List<GameObject> obstaclesToBuild;
     private bool canFindRessource = false;
     private NavMeshAgent _navMeshAgent;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,7 @@ public class HumanAIBehaviour : MonoBehaviour
         Invoke("FindAnObjective", 1f);
         _navMeshAgent = GetComponent<NavMeshAgent>();
     }
+
     private void Update() 
     {
         if(canFindRessource)
@@ -44,13 +47,32 @@ public class HumanAIBehaviour : MonoBehaviour
 
         if(currentConstructionObjective == null) return;
 
-        
+        if (obstaclesToBuild.Count > 0)
+        {
+                nearestResource = obstaclesToBuild[0];
+                obstaclesToBuild.RemoveAt(0);
+                canFindRessource = true;
+                return;
+        }
+
         if(IAConstructionManager.instance.CanBuild(currentConstructionObjective))
         {
-            IAConstructionManager.instance.BuildConstruction(currentConstructionObjective, transform.position);
-            canFindRessource = false;
-            currentConstructionObjective = null;
-            StartCoroutine("WaitBeforeFindingAnObjective");
+            IAConstructionManager.instance.SetConstructionPosition(transform.position);
+            obstaclesToBuild = IAConstructionManager.instance.GetAllBuildObstacles(transform.position);
+            Debug.Log(obstaclesToBuild.Count);
+            if (obstaclesToBuild.Count == 0)
+            {
+                IAConstructionManager.instance.BuildConstruction(currentConstructionObjective, transform.position);
+                canFindRessource = false;
+                currentConstructionObjective = null;
+                StartCoroutine("WaitBeforeFindingAnObjective");
+            }
+            else
+            {
+                nearestResource = obstaclesToBuild[0];
+                obstaclesToBuild.RemoveAt(0);
+                canFindRessource = true;
+            }
         }
         else
         {
