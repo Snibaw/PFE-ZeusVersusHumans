@@ -117,8 +117,9 @@ public class HumanAIBehaviour : MonoBehaviour
     {
         //transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
         _navMeshAgent.SetDestination(position);
+        transform.LookAt(position);
 
-        if (Vector3.Distance(transform.position,position) < 0.1f) // Change this to a distance check or collider check with the resource
+        if (Vector3.Distance(transform.position,position) < 1f) // Change this to a distance check or collider check with the resource
         {
             if(canFindRessource) CollectResource();
             if(canBuild) buildConstruction();
