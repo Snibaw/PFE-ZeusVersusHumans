@@ -14,10 +14,15 @@ public class Work : Action
     {
         float distance = Mathf.Infinity;
         Transform nearestResource = null;
+        GameObject targetObject = null;
 
+        ResourceType resourceNeeded = _npcController.context.storage.GetResourceNeeded();
         List<Transform> resources = _npcController.context.Destinations[DestinationType.resource];
         foreach (Transform resource in resources)
         {
+            if(resource.GetComponent<Resource>().ResourceType != resourceNeeded) 
+                continue;
+            
             float distanceFromResource = Vector3.Distance(_npcController.transform.position, resource.position);
             if (distanceFromResource < distance)
             {

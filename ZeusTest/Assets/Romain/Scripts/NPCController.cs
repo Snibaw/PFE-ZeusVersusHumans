@@ -115,7 +115,7 @@ public class NPCController : MonoBehaviour
         switch (action)
         {
             case "Work":
-                Inventory.AddResource(ResourceType.wood, 1);
+                Inventory.AddResource(aiBrain.bestAction.RequiredDestination.GetComponent<Resource>().ResourceType, 1);
                 break;
             case "Sleep":
                 stats.energy += 100;
@@ -124,7 +124,7 @@ public class NPCController : MonoBehaviour
             //     stats.hunger -= 30;
             //     break;
             case "DropOffResource":
-                Inventory.RemoveAllResource();
+                context.storage.GetAllResourcesFromNPC(Inventory);
                 stats.resource = 0;
                 break;
         }

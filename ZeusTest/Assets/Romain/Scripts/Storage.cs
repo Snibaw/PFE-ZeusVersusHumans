@@ -42,4 +42,31 @@ public class Storage : StorageInventory
             Inventory[r] -= amount;
         }
     }
+    public void GetAllResourcesFromNPC(NPCInventory npcInventory)
+    {
+        foreach (ResourceType r in npcInventory.Inventory.Keys)
+        {
+            AddResource(r, npcInventory.Inventory[r]);
+        }
+        npcInventory.RemoveAllResource();
+    }
+
+    public ResourceType GetResourceNeeded()
+    {
+        float minValue = maxCapacityPerType;
+        ResourceType resourceNeeded = ResourceType.wood;
+        
+        foreach(ResourceType r in Inventory.Keys)
+        {
+            Debug.Log("Resource " + r + " has " + Inventory[r] + " items");
+            if(Inventory[r] < minValue)
+            {
+                minValue = Inventory[r];
+                resourceNeeded = r;
+            }
+        }
+
+        Debug.Log(resourceNeeded);
+        return resourceNeeded;
+    }
 }
