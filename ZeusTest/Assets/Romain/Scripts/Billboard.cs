@@ -21,9 +21,9 @@ public class Billboard : MonoBehaviour
         transform.LookAt(transform.position + mainCameraTransform.rotation * Vector3.forward, mainCameraTransform.rotation * Vector3.up);
     }
 
-    public void UpdateStatsText(int energy, int hunger, int money)
+    public void UpdateStatsText(int energy, int hunger, int resource)
     {
-        statsText.text = $"Energy: {energy}\nHunger: {hunger}\nMoney: {money}";
+        statsText.text = $"Energy: {energy}\nHunger: {hunger}\nResource: {resource}";
     }
 
     public void UpdateBestActionText(string bestAction)
@@ -31,8 +31,8 @@ public class Billboard : MonoBehaviour
         bestActionText.text = bestAction;
     }
 
-    public void UpdateInventoryText(int wood, int stone, int food)
+    public void UpdateInventoryText(int wood, int stone, int metal)
     {
-        inventoryText.text = $"Wood: {wood}\nStone: {stone}\nFood: {food}";
+        inventoryText.text = $"Wood: {wood}\nStone: {stone}\nMetal: {metal}";
     }
 }

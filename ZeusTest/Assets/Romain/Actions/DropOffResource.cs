@@ -8,15 +8,11 @@ public class DropOffResource : Action
 {
     public override void Execute(NPCController _npcController)
     {
-        Debug.Log("Dropped Off Resource");
-        _npcController.Inventory.RemoveAllResource();
-        _npcController.stats.resource = 0;
-        _npcController.aiBrain.finishedExecutingBestAction = true;
+        _npcController.DoAction("DropOffResource", timeToExecute);
     }
 
     public override void SetRequiredDestination(NPCController _npcController)
     {
         RequiredDestination = _npcController.context.storage.transform;
-        _npcController.mover.destination = RequiredDestination;
     }
 }

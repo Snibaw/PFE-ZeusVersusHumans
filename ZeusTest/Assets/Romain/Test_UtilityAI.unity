@@ -845,7 +845,8 @@ MonoBehaviour:
   storage: {fileID: 7928200181557715462}
   home: {fileID: 7928200182008588601}
   resourceTag: Resources
-  MinDistance: 1
+  MinDistance: 1.2
+  energyLostPerAction: 10
 --- !u!4 &1804318561
 Transform:
   m_ObjectHideFlags: 0
@@ -4258,7 +4259,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &3794398893367447657
 GameObject:
@@ -4278,7 +4279,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &3794398893907730674
 GameObject:
@@ -4298,7 +4299,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &3794398893948726112
 GameObject:
@@ -4318,7 +4319,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &3794398894497266619
 GameObject:
@@ -4338,7 +4339,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &3794398894672188357
 GameObject:
@@ -4358,7 +4359,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &3883137128668481216
 GameObject:
@@ -4639,7 +4640,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -4670,7 +4671,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -4701,7 +4702,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -4975,7 +4976,7 @@ Transform:
   m_GameObject: {fileID: 7928200181557715461}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0022929, y: 0.55, z: -2.286747}
+  m_LocalPosition: {x: 1.0022929, y: 0.559, z: -2.286747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7627,7 +7628,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _billboard: {fileID: 589751785}
   actionsAvailable:
-  - {fileID: 11400000, guid: 29927b4b471c58c48a9368dc13581708, type: 2}
   - {fileID: 11400000, guid: 397e6e65f3065374ebcff9e06518e338, type: 2}
   - {fileID: 11400000, guid: bec9445398de2824fab24f8e371d42f8, type: 2}
   - {fileID: 11400000, guid: 74928325e3e06204faa7197704724810, type: 2}
@@ -7643,7 +7643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfb155c4927bf44eab33fc4889f80a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {fileID: 0}
 --- !u!114 &7482574147093736365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7958,12 +7957,13 @@ GameObject:
   - component: {fileID: 2775493077679516368}
   - component: {fileID: 2117260572734202939}
   - component: {fileID: 7928200181557715462}
+  - component: {fileID: 7928200181557715463}
   m_Layer: 3
   m_Name: TownTest
   m_TagString: town
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &7928200181557715462
 MonoBehaviour:
@@ -7978,6 +7978,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCapacityPerType: 1000
+--- !u!208 &7928200181557715463
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200181557715461}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7928200182008588601
 GameObject:
   m_ObjectHideFlags: 0
@@ -7989,13 +8005,30 @@ GameObject:
   - component: {fileID: 4443893122677400239}
   - component: {fileID: 2775493077056676332}
   - component: {fileID: 2117260572014898951}
+  - component: {fileID: 7928200182008588602}
   m_Layer: 3
   m_Name: HouseTest
   m_TagString: house
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
+--- !u!208 &7928200182008588602
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200182008588601}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!33 &8050299159206309781
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -8169,7 +8202,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &8382960415485339025
 GameObject:
@@ -8189,7 +8222,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!1 &8382960416319469597
 GameObject:
@@ -8209,7 +8242,7 @@ GameObject:
   m_TagString: Resources
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &8455569665072488412
 MonoBehaviour:
@@ -8302,7 +8335,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -8333,7 +8366,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -8364,7 +8397,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -8685,7 +8718,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 1.23932, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.7393202, z: 0}
   m_TimeToStationary: 0.5
@@ -8716,7 +8749,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 1.23932, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.7393202, z: 0}
   m_TimeToStationary: 0.5
@@ -8747,7 +8780,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 1.23932, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.7393202, z: 0}
   m_TimeToStationary: 0.5

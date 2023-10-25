@@ -7,7 +7,7 @@ public class Work : Action
 {
     public override void Execute(NPCController _npcController)
     {
-        _npcController.DoWork(3); // dependency injection
+        _npcController.DoAction("Work", timeToExecute);
     }
 
     public override void SetRequiredDestination(NPCController _npcController)
@@ -26,6 +26,5 @@ public class Work : Action
             }
         }
         RequiredDestination = nearestResource;
-        _npcController.mover.destination = RequiredDestination;
     }
 }

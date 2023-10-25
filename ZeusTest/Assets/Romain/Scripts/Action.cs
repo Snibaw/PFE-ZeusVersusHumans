@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Action : ScriptableObject
 {
     public string Name;
+    public float timeToExecute;
     private float _score;
 
     public float score

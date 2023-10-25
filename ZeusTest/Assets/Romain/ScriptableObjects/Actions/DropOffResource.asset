@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: DropOffResource
   m_EditorClassIdentifier: 
   Name: DropOffResource
+  timeToExecute: 3
   considerations:
   - {fileID: 11400000, guid: 575500db1c13744429108c46f6be6029, type: 2}

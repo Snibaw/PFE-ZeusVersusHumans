@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class NPCStats : MonoBehaviour
 {
+    private MoveController mover;
     private int _energy;
     public int energy
     {
         get { return _energy; }
         set
         {
+            if(energy > 0 && value <= 0)
+                mover.SetSpeed(true);
+            else if(energy <= 0 && value > 0)
+                mover.SetSpeed(false);
+            
             _energy = Mathf.Clamp(value, 0, 100);
             OnStatValueChanged?.Invoke();
         }
@@ -50,24 +56,11 @@ public class NPCStats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //hunger = Random.Range(20, 80);
-        //energy = Random.Range(20, 80);
-        //money = Random.Range(10, 100);
-
+        mover = GetComponent<MoveController>();
         // Test case: NPC will likely work
         hunger = 0;
         energy = 100;
         resource = 0;
-
-        //// Test case: NPC will likely eat
-        // hunger = 90;
-        // energy = 50;
-        // resource = 500;
-
-        //// Test case: NPC will likely sleep
-        // hunger = 0;
-        // energy = 10;
-        // resource = 500;
     }
 
     private void OnEnable()

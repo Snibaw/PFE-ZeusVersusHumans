@@ -8,6 +8,7 @@ public class Context : MonoBehaviour
     public GameObject home;
     public string resourceTag = "resource";
     public float MinDistance = 5f;
+    public int energyLostPerAction = 5;
     public Dictionary<DestinationType, List<Transform>> Destinations { get; private set; }
 
     private void Start()

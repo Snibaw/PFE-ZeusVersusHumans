@@ -7,12 +7,11 @@ public class Sleep : Action
 {
     public override void Execute(NPCController _npcController) // dependency injection
     {
-        _npcController.DoSleep(3); 
+        _npcController.DoAction("Sleep", timeToExecute); 
     }
 
     public override void SetRequiredDestination(NPCController _npcController)
     {
         RequiredDestination = _npcController.context.home.transform;
-        _npcController.mover.destination = RequiredDestination;
     }
 }

@@ -17,6 +17,8 @@ public class NPCController : MonoBehaviour
     public Context context;
     
     public State currentState { get; set; }
+
+    private bool isExecuting;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,18 +26,13 @@ public class NPCController : MonoBehaviour
         aiBrain = GetComponent<AIBrain>();
         Inventory = GetComponent<NPCInventory>();
         stats = GetComponent<NPCStats>();
+        isExecuting = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if (aiBrain.finishedDeciding)
-        // {
-        //     aiBrain.finishedDeciding = false;
-        //     aiBrain.bestAction.Execute(this);
-        // }
-        //
-        // stats.UpdateEnergy(AmIAtRestDestination());
+        stats.UpdateEnergy(AmIAtRestDestination());
         // stats.UpdateHunger();
         FSMTick();
     }
@@ -46,8 +43,7 @@ public class NPCController : MonoBehaviour
         {
             case State.decide:
                 aiBrain.DecideBestAction();
-
-                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < 2f)
+                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance)
                 {
                     currentState = State.execute;
                 }
@@ -58,9 +54,9 @@ public class NPCController : MonoBehaviour
                 break;
             
             case State.move:
-                
-                if(Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < 2f)
+                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance)
                 {
+                    mover.StopMoving();
                     currentState = State.execute;
                 }
                 else
@@ -71,16 +67,19 @@ public class NPCController : MonoBehaviour
                 break;
             
             case State.execute:
-
-                if (aiBrain.finishedExecutingBestAction == false)
+                if (!isExecuting)
                 {
                     aiBrain.bestAction.Execute(this);
+                    isExecuting = true;
                 }
                 else
                 {
-                    currentState = State.decide;
+                    if (aiBrain.finishedExecutingBestAction)
+                    {
+                        currentState = State.decide;
+                        isExecuting = false;
+                    }
                 }
-                    
                 break;
             
         }
@@ -94,47 +93,42 @@ public class NPCController : MonoBehaviour
     {
         return Vector3.Distance(this.transform.position, context.home.transform.position) <= context.MinDistance;
     }
-    #region Coroutine
-
-    public void DoWork(int time) // Time = time to harvest one resource
+    public void DoAction(string action, float time)
     {
-        StartCoroutine(WorkCoroutine(time));
+        Debug.Log("Doing : " + action);
+        StartCoroutine(ExecuteAction(action, time));
     }
-
-    public void DoSleep(int time)
+    private IEnumerator ExecuteAction(string action, float time)
     {
-        StartCoroutine(SleepCoroutine(time));
-    }
-
-    IEnumerator WorkCoroutine(int time)
-    {
-        int counter = time;
-        while (counter > 0)
+        if (action != "Sleep")
         {
-            yield return new WaitForSeconds(1);
-            counter--;
+            stats.energy -= context.energyLostPerAction;
+            if(stats.energy == 0) time = time*2;
         }
-        Debug.Log("Harvest 1 resource done");
-        //Logic to update things involved with work (inventory, UI, etc.)
-        Inventory.AddResource(ResourceType.wood, 1);
-        //Decide our new best action after we've finished working
-        //OnFinishedAction();
+        
+        
+        
+        yield return new WaitForSeconds(time);
+        
+        
+        
+        switch (action)
+        {
+            case "Work":
+                Inventory.AddResource(ResourceType.wood, 1);
+                break;
+            case "Sleep":
+                stats.energy += 100;
+                break;
+            // case "Eat":
+            //     stats.hunger -= 30;
+            //     break;
+            case "DropOffResource":
+                Inventory.RemoveAllResource();
+                stats.resource = 0;
+                break;
+        }
         aiBrain.finishedExecutingBestAction = true;
     }
-    IEnumerator SleepCoroutine(int time)
-    {
-        int counter = time;
-        while (counter > 0)
-        {
-            yield return new WaitForSeconds(1);
-            counter--;
-        }
-        Debug.Log("Sleep done");
-        //Logic to update energy
-        stats.energy += 10;
-        //OnFinishedAction();
-        aiBrain.finishedExecutingBestAction = true;
-    }
-    
-    #endregion
+
 }
