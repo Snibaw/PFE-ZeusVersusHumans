@@ -9,14 +9,9 @@ public class HumanAIBehaviour : MonoBehaviour
     [Header("For Debug")]
     [SerializeField] private IAConstruction currentConstructionObjective;
     [SerializeField] private TypeOfResources resourceObjective;
-    [SerializeField] private GameObject nearestResource; 
-    [SerializeField] private List<GameObject> obstaclesToBuild;
-    private Vector3 positionToBuild;
+    [SerializeField] private GameObject nearestResource;
     private bool canFindRessource = false;
-    private bool canBuild = false;
-    
     private NavMeshAgent _navMeshAgent;
-   
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +19,6 @@ public class HumanAIBehaviour : MonoBehaviour
         Invoke("FindAnObjective", 1f);
         _navMeshAgent = GetComponent<NavMeshAgent>();
     }
-
     private void Update() 
     {
         if(canFindRessource)
@@ -34,17 +28,6 @@ public class HumanAIBehaviour : MonoBehaviour
                 MoveTo(nearestResource.transform.position);
             }
             else //Object was destroyed, find a new objective
-            {
-                FindAnObjective();
-            }
-        }
-        else if(canBuild)
-        {
-            if(positionToBuild != Vector3.zero)
-            {
-                MoveTo(positionToBuild);
-            }
-            else //A problem ocurred, find a new objective
             {
                 FindAnObjective();
             }
@@ -61,39 +44,19 @@ public class HumanAIBehaviour : MonoBehaviour
 
         if(currentConstructionObjective == null) return;
 
-        if (obstaclesToBuild.Count > 0)
-        {
-                nearestResource = obstaclesToBuild[0];
-                obstaclesToBuild.RemoveAt(0);
-                canFindRessource = true;
-                canBuild = false;
-                return;
-        }
-
+        
         if(IAConstructionManager.instance.CanBuild(currentConstructionObjective))
         {
-            IAConstructionManager.instance.SetConstructionPosition(transform.position);
-            obstaclesToBuild = IAConstructionManager.instance.GetAllBuildObstacles(transform.position);
-            if (obstaclesToBuild.Count == 0)
-            {
-                positionToBuild = IAConstructionManager.instance.FindPositionToBuild(transform.position, transform.forward);
-                canFindRessource = false;
-                canBuild = true;
-            }
-            else
-            {
-                nearestResource = obstaclesToBuild[0];
-                obstaclesToBuild.RemoveAt(0);
-                canFindRessource = true;
-                canBuild = false;
-            }
+            IAConstructionManager.instance.BuildConstruction(currentConstructionObjective, transform.position);
+            canFindRessource = false;
+            currentConstructionObjective = null;
+            StartCoroutine("WaitBeforeFindingAnObjective");
         }
         else
         {
             resourceObjective = IAConstructionManager.instance.GetAResourceObjective(currentConstructionObjective);
             nearestResource = FindNearestResource(resourceObjective);
             canFindRessource = true;
-            canBuild = false;
         }
     }
 
@@ -117,12 +80,10 @@ public class HumanAIBehaviour : MonoBehaviour
     {
         //transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
         _navMeshAgent.SetDestination(position);
-        transform.LookAt(position);
 
-        if (Vector3.Distance(transform.position,position) < 1f) // Change this to a distance check or collider check with the resource
+        if (Vector3.Distance(transform.position,position) < 0.1f) // Change this to a distance check or collider check with the resource
         {
-            if(canFindRessource) CollectResource();
-            if(canBuild) buildConstruction();
+            CollectResource();
         }
 
     }
@@ -149,16 +110,6 @@ public class HumanAIBehaviour : MonoBehaviour
         nearestResource = null;
         canFindRessource = false;
         // Add a delay before finding a new objective
-        StartCoroutine("WaitBeforeFindingAnObjective");
-    }
-
-    private void buildConstruction()
-    {
-        IAConstructionManager.instance.BuildConstruction(currentConstructionObjective, transform.position);
-        canFindRessource = false;
-        canBuild = false;
-        currentConstructionObjective = null;
-        positionToBuild = Vector3.zero;
         StartCoroutine("WaitBeforeFindingAnObjective");
     }
 }

@@ -9,8 +9,7 @@ public class IAConstruction : ScriptableObject
     public int numberMaxToSpawn;
     public int woodCost;
     public int stoneCost;
-    public int metalCost;
-    public int GetResourceNeededOld(TypeOfResources resource)
+    public int GetResourceNeeded(TypeOfResources resource)
     {
         switch(resource)
         {
@@ -20,20 +19,6 @@ public class IAConstruction : ScriptableObject
                 return stoneCost;
             default:
                 return -1;
-        }
-    }
-    public int GetResourceNeeded(ResourceType resource)
-    {
-        switch(resource)
-        {
-            case ResourceType.wood:
-                return woodCost;
-            case ResourceType.stone:
-                return stoneCost;
-            case ResourceType.metal:
-                return metalCost;
-            default:
-                return 0;
         }
     }
 }

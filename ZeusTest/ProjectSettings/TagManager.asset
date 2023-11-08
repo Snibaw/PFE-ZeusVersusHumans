@@ -14,7 +14,6 @@ TagManager:
   - town
   - sawmill
   - mine
-  - Resources
   layers:
   - Default
   - TransparentFX

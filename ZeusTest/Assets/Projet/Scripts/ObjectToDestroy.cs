@@ -6,10 +6,6 @@ public class ObjectToDestroy : MonoBehaviour
 {
     [SerializeField] private float life;
     [SerializeField] private HealthBarRessources healthBar;
-
-	void Start()
-{
-}	
     
     public void TakeDamage(float damage)
     {
@@ -22,6 +18,7 @@ public class ObjectToDestroy : MonoBehaviour
         //     healthBar.ActivateHealthBar();
         // }
         healthBar.SetMaxHealth(life);
+        healthBar.ActivateHealthBar();
         healthBar.DamageRessource(damage);
 
         life -= damage;

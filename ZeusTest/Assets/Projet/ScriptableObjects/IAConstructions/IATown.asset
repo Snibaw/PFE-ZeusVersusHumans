@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: IATown
   m_EditorClassIdentifier: 
   prefab: {fileID: 7928200180542378709, guid: c947cfc843360074abd15102b4855f4a, type: 3}
-  numberMaxToSpawn: 3
+  numberMaxToSpawn: 2
   woodCost: 1
   stoneCost: 4
