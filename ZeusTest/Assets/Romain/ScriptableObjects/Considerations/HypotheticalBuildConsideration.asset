@@ -12,10 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab4ad0e5ab6e0b4080bd430ae39710a, type: 3}
   m_Name: HypotheticalBuildConsideration
   m_EditorClassIdentifier: 
-  Name: 
+  Name: HypotheticalBuildConsideration
   responseCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.49
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.8
+      inSlope: 1.1764704
+      outSlope: 1.1764704
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.95
+      inSlope: 0.29999995
+      outSlope: 0.29999995
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

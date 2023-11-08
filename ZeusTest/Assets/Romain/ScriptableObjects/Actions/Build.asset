@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Build
   timeToExecute: 5
-  considerations: []
+  considerations:
+  - {fileID: 11400000, guid: 8e10288a0f2525247aad1c229771eea3, type: 2}

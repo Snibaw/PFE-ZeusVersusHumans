@@ -823,7 +823,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1804318561}
   - component: {fileID: 1804318560}
-  - component: {fileID: 1804318562}
   m_Layer: 0
   m_Name: Context
   m_TagString: Untagged
@@ -863,26 +862,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1804318562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1804318559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bebf310ea9355442bb5897fca4db253, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  constructions:
-  - {fileID: 11400000, guid: 6ffae54d35c675248a27b38be7d7d57c, type: 2}
-  - {fileID: 11400000, guid: 58ebfbc16a883224da973414dc819d0a, type: 2}
-  - {fileID: 11400000, guid: 0a9fed349e74dbe4f9d2bca344b2c766, type: 2}
-  - {fileID: 11400000, guid: bd3921104dcbaf948867aa77339d73a0, type: 2}
-  currentConstructionObjective: {fileID: 0}
-  constructionText: {fileID: 0}
-  spawnResources: {fileID: 0}
 --- !u!1 &2144744178
 GameObject:
   m_ObjectHideFlags: 0
@@ -7652,6 +7631,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 397e6e65f3065374ebcff9e06518e338, type: 2}
   - {fileID: 11400000, guid: bec9445398de2824fab24f8e371d42f8, type: 2}
   - {fileID: 11400000, guid: 74928325e3e06204faa7197704724810, type: 2}
+  - {fileID: 11400000, guid: 3339b379e3755f54ab500d69877ff71a, type: 2}
 --- !u!114 &7482574147093736364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7977,6 +7957,7 @@ GameObject:
   - component: {fileID: 4443893123296045459}
   - component: {fileID: 2775493077679516368}
   - component: {fileID: 2117260572734202939}
+  - component: {fileID: 7928200181557715464}
   - component: {fileID: 7928200181557715462}
   - component: {fileID: 7928200181557715463}
   m_Layer: 3
@@ -8015,6 +7996,22 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &7928200181557715464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200181557715461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dba20a8874792d49a989c83c65e7c39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleConstructions:
+  - {fileID: 11400000, guid: 99e525e90f0f7ae4ab8f360bdfed8527, type: 2}
+  - {fileID: 11400000, guid: 8eb128c759201aa40bba021098c07ad0, type: 2}
+  - {fileID: 11400000, guid: 487a6867f5974dc4f97278c50d8d1fde, type: 2}
 --- !u!1 &7928200182008588601
 GameObject:
   m_ObjectHideFlags: 0
