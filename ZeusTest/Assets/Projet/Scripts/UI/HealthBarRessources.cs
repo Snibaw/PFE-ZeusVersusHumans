@@ -17,15 +17,11 @@ public class HealthBarRessources : MonoBehaviour
         currentHealth = maxHealthOfRessource;
         ChangeValueOfSlider();
         
-        gameObject.SetActive(false);
+        healthBarSlider.gameObject.SetActive(false);
         mainCam = Camera.main;
         LookTowardsCamera();
     }
-
-    public void ActivateHealthBar()
-    {
-        gameObject.SetActive(true);
-    }
+    
 
     public void SetMaxHealth(float maxHealth)
     {
@@ -47,6 +43,14 @@ public class HealthBarRessources : MonoBehaviour
             currentHealth -= damage;
         }
         ChangeValueOfSlider();
+        StartCoroutine(ShowHealthBar(2f));
+    }
+
+    private IEnumerator ShowHealthBar(float time)
+    {
+        healthBarSlider.gameObject.SetActive(true);
+        yield return new WaitForSeconds(time);
+        healthBarSlider.gameObject.SetActive(false);
     }
 
     private void ChangeValueOfSlider()
