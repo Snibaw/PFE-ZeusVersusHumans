@@ -15,8 +15,10 @@ public class NPCController : MonoBehaviour
     public NPCInventory Inventory { get; set; }
     public NPCStats stats { get; set; }
     public Context context;
+    public BuildManager buildManager { get; set; }
     
     public State currentState { get; set; }
+    public IAConstruction constructionToBuild { get; set; }
 
     private bool isExecuting;
     // Start is called before the first frame update
@@ -26,6 +28,7 @@ public class NPCController : MonoBehaviour
         aiBrain = GetComponent<AIBrain>();
         Inventory = GetComponent<NPCInventory>();
         stats = GetComponent<NPCStats>();
+        buildManager = context.storage.gameObject.GetComponent<BuildManager>();
         isExecuting = false;
     }
 
@@ -106,11 +109,7 @@ public class NPCController : MonoBehaviour
             if(stats.energy == 0) time = time*2;
         }
         
-        
-        
         yield return new WaitForSeconds(time);
-        
-        
         
         switch (action)
         {
@@ -127,8 +126,42 @@ public class NPCController : MonoBehaviour
                 context.storage.GetAllResourcesFromNPC(Inventory);
                 stats.resource = 0;
                 break;
+            case "FetchResource":
+                // TO do later if buildings needs a lot of resources.
+                break;
+            case "Build":
+                ExecuteBuild();
+                break;
         }
         aiBrain.finishedExecutingBestAction = true;
+    }
+
+    private void ExecuteBuild()
+    {
+        //Spawn the construction
+        Instantiate(constructionToBuild.prefab, transform.position, Quaternion.identity);
+        //delete resources from the inventory
+        foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
+        {
+            Inventory.RemoveResource(r, constructionToBuild.GetResourceNeeded(r));
+        }
+        constructionToBuild = null;
+    }
+    public float GetPossibleBuildScore()
+    {
+        float score = buildManager.HowManyConstructionCanBeBuilt(this, Inventory);
+        return Mathf.Clamp01(score);
+    }
+
+    public float GetHypotheticalBuildScore()
+    {
+        float score = buildManager.HowManyConstructionCanBeBuilt(this);
+        return Mathf.Clamp01(score);
+    }
+    public Transform FindBuildPosition()
+    {
+        //TODO : Do as Nathan did in the IAConstructionManager
+        return transform;
     }
 
 }

@@ -7,8 +7,8 @@ public class IAConstructionManager : MonoBehaviour
 {
     [SerializeField] private IAConstruction[] constructions;
     public IAConstruction currentConstructionObjective;
-    [SerializeField] private TMP_Text constructionText;
-    [SerializeField] private SpawnResources spawnResources;
+    // [SerializeField] private TMP_Text constructionText;
+    // [SerializeField] private SpawnResources spawnResources;
     Vector3 currentConstructionPosition = Vector3.zero;
     public static IAConstructionManager instance;
 
@@ -23,7 +23,7 @@ public class IAConstructionManager : MonoBehaviour
     {
         foreach(TypeOfResources resource in System.Enum.GetValues(typeof(TypeOfResources)))
         {
-            if(buildObjective.GetResourceNeeded(resource) > IAResourceManager.instance.GetResourceNumber(resource))
+            if(buildObjective.GetResourceNeededOld(resource) > IAResourceManager.instance.GetResourceNumber(resource))
             {
                 return false;
             }
@@ -66,7 +66,8 @@ public class IAConstructionManager : MonoBehaviour
         // If the building point hasn't been set properly, build the construction where the IA is.
         Vector3 spawnPosition = currentConstructionPosition == Vector3.zero ? IAposition : currentConstructionPosition;
         GameObject objSpawned = Instantiate(construction.prefab, spawnPosition, Quaternion.identity);
-        spawnResources.SetRotationAndParent(objSpawned);
+        // objSpawned.transform.rotation = Quaternion.FromToRotation(Vector3.up, objSpawned.transform.position - planetCenter); // Set the rotation
+        // objSpawned.transform.parent = folderParentOfResources.transform; // Set the parent
         currentConstructionPosition = Vector3.zero;
 
         ConstructionWasBuilt(construction);        
@@ -76,7 +77,7 @@ public class IAConstructionManager : MonoBehaviour
         // Reduce the number of resources depending on the resources needed
         foreach(TypeOfResources resource in System.Enum.GetValues(typeof(TypeOfResources)))
         {
-            IAResourceManager.instance.ChangeResourceNumber(resource, -construction.GetResourceNeeded(resource));
+            IAResourceManager.instance.ChangeResourceNumber(resource, -construction.GetResourceNeededOld(resource));
         }
     }
     public TypeOfResources GetAResourceObjective(IAConstruction buildObjective)
@@ -87,7 +88,7 @@ public class IAConstructionManager : MonoBehaviour
         foreach(TypeOfResources resource in System.Enum.GetValues(typeof(TypeOfResources)))
         {
             //If we find a resource more needed than the previous one, we change the resourceMostNeeded
-            int resourceNeeded = buildObjective.GetResourceNeeded(resource) - IAResourceManager.instance.GetResourceNumber(resource);
+            int resourceNeeded = buildObjective.GetResourceNeededOld(resource) - IAResourceManager.instance.GetResourceNumber(resource);
             if(resourceNeeded > maxResourcesNeeded)
             {
                 maxResourcesNeeded = resourceNeeded;
@@ -105,9 +106,9 @@ public class IAConstructionManager : MonoBehaviour
             if(HasReachedMaxNumber(construction) == false) // Check every construction one by one, not a good way to find the best objective but it's simple
             {
                 currentConstructionObjective = construction;
-                #if UNITY_EDITOR
-                UpdateConstructionText();
-                #endif
+                // #if UNITY_EDITOR
+                // UpdateConstructionText();
+                // #endif
                 return construction;
             }
         }
@@ -126,8 +127,8 @@ public class IAConstructionManager : MonoBehaviour
         }
         return false;
     }
-    private void UpdateConstructionText()
-    {
-        constructionText.text = "Construction: " + currentConstructionObjective.name + "\n" + "woodCost:" + currentConstructionObjective.woodCost + "\n" + "stoneCost:" + currentConstructionObjective.stoneCost;
-    }
+    // private void UpdateConstructionText()
+    // {
+    //     constructionText.text = "Construction: " + currentConstructionObjective.name + "\n" + "woodCost:" + currentConstructionObjective.woodCost + "\n" + "stoneCost:" + currentConstructionObjective.stoneCost;
+    // }
 }

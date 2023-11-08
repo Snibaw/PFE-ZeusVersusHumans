@@ -70,5 +70,7 @@ public class AIBrain : MonoBehaviour
         action.score = originalScore + (makeupValue * originalScore);
         return action.score;
     }
+
+    
     
 }
