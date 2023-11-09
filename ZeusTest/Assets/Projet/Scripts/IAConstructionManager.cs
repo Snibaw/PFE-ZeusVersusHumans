@@ -7,8 +7,9 @@ public class IAConstructionManager : MonoBehaviour
 {
     [SerializeField] private IAConstruction[] constructions;
     public IAConstruction currentConstructionObjective;
-    [SerializeField] private TMP_Text constructionText;
-    [SerializeField] private SpawnResources spawnResources;
+    // [SerializeField] private TMP_Text constructionText;
+    // [SerializeField] private SpawnResources spawnResources;
+    Vector3 currentConstructionPosition = Vector3.zero;
     public static IAConstructionManager instance;
 
     private void Awake() {
@@ -22,19 +23,52 @@ public class IAConstructionManager : MonoBehaviour
     {
         foreach(TypeOfResources resource in System.Enum.GetValues(typeof(TypeOfResources)))
         {
-            if(buildObjective.GetResourceNeeded(resource) > IAResourceManager.instance.GetResourceNumber(resource))
+            if(buildObjective.GetResourceNeededOld(resource) > IAResourceManager.instance.GetResourceNumber(resource))
             {
                 return false;
             }
         }
         return true;
     }
+
+    public void SetConstructionPosition(Vector3 constructionPosition)
+    {
+        // Only if it hasn't been set or has been reset before.
+        if (currentConstructionPosition == Vector3.zero) currentConstructionPosition = constructionPosition;
+        
+    }
+
+    public List<GameObject> GetAllBuildObstacles(Vector3 IAposition)
+    {
+        // If the building point hasn't been set properly, check around where the IA is.
+        Vector3 spherePosition = currentConstructionPosition == Vector3.zero ? IAposition : currentConstructionPosition;
+        Collider[] unfiltered = Physics.OverlapSphere(spherePosition, 2.0f);
+        List<GameObject> obstacles = new List<GameObject>();
+        foreach (Collider collider in unfiltered)
+        {
+            if (collider.gameObject.transform.parent.gameObject.tag == "Resources")
+            {
+                obstacles.Add(collider.gameObject);
+            }
+        }
+        return obstacles;
+    }
+
+    public Vector3 FindPositionToBuild(Vector3 IAposition, Vector3 IAforward)
+    {
+        // For now, we don't take into account the building size.
+        if(currentConstructionPosition == Vector3.zero || Vector3.Distance(IAposition, currentConstructionPosition) < 0.1f) return IAposition - IAforward;
+        return currentConstructionPosition + ( currentConstructionPosition - IAposition).normalized;
+    }
+
     public void BuildConstruction(IAConstruction construction, Vector3 IAposition)
     {
-        // For now : Build the construction where the IA is
-        // Later : Build the construction where in an empty space near the IA
-        GameObject objSpawned = Instantiate(construction.prefab, IAposition, Quaternion.identity);
-        spawnResources.SetRotationAndParent(objSpawned);
+        // If the building point hasn't been set properly, build the construction where the IA is.
+        Vector3 spawnPosition = currentConstructionPosition == Vector3.zero ? IAposition : currentConstructionPosition;
+        GameObject objSpawned = Instantiate(construction.prefab, spawnPosition, Quaternion.identity);
+        // objSpawned.transform.rotation = Quaternion.FromToRotation(Vector3.up, objSpawned.transform.position - planetCenter); // Set the rotation
+        // objSpawned.transform.parent = folderParentOfResources.transform; // Set the parent
+        currentConstructionPosition = Vector3.zero;
 
         ConstructionWasBuilt(construction);        
     }
@@ -43,7 +77,7 @@ public class IAConstructionManager : MonoBehaviour
         // Reduce the number of resources depending on the resources needed
         foreach(TypeOfResources resource in System.Enum.GetValues(typeof(TypeOfResources)))
         {
-            IAResourceManager.instance.ChangeResourceNumber(resource, -construction.GetResourceNeeded(resource));
+            IAResourceManager.instance.ChangeResourceNumber(resource, -construction.GetResourceNeededOld(resource));
         }
     }
     public TypeOfResources GetAResourceObjective(IAConstruction buildObjective)
@@ -54,7 +88,7 @@ public class IAConstructionManager : MonoBehaviour
         foreach(TypeOfResources resource in System.Enum.GetValues(typeof(TypeOfResources)))
         {
             //If we find a resource more needed than the previous one, we change the resourceMostNeeded
-            int resourceNeeded = buildObjective.GetResourceNeeded(resource) - IAResourceManager.instance.GetResourceNumber(resource);
+            int resourceNeeded = buildObjective.GetResourceNeededOld(resource) - IAResourceManager.instance.GetResourceNumber(resource);
             if(resourceNeeded > maxResourcesNeeded)
             {
                 maxResourcesNeeded = resourceNeeded;
@@ -72,9 +106,9 @@ public class IAConstructionManager : MonoBehaviour
             if(HasReachedMaxNumber(construction) == false) // Check every construction one by one, not a good way to find the best objective but it's simple
             {
                 currentConstructionObjective = construction;
-                #if UNITY_EDITOR
-                UpdateConstructionText();
-                #endif
+                // #if UNITY_EDITOR
+                // UpdateConstructionText();
+                // #endif
                 return construction;
             }
         }
@@ -93,8 +127,8 @@ public class IAConstructionManager : MonoBehaviour
         }
         return false;
     }
-    private void UpdateConstructionText()
-    {
-        constructionText.text = "Construction: " + currentConstructionObjective.name + "\n" + "woodCost:" + currentConstructionObjective.woodCost + "\n" + "stoneCost:" + currentConstructionObjective.stoneCost;
-    }
+    // private void UpdateConstructionText()
+    // {
+    //     constructionText.text = "Construction: " + currentConstructionObjective.name + "\n" + "woodCost:" + currentConstructionObjective.woodCost + "\n" + "stoneCost:" + currentConstructionObjective.stoneCost;
+    // }
 }
