@@ -39,6 +39,7 @@ public class ActivateTownUI : MonoBehaviour
             {
                 Debug.Log(hit.collider.gameObject.name + " was hit with your raycast");
                 canvasUI.SetActive(true);
+                canvasUI.GetComponent<UI_Town>().SetResourcesNb();
             }
         }
     }

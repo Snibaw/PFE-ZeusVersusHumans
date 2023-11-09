@@ -16,17 +16,12 @@ public class UI_Town : MonoBehaviour
         [SerializeField] public TMP_Text numberTxt;
     }
 
-    private void SetResourcesNb()
+    public void SetResourcesNb()
     {
         foreach (var resourceAndTxt in resourceAndTxtList)
         {
             int nbResource = contextScript.storage.GetNbResources(resourceAndTxt.type);
             resourceAndTxt.numberTxt.text = nbResource.ToString();
         }
-    }
-
-    private void Start()
-    {
-        SetResourcesNb();
     }
 }
