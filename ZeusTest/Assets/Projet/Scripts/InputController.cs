@@ -105,7 +105,6 @@ public class InputController : MonoBehaviour
                         Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
                         throwLightning.Throw(lightningDirection.normalized, lightningDirection.magnitude, timePressed);
                     }
-                        
                 }
                 timePressed = 0;
             }

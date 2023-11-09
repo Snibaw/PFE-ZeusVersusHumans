@@ -1005,8 +1005,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0a9fed349e74dbe4f9d2bca344b2c766, type: 2}
   - {fileID: 11400000, guid: bd3921104dcbaf948867aa77339d73a0, type: 2}
   currentConstructionObjective: {fileID: 0}
-  constructionText: {fileID: 1791678101}
-  spawnResources: {fileID: 198092628330722494}
 --- !u!4 &1768373789 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2211925062958400429, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
@@ -1629,18 +1627,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &198092628330722494 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2091848405090338958, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
-    type: 3}
-  m_PrefabInstance: {fileID: 2285710095489055792}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998815436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34fdd0c81d6dada498871f0f832e2542, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2285710095489055792
 PrefabInstance:
   m_ObjectHideFlags: 0
