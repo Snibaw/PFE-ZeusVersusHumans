@@ -39,7 +39,7 @@ public class LightningBehaviour : MonoBehaviour
             {
                 if (collider.GetComponent<ObjectToDestroy>() == null)
                 {
-                    Debug.Log("Object" + collider.gameObject.name + " has no ObjectToDestroy script");
+                    Debug.LogWarning("Object" + collider.gameObject.name + " has no ObjectToDestroy script");
                     continue;
                 }
                 collider.GetComponent<ObjectToDestroy>().TakeDamage(Mathf.Clamp01(intensity/5)*100);
