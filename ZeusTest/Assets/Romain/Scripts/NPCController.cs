@@ -20,6 +20,8 @@ public class NPCController : MonoBehaviour
     public State currentState { get; set; }
     public IAConstruction constructionToBuild { get; set; }
 
+    [SerializeField] private UI_Timer uiTimerScript;
+
     private bool isExecuting;
     // Start is called before the first frame update
     void Start()
@@ -115,6 +117,7 @@ public class NPCController : MonoBehaviour
         {
             case "Work":
                 Inventory.AddResource(aiBrain.bestAction.RequiredDestination.GetComponent<Resource>().ResourceType, 1);
+                uiTimerScript.StartTimer((int)time);
                 break;
             case "Sleep":
                 stats.energy += 100;
