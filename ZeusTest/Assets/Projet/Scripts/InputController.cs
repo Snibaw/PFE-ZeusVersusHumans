@@ -48,6 +48,7 @@ public class InputController : MonoBehaviour
                     //Rotate the planet
                     x = touch.deltaPosition.x;
                     y = touch.deltaPosition.y;
+                    Debug.Log("x" + x + "y" + y);
                     cameraMovement.RotateAround(x,y);
 
                     break;
@@ -92,7 +93,12 @@ public class InputController : MonoBehaviour
                 {
                     x = Input.GetAxis("Mouse X");
                     y = Input.GetAxis("Mouse Y");
-                    cameraMovement.RotateAround(x,y);
+                    
+                    if (timePressed >= 0.03f) // If not, the planet will rotate too fast
+                    {
+                        cameraMovement.RotateAround(x,y);
+                    }
+                    
                 }
                 timePressed += Time.deltaTime;
             }
@@ -105,7 +111,6 @@ public class InputController : MonoBehaviour
                         Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
                         throwLightning.Throw(lightningDirection.normalized, lightningDirection.magnitude, timePressed);
                     }
-                        
                 }
                 timePressed = 0;
             }

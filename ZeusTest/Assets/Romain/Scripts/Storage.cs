@@ -17,6 +17,11 @@ public class Storage : StorageInventory
         maxCapacityPerType = capacity;
     }
 
+    public int GetNbResources(ResourceType resource)
+    {
+        return Inventory[resource];
+    }
+
     public override void AddResource(ResourceType r, int amount)
     {
         int amountInInventory = Inventory[r];
