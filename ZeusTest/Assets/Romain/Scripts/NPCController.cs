@@ -116,13 +116,13 @@ public class NPCController : MonoBehaviour
             if(stats.energy == 0) time = time*2;
         }
         
+        uiTimerScript.StartTimer(time);
         yield return new WaitForSeconds(time);
         
         switch (action)
         {
             case "Work":
                 Inventory.AddResource(aiBrain.bestAction.RequiredDestination.GetComponent<Resource>().ResourceType, 1);
-                uiTimerScript.StartTimer((int)time);
                 break;
             case "Sleep":
                 stats.energy += 100;

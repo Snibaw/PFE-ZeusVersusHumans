@@ -1799,6 +1799,16 @@ PrefabInstance:
       propertyPath: m_UseGeometry
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8005865526713731574, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8005865526713731574, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8297996826150406295, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_IsActive

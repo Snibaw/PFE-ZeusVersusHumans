@@ -20,7 +20,7 @@ public class UI_Timer : MonoBehaviour
         slider.maxValue = value;
     }
 
-    public void StartTimer(int maxValue)
+    public void StartTimer(float maxValue)
     {
         slider.value = 0;
         slider.maxValue = maxValue;
