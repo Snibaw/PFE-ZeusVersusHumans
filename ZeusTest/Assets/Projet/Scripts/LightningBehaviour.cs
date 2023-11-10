@@ -5,7 +5,9 @@ using UnityEngine;
 public class LightningBehaviour : MonoBehaviour
 {
     private QuadraticCurve curve;
-    [SerializeField] private float speed = 1;
+    [SerializeField] private float speed = 0.1f;
+    [SerializeField] private float speedAugmentationOverTime = 0.01f;
+    [SerializeField] private float maxSpeed = 2f;
     private float sampleTime = 0;
     private float intensity = 1;
 
@@ -14,12 +16,18 @@ public class LightningBehaviour : MonoBehaviour
     {
         sampleTime = 0;
     }
-    private void Update() {
+    private void Update()
+    {
+        speed = Mathf.Min(speed + speedAugmentationOverTime, 2);
         sampleTime += Time.deltaTime * speed;
         transform.position = curve.evaluate(sampleTime);
         transform.forward = curve.evaluate(sampleTime + 0.01f) - transform.position;
 
-        if(sampleTime > 1) Destroy(gameObject);
+        if (sampleTime > 1)
+        {
+            Destroy(curve.gameObject);
+            Destroy(gameObject);
+        }
     }
     
     public void InitValues(QuadraticCurve _curve, float _intensity)
@@ -32,6 +40,9 @@ public class LightningBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         //Create a circle around the lightning depending on the intensity
         //If the circle collides with an object with the CanBeDestroyed Layer, access the script and do damage
+        bool needToBeDestroyed = false;
+        if(other.CompareTag("Ground") || other.CompareTag("Water")) needToBeDestroyed = true;
+        
         Collider[] colliders = Physics.OverlapSphere(transform.position, intensity);
         foreach(Collider collider in colliders)
         {
@@ -43,12 +54,16 @@ public class LightningBehaviour : MonoBehaviour
                     continue;
                 }
                 collider.GetComponent<ObjectToDestroy>().TakeDamage(Mathf.Clamp01(intensity/5)*100);
+                needToBeDestroyed = true;
             }
         }
-        
 
 
-        Destroy(gameObject);
+        if (needToBeDestroyed)
+        {
+            Destroy(curve.gameObject);
+            Destroy(gameObject);
+        }
     }
     private void OnDrawGizmos() {
         Gizmos.DrawWireSphere(transform.position, intensity);
