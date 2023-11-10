@@ -53,8 +53,6 @@ public class NPCController : MonoBehaviour
             case State.decide:
                 aiBrain.DecideBestAction();
                 MinDistanceModifier = constructionToBuild == null ? 1f : 0.1f;
-                Debug.Log("Distance: " + Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position));
-                Debug.Log(context.MinDistance * MinDistanceModifier);
                 if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance * MinDistanceModifier)
                 {
                     currentState = State.execute;
@@ -150,7 +148,6 @@ public class NPCController : MonoBehaviour
     {
         //Spawn the construction
         Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
-        Debug.Log(positionToBuild);
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
@@ -186,7 +183,7 @@ public class NPCController : MonoBehaviour
         float SphereSize = constructionToBuild.prefab.GetComponent<Collider>().bounds.extents.x / 2f;
 
         // Check if we can just build here first
-        if (checkRessourcesInSphere(transform.position, SphereSize) == 0)
+        if (checkResourcesInSphere(transform.position, SphereSize) == 0)
         {
             positionToBuild = transform.position;
             return transform;
@@ -201,7 +198,7 @@ public class NPCController : MonoBehaviour
         for (int j = 0; j< CheckDirections.Length; j++)
         {
             BuildPosition = transform.position + Quaternion.FromToRotation(OriginVector, Direction) * CheckDirections[j]; 
-            if (checkRessourcesInSphere(BuildPosition, SphereSize) == 0)
+            if (checkResourcesInSphere(BuildPosition, SphereSize) == 0)
             {
                 Target.transform.position = BuildPosition;
                 positionToBuild = BuildPosition;
@@ -211,16 +208,16 @@ public class NPCController : MonoBehaviour
         }
 
 
-        // If it's still no good, we look around the ressources
-        GameObject[] Ressources = GameObject.FindGameObjectsWithTag("Resources");
-        Array.Sort(Ressources, 0, Ressources.Length, new SortDistance(transform));
-        for(int i = 0; i < Ressources.Length; i++)
+        // If it's still no good, we look around the resources
+        GameObject[] Resources = GameObject.FindGameObjectsWithTag("Resources");
+        Array.Sort(Resources, 0, Resources.Length, new SortDistance(transform));
+        for(int i = 0; i < Resources.Length; i++)
         {
-            Direction = new Vector3(0f, 1f, 0f); // Replace by Ressources[i].transform.position when the planet is added.
+            Direction = new Vector3(0f, 1f, 0f); // Replace by Resources[i].transform.position when the planet is added.
             for (int j = 0; j< CheckDirections.Length; j++)
             {
-                BuildPosition = Ressources[i].transform.position + (Quaternion.FromToRotation(OriginVector, Direction) * CheckDirections[j]).normalized * SphereSize * 1.5f; 
-                if (checkRessourcesInSphere(BuildPosition, SphereSize) == 0)
+                BuildPosition = Resources[i].transform.position + (Quaternion.FromToRotation(OriginVector, Direction) * CheckDirections[j]).normalized * SphereSize * 1.5f; 
+                if (checkResourcesInSphere(BuildPosition, SphereSize) == 0)
                 {
                     Target.transform.position = BuildPosition;
                     positionToBuild = BuildPosition;
@@ -232,22 +229,22 @@ public class NPCController : MonoBehaviour
         return Target.transform;
     }
     
-    public int checkRessourcesInSphere(Vector3 SpherePos, float SphereSize)
+    public int checkResourcesInSphere(Vector3 SpherePos, float SphereSize)
     {
-        int ressourcesUnder = 0;
+        int resourcesUnder = 0;
         Collider[] unfiltered = Physics.OverlapSphere(SpherePos, SphereSize);
         foreach (Collider collider in unfiltered)
         {
             if (collider.gameObject.tag == "Resources")
             {
-                ressourcesUnder++;
+                resourcesUnder++;
             }
             if (collider.gameObject.tag == "Building")
             {
                 return 9999;
             }
         }
-        return ressourcesUnder;
+        return resourcesUnder;
     }
 
 

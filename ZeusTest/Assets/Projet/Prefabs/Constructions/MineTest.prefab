@@ -668,6 +668,7 @@ GameObject:
   - component: {fileID: 2775493078811761152}
   - component: {fileID: 2117260571585205483}
   - component: {fileID: 655288062332448453}
+  - component: {fileID: -2591919945897852947}
   m_Layer: 3
   m_Name: MineTest
   m_TagString: Building
@@ -741,3 +742,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 1
+--- !u!114 &-2591919945897852947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200180542378709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d9fd723bb2e0c44afb65fad03a3768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  context: {fileID: 0}
+  resourceType: 1
+  timeBetweenResources: 5

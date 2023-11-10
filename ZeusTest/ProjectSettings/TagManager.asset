@@ -15,6 +15,7 @@ TagManager:
   - sawmill
   - mine
   - Resources
+  - Building
   layers:
   - Default
   - TransparentFX

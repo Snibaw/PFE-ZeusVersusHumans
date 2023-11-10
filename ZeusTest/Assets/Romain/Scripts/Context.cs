@@ -11,11 +11,15 @@ public class Context : MonoBehaviour
     public int energyLostPerAction = 5;
     public Dictionary<DestinationType, List<Transform>> Destinations { get; private set; }
 
+    public static Context instance;
+
     private void Start()
     {
         List<Transform> restDestinations = new List<Transform>() { home.transform };
         List<Transform> storageDestinations = new List<Transform>() { storage.transform };
         List<Transform> resourceDestinations = GetAllResources();
+
+        instance = this;
 
         Destinations = new Dictionary<DestinationType, List<Transform>>()
         {
