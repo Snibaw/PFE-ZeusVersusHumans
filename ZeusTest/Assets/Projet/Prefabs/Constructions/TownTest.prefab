@@ -608,10 +608,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4443893124428290371}
   - component: {fileID: 2775493078811761152}
+  - component: {fileID: 2557184286964688989}
   - component: {fileID: 2117260571585205483}
   m_Layer: 3
   m_Name: TownTest
-  m_TagString: town
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -655,6 +656,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2557184286964688989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200180542378709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b559be03b77f4c74b806c9d9d25d3905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 0
 --- !u!114 &2117260571585205483
 MonoBehaviour:
   m_ObjectHideFlags: 0

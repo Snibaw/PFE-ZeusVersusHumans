@@ -667,9 +667,10 @@ GameObject:
   - component: {fileID: 4443893124428290371}
   - component: {fileID: 2775493078811761152}
   - component: {fileID: 2117260571585205483}
+  - component: {fileID: 655288062332448453}
   m_Layer: 3
   m_Name: MineTest
-  m_TagString: mine
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -727,3 +728,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 200
   healthBar: {fileID: 7294484051428510258}
+--- !u!114 &655288062332448453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200180542378709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b559be03b77f4c74b806c9d9d25d3905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 1

@@ -532,11 +532,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4443893124428290371}
+  - component: {fileID: -2581393076067340948}
   - component: {fileID: 2775493078811761152}
   - component: {fileID: 2117260571585205483}
   m_Layer: 3
   m_Name: HouseTest
-  m_TagString: house
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -559,6 +560,19 @@ Transform:
   - {fileID: 2656191352409832849}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2581393076067340948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200180542378709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b559be03b77f4c74b806c9d9d25d3905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 3
 --- !u!65 &2775493078811761152
 BoxCollider:
   m_ObjectHideFlags: 0
