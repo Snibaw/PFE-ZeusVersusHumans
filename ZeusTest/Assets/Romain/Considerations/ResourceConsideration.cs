@@ -10,8 +10,6 @@ public class ResourceConsideration : Consideration
     {
         score = responseCurve.Evaluate(Mathf.Clamp01((float)_NPCController.stats.resource /
                                                      _NPCController.Inventory.MaxCapacity));
-        Debug.Log(Mathf.Clamp01((float)_NPCController.stats.resource /
-                                _NPCController.Inventory.MaxCapacity));
         return score;
     }
 }

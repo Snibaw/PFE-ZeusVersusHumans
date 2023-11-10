@@ -5,9 +5,11 @@ using UnityEngine;
 public class Storage : StorageInventory
 {
     [SerializeField] private int maxCapacityPerType;
+    private BuildManager _buildManager;
 
     private void Start()
     {
+        _buildManager = GetComponent<BuildManager>();
         InitializeInventory();
         MaxCapacity = maxCapacityPerType * Inventory.Count;
     }
@@ -56,22 +58,44 @@ public class Storage : StorageInventory
         npcInventory.RemoveAllResource();
     }
 
-    public ResourceType GetResourceNeeded()
+    //Basically : We take the resource of the town + the resource of the NPC asking for it
+    // We check which construction needs the least amount of work to be built
+    // In this construction, we check the missing resources and we return the one that is the most missing
+    public ResourceType GetResourceNeeded(StorageInventory npcInventory)
     {
-        float minValue = maxCapacityPerType;
         ResourceType resourceNeeded = ResourceType.wood;
         
-        foreach(ResourceType r in Inventory.Keys)
+        //Find the cheapest construction to build
+        IAConstruction cheapestConstruction = _buildManager.FindTheCheapestConstructionToBuild(this, npcInventory);
+
+        if (cheapestConstruction != null) // we can still build
         {
-            Debug.Log("Resource " + r + " has " + Inventory[r] + " items");
-            if(Inventory[r] < minValue)
+            // Find the resource that is the most missing
+            int maxNumberOfResourcesNeeded = -100000;
+            foreach(ResourceType resourceType in System.Enum.GetValues(typeof(ResourceType)))
             {
-                minValue = Inventory[r];
-                resourceNeeded = r;
+                int numberOfRessourceNeeded = cheapestConstruction.GetResourceNeeded(resourceType) - (Inventory[resourceType] + npcInventory.Inventory[resourceType]);
+                if(numberOfRessourceNeeded > maxNumberOfResourcesNeeded && numberOfRessourceNeeded > 0)
+                {
+                    maxNumberOfResourcesNeeded = numberOfRessourceNeeded;
+                    resourceNeeded = resourceType;
+                }
             }
         }
-
-        Debug.Log(resourceNeeded);
+        else
+        {
+            //Just return the resource that is the most missing
+            float minValue = maxCapacityPerType;
+            foreach (ResourceType r in Inventory.Keys)
+            {
+                if (Inventory[r] < minValue)
+                {
+                    minValue = Inventory[r];
+                    resourceNeeded = r;
+                }
+            }
+        }
         return resourceNeeded;
+        
     }
 }

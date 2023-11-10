@@ -895,10 +895,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storage: {fileID: 7928200181557715462}
+  TownBehaviour: {fileID: 7928200181557715465}
   home: {fileID: 7928200182008588601}
   resourceTag: Resources
   MinDistance: 1.2
   energyLostPerAction: 10
+  isDebug: 1
 --- !u!4 &1804318561
 Transform:
   m_ObjectHideFlags: 0

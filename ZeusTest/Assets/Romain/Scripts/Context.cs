@@ -5,10 +5,12 @@ using UnityEngine;
 public class Context : MonoBehaviour
 {       
     public Storage storage;
+    public TownBehaviour TownBehaviour;
     public GameObject home;
     public string resourceTag = "resource";
     public float MinDistance = 5f;
     public int energyLostPerAction = 5;
+    public bool isDebug = false;
     public Dictionary<DestinationType, List<Transform>> Destinations { get; private set; }
 
     public static Context instance;

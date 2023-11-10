@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
+using System.Linq;
 
 public class BuildManager : MonoBehaviour
 {
-    [SerializeField] private IAConstruction[] possibleConstructions;
+    public IAConstruction[] possibleConstructions;
     private StorageInventory storageInventory;
 
     private void Start()
@@ -32,7 +33,7 @@ public class BuildManager : MonoBehaviour
         return returnValue;
     }
 
-    private float FindBuildPercentage(IAConstruction construction, StorageInventory inventory)
+    private float FindBuildPercentage(IAConstruction construction, StorageInventory inventory, StorageInventory inventory2 = null)
     {
         float percentage = 0f;
         int values = 0;
@@ -42,7 +43,8 @@ public class BuildManager : MonoBehaviour
             
             if (resourceNeeded > 0)
             {
-                percentage += Mathf.Clamp01(inventory.Inventory[r] / resourceNeeded);
+                if(inventory2 == null) percentage += Mathf.Clamp01(inventory.Inventory[r] / resourceNeeded);
+                else percentage += Mathf.Clamp01((inventory.Inventory[r] + inventory2.Inventory[r]) / resourceNeeded);
                 values += 1;
             }
             
@@ -55,13 +57,29 @@ public class BuildManager : MonoBehaviour
     private bool CanBuildMore(IAConstruction construction)
     {
         //Later, just keep the number of build for a town
-        //Find every construction of the same type
-        GameObject[] constructions = GameObject.FindGameObjectsWithTag(construction.prefab.tag);
-        if(constructions.Length >= construction.numberMaxToSpawn)
-        {
-            return false;
-        }
+        BuildingType buildTypeSearch = construction.prefab.GetComponent<Building>().BuildingType;
+        // Count the number of constructions of the same type
+        int numberOfSameTypeBuild = GameObject.FindGameObjectsWithTag(construction.prefab.tag)
+            .Count(c => c.GetComponent<Building>().BuildingType == buildTypeSearch);
 
-        return true;
+        return numberOfSameTypeBuild < construction.numberMaxToSpawn;
+    }
+
+    public IAConstruction FindTheCheapestConstructionToBuild(StorageInventory townInventory, StorageInventory npcInventory)
+    {
+        float maxPercentageOfResourcesAvailable = -1f;
+        IAConstruction cheapestConstruction = null;
+        
+        foreach(IAConstruction construction in possibleConstructions)
+        {
+            if (!CanBuildMore(construction)) continue;
+            float percentage = FindBuildPercentage(construction, townInventory, npcInventory);
+            if(percentage < 1 && percentage > maxPercentageOfResourcesAvailable) // IF it can be build, the build script will take care of it
+            {
+                maxPercentageOfResourcesAvailable = percentage;
+                cheapestConstruction = construction;
+            }
+        }
+        return cheapestConstruction;
     }
 }

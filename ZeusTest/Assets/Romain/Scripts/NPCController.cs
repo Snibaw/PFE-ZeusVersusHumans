@@ -115,7 +115,8 @@ public class NPCController : MonoBehaviour
             stats.energy -= context.energyLostPerAction;
             if(stats.energy == 0) time = time*2;
         }
-        
+
+        if (context.isDebug) time /= 3; // To speed up the game
         uiTimerScript.StartTimer(time);
         yield return new WaitForSeconds(time);
         

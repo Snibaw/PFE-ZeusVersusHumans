@@ -16,7 +16,7 @@ public class Work : Action
         Transform nearestResource = null;
         GameObject targetObject = null;
 
-        ResourceType resourceNeeded = _npcController.context.storage.GetResourceNeeded();
+        ResourceType resourceNeeded = _npcController.context.storage.GetResourceNeeded(_npcController.Inventory);
         List<Transform> resources = _npcController.context.Destinations[DestinationType.resource];
         foreach (Transform resource in resources)
         {
