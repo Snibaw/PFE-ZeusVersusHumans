@@ -16,9 +16,9 @@ public class Build : Action
         Vector3 IAposition = _npcController.gameObject.transform.position;
         Vector3 IAforward = _npcController.gameObject.transform.forward;
         GameObject Target = new GameObject();
-        if(currentConstructionPosition == Vector3.zero || Vector3.Distance(IAposition, currentConstructionPosition) < 0.1f) Target.transform.position = IAposition - IAforward;
-        else Target.transform.position = currentConstructionPosition + ( currentConstructionPosition - IAposition).normalized;
+        if(currentConstructionPosition == Vector3.zero || Vector3.Distance(IAposition, currentConstructionPosition) < 0.1f) Target.transform.position = IAposition - IAforward*1.5f;
+        else Target.transform.position = currentConstructionPosition + ( currentConstructionPosition - IAposition).normalized*1.5f;
         RequiredDestination = Target.transform;
-        Debug.Log(RequiredDestination.position);
+        Debug.Log(currentConstructionPosition - IAposition);
     }
 }

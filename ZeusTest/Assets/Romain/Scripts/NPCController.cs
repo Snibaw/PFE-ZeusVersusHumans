@@ -47,12 +47,12 @@ public class NPCController : MonoBehaviour
 
     public void FSMTick()
     {
-        float MinDistanceModifier = constructionToBuild == null ? 1f : 0.1f;
+        float MinDistanceModifier = constructionToBuild == null ? 1f : 0.5f;
         switch (currentState)
         {
             case State.decide:
                 aiBrain.DecideBestAction();
-                MinDistanceModifier = constructionToBuild == null ? 1f : 0.1f;
+                MinDistanceModifier = constructionToBuild == null ? 1f : 0.5f;
                 if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance * MinDistanceModifier)
                 {
                     currentState = State.execute;
@@ -180,8 +180,11 @@ public class NPCController : MonoBehaviour
                 index++;
             }
         }
+
+        Debug.Log("Size of construction to build : " + constructionToBuild.prefab.GetComponent<BoxCollider>().size);
         
-        float SphereSize = constructionToBuild.prefab.GetComponent<Collider>().bounds.extents.x / 2f;
+        float SphereSize = constructionToBuild.prefab.GetComponent<BoxCollider>().size.x * 1.2f;
+
 
         // Check if we can just build here first
         if (checkResourcesInSphere(transform.position, SphereSize) == 0)
@@ -236,15 +239,18 @@ public class NPCController : MonoBehaviour
         Collider[] unfiltered = Physics.OverlapSphere(SpherePos, SphereSize);
         foreach (Collider collider in unfiltered)
         {
+            //Debug.Log("Found at " + SpherePos + " : " + collider.gameObject.tag);
             if (collider.gameObject.tag == "Resources")
             {
                 resourcesUnder++;
             }
             if (collider.gameObject.tag == "Building")
             {
+                Debug.Log("Building Found!");
                 return 9999;
             }
         }
+        Debug.Log("Nb of resources found at " + SpherePos + " : " + resourcesUnder);
         return resourcesUnder;
     }
 

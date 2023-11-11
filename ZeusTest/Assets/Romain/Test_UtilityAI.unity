@@ -7669,11 +7669,12 @@ GameObject:
   - component: {fileID: 2117260572734202939}
   - component: {fileID: 7928200181557715464}
   - component: {fileID: 7928200181557715462}
+  - component: {fileID: 7928200181557715466}
   - component: {fileID: 7928200181557715463}
   - component: {fileID: 7928200181557715465}
   m_Layer: 3
   m_Name: TownTest
-  m_TagString: town
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -7738,6 +7739,19 @@ MonoBehaviour:
   HumanAI: {fileID: 7229285560104876441, guid: 19afcaa946af50642b78e4a2173ca531, type: 3}
   timeBtwHumanSpawn: 60
   townContext: {fileID: 1804318560}
+--- !u!114 &7928200181557715466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200181557715461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b559be03b77f4c74b806c9d9d25d3905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 0
 --- !u!1 &7928200182008588601
 GameObject:
   m_ObjectHideFlags: 0
@@ -7750,9 +7764,10 @@ GameObject:
   - component: {fileID: 2775493077056676332}
   - component: {fileID: 2117260572014898951}
   - component: {fileID: 7928200182008588602}
+  - component: {fileID: 7928200182008588603}
   m_Layer: 3
   m_Name: HouseTest
-  m_TagString: house
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -7773,6 +7788,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &7928200182008588603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200182008588601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b559be03b77f4c74b806c9d9d25d3905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 3
 --- !u!33 &8050299159206309781
 MeshFilter:
   m_ObjectHideFlags: 0
