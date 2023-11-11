@@ -27,27 +27,25 @@ public class ActivateTownUI : MonoBehaviour
 
     private void ActivateUI()
     {
-        Debug.Log("Appel Activate UI");
-        
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow, 5f);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 100f))
         {
-            if( hit.collider.gameObject.CompareTag("town"))
+            if( hit.collider.gameObject.CompareTag("Building"))
             {
-                Debug.Log(hit.collider.gameObject.name + " was hit with your raycast");
-                canvasUI.SetActive(true);
-                canvasUI.GetComponent<UI_Town>().SetResourcesNb();
+                if (hit.collider.gameObject.GetComponent<Building>().BuildingType == BuildingType.village)
+                {
+                    canvasUI.SetActive(true);
+                    canvasUI.GetComponent<UI_Town>().SetResourcesNb();
+                }
             }
         }
     }
 
     private void DeActivateUI()
     {
-        Debug.Log("Appel DeActivate UI");
-        
         canvasUI.SetActive(false);
     }
 
@@ -59,8 +57,6 @@ public class ActivateTownUI : MonoBehaviour
             // At the first input we check if its below or above the yborder between rotation and lightning
             if(Input.GetMouseButtonDown(0)) // First left click input
             {
-                Debug.Log("Click");
-
                 if (canvasUI.activeInHierarchy)
                 {
                     DeActivateUI(); //Deactivate UI when click elsewhere
@@ -85,7 +81,6 @@ public class ActivateTownUI : MonoBehaviour
             }
             if(Input.GetMouseButtonDown(0)) //Player stops holding
             {
-                Debug.Log("Stop Click");
                 ActivateUI();
                 // if(xWhenPressed == x && yWhenPressed == y) // If the player move the mouse
                 // {
