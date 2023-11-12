@@ -627,6 +627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 2
+  destinationType: 3
 --- !u!114 &-1587610859108938699
 MonoBehaviour:
   m_ObjectHideFlags: 0

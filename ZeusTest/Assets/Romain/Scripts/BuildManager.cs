@@ -9,10 +9,27 @@ public class BuildManager : MonoBehaviour
 {
     public IAConstruction[] possibleConstructions;
     private StorageInventory storageInventory;
+    private Dictionary<BuildingType, int> numberOfConstructionBuilt = new Dictionary<BuildingType, int>();
+    
 
     private void Start()
     {
         storageInventory = GetComponent<StorageInventory>();
+        
+        InitNumberOfConstructionBuilt();
+        AddConstructionBuilt(BuildingType.village);
+    }
+
+    private void InitNumberOfConstructionBuilt()
+    {
+        foreach (BuildingType buildingType in Enum.GetValues(typeof(BuildingType)))
+        {
+            numberOfConstructionBuilt.Add(buildingType, 0);
+        }
+    }
+    public void AddConstructionBuilt(BuildingType buildingType)
+    {
+        numberOfConstructionBuilt[buildingType] += 1;
     }
 
     public int HowManyConstructionCanBeBuilt(NPCController _npcController, StorageInventory inventory = null)
@@ -56,13 +73,8 @@ public class BuildManager : MonoBehaviour
 
     private bool CanBuildMore(IAConstruction construction)
     {
-        //Later, just keep the number of build for a town
         BuildingType buildTypeSearch = construction.prefab.GetComponent<Building>().BuildingType;
-        // Count the number of constructions of the same type
-        int numberOfSameTypeBuild = GameObject.FindGameObjectsWithTag(construction.prefab.tag)
-            .Count(c => c.GetComponent<Building>().BuildingType == buildTypeSearch);
-
-        return numberOfSameTypeBuild < construction.numberMaxToSpawn;
+        return numberOfConstructionBuilt[buildTypeSearch] < construction.numberMaxToSpawn;
     }
 
     public IAConstruction FindTheCheapestConstructionToBuild(StorageInventory townInventory, StorageInventory npcInventory)
@@ -74,6 +86,8 @@ public class BuildManager : MonoBehaviour
         {
             if (!CanBuildMore(construction)) continue;
             float percentage = FindBuildPercentage(construction, townInventory, npcInventory);
+            percentage -= numberOfConstructionBuilt[construction.prefab.GetComponent<Building>().BuildingType] * 0.1f; // 10% less per building of the same type
+            
             if(percentage < 1 && percentage > maxPercentageOfResourcesAvailable) // IF it can be build, the build script will take care of it
             {
                 maxPercentageOfResourcesAvailable = percentage;

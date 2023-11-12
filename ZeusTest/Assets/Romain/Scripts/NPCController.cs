@@ -121,8 +121,6 @@ public class NPCController : MonoBehaviour
             aiBrain.finishedExecutingBestAction = true;
             yield break;
         }
-
-        if (context.isDebug) time /= 3; // To speed up the game
         uiTimerScript.StartTimer(time);
         yield return new WaitForSeconds(time);
         
@@ -157,8 +155,11 @@ public class NPCController : MonoBehaviour
     {
         //Spawn the construction
         GameObject building = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
-        //Tell the context that a construction has been built
-        context.AddDestinationTypeBuild(DestinationType.rest, building.transform);
+        //Tell the context that a new house has been built
+        if(building.GetComponent<Building>().BuildingType == BuildingType.house)
+            context.AddDestinationTypeBuild(DestinationType.rest, building.transform);
+        //Tell the build manager that a new construction has been built
+        buildManager.AddConstructionBuilt(building.GetComponent<Building>().BuildingType);
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
