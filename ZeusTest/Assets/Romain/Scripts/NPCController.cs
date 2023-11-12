@@ -106,11 +106,20 @@ public class NPCController : MonoBehaviour
     }
     private IEnumerator ExecuteAction(string action, float time)
     {
+        //Some exceptions are managed here
+        
+        //Lose energy only when not sleeping
         isSleeping = action == "Sleep";
         if (!isSleeping)
         {
             stats.energy -= context.energyLostPerAction;
             if(stats.energy == 0) time = time*2;
+        }
+        //If the resource being harvested is not harvestable anymore, we stop the action
+        if(action == "Work" && !aiBrain.bestAction.RequiredDestination.GetComponent<Resource>().canBeHarvested)
+        {
+            aiBrain.finishedExecutingBestAction = true;
+            yield break;
         }
 
         if (context.isDebug) time /= 3; // To speed up the game
@@ -120,7 +129,9 @@ public class NPCController : MonoBehaviour
         switch (action)
         {
             case "Work":
-                Inventory.AddResource(aiBrain.bestAction.RequiredDestination.GetComponent<Resource>().ResourceType, 1);
+                Resource resource = aiBrain.bestAction.RequiredDestination.GetComponent<Resource>();
+                Inventory.AddResource(resource.ResourceType, 1);
+                resource.HasBeenHarvested();
                 break;
             case "Sleep":
                 stats.energy += 100;
@@ -249,7 +260,6 @@ public class NPCController : MonoBehaviour
                 return 9999;
             }
         }
-        Debug.Log("Nb of resources found at " + SpherePos + " : " + resourcesUnder);
         return resourcesUnder;
     }
 
