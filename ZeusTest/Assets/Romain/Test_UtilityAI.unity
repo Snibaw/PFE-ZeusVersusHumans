@@ -258,7 +258,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -896,8 +896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storage: {fileID: 7928200181557715462}
   TownBehaviour: {fileID: 7928200181557715465}
-  home: {fileID: 7928200182008588601}
-  resourceTag: Resources
+  homes: []
   MinDistance: 1.2
   energyLostPerAction: 10
   isDebug: 1
@@ -7771,7 +7770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!208 &7928200182008588602
 NavMeshObstacle:
   m_ObjectHideFlags: 0

@@ -21,6 +21,7 @@ public class NPCController : MonoBehaviour
     public State currentState { get; set; }
     public IAConstruction constructionToBuild { get; set; }
     public Vector3 positionToBuild { get; set; }
+    private bool isSleeping = false;
 
     [SerializeField] private UI_Timer uiTimerScript;
 
@@ -40,7 +41,7 @@ public class NPCController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        stats.UpdateEnergy(AmIAtRestDestination());
+        stats.UpdateEnergy(isSleeping);
         // stats.UpdateHunger();
         FSMTick();
     }
@@ -98,11 +99,6 @@ public class NPCController : MonoBehaviour
     {
         aiBrain.DecideBestAction();
     }
-
-    public bool AmIAtRestDestination()
-    {
-        return Vector3.Distance(this.transform.position, context.home.transform.position) <= context.MinDistance;
-    }
     public void DoAction(string action, float time)
     {
         Debug.Log("Doing : " + action);
@@ -110,7 +106,8 @@ public class NPCController : MonoBehaviour
     }
     private IEnumerator ExecuteAction(string action, float time)
     {
-        if (action != "Sleep")
+        isSleeping = action == "Sleep";
+        if (!isSleeping)
         {
             stats.energy -= context.energyLostPerAction;
             if(stats.energy == 0) time = time*2;
@@ -148,7 +145,9 @@ public class NPCController : MonoBehaviour
     private void ExecuteBuild()
     {
         //Spawn the construction
-        Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
+        GameObject building = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
+        //Tell the context that a construction has been built
+        context.AddDestinationTypeBuild(DestinationType.rest, building.transform);
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
