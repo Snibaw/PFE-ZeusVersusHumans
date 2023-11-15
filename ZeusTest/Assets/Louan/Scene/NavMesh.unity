@@ -462,7 +462,7 @@ PrefabInstance:
     - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
         type: 3}
       propertyPath: m_Shape
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
         type: 3}
@@ -472,26 +472,41 @@ PrefabInstance:
     - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
         type: 3}
       propertyPath: m_Center.y
-      value: 0.75
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
         type: 3}
       propertyPath: m_Extents.x
-      value: 0.5
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
         type: 3}
       propertyPath: m_Extents.y
-      value: 1.25
+      value: 1.37
       objectReference: {fileID: 0}
     - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
         type: 3}
       propertyPath: m_Extents.z
-      value: 0.5
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
+        type: 3}
+      propertyPath: m_MoveThreshold
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
+        type: 3}
+      propertyPath: m_TimeToStationary
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -38787210741102500, guid: 5152f0da135083449b3786963e915265,
         type: 3}
       propertyPath: m_CarveOnlyStationary
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1911186319784417176, guid: 5152f0da135083449b3786963e915265,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3782897377841857195, guid: 5152f0da135083449b3786963e915265,
@@ -562,6 +577,11 @@ PrefabInstance:
     - target: {fileID: 3782897377841857195, guid: 5152f0da135083449b3786963e915265,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6224085450591906501, guid: 5152f0da135083449b3786963e915265,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8382960416130671182, guid: 5152f0da135083449b3786963e915265,
