@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+using Unity.AI.Navigation;
 
 public class NavMeshSphere : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class NavMeshSphere : MonoBehaviour
 
         Quaternion angle = Quaternion.identity;
 
-        for (int i = 0; i < _subDivVertical+1; i++)
+        for (int i = 0; i < _subDivVertical + 1; i++)
         {
             for (int j = 0; j < _subDivHorizontal + 1; j++)
             {
@@ -40,9 +40,14 @@ public class NavMeshSphere : MonoBehaviour
 
     private void InstantiateNavMeshSurfaceOnPlanet(Quaternion angle)
     {
-        Vector3 position = new Vector3(0, _rayonSphere, 0);
-        Vector3.RotateTowards(position, new Vector3(0, 0, 0), angle.x, angle.z);
+        Vector3 position = new Vector3(0f, 0.1f, 0);
+        position = angle * position;
+        //Debug.Log("position = " + position);
         GameObject navMeshSurface = Instantiate(_prefabNavMeshSurface, position, Quaternion.LookRotation(new Vector3(0, 0, 0)),transform);
+        //navMeshSurface.GetComponent<NavMeshSurface>().AddData();
+        navMeshSurface.transform.LookAt(_planet);
+        navMeshSurface.transform.Rotate(new Vector3(-90f, 0f, 0f), Space.Self);
+        navMeshSurface.transform.position = new Vector3(0, 0, 0);
     }
 
     public void ClearNavMeshSurfaceOnPlanet()
