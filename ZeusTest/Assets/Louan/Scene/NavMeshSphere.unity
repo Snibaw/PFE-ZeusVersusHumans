@@ -168,10 +168,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _planet: {fileID: 1775574099}
-  _prefabNavMeshSurface: {fileID: 1393500672485658378, guid: 39852e9c4be4b82439e59899ba58c061,
+  _prefabNavMeshSurface: {fileID: 1393500672485658378, guid: f7bb6bc194613514bb88ee4ed51334b3,
     type: 3}
-  _subDivHorizontal: 5
-  _subDivVertical: 5
+  _subDivHorizontal: 4
+  _subDivVertical: 4
 --- !u!1 &701043467
 GameObject:
   m_ObjectHideFlags: 0
