@@ -9,9 +9,12 @@ public class NavMeshSphere : MonoBehaviour
     [SerializeField] private Transform _planet;
 
     [SerializeField] private GameObject _prefabNavMeshSurface;
+    [SerializeField] private GameObject _prefabLinkNavMeshSphere;
 
     [SerializeField] int _subDivHorizontal;
     [SerializeField] int _subDivVertical;
+
+    [SerializeField] int _nbLinkOnANavMesh;
 
     private float _rayonSphere;
 
@@ -48,6 +51,10 @@ public class NavMeshSphere : MonoBehaviour
         navMeshSurface.transform.LookAt(_planet);
         navMeshSurface.transform.Rotate(new Vector3(-90f, 0f, 0f), Space.Self);
         navMeshSurface.transform.position = new Vector3(0, 0, 0);
+        for(int i = 0; i < _nbLinkOnANavMesh; i++)
+        {
+            GameObject linkNavMeshSphere = Instantiate(_prefabLinkNavMeshSphere, new Vector3(0,0,0), Quaternion.Euler(0,i*360/ (_nbLinkOnANavMesh+1), 0), navMeshSurface.transform);
+        }
     }
 
     public void ClearNavMeshSurfaceOnPlanet()
