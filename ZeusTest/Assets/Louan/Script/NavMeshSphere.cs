@@ -53,7 +53,7 @@ public class NavMeshSphere : MonoBehaviour
         navMeshSurface.transform.position = new Vector3(0, 0, 0);
         for(int i = 0; i < _nbLinkOnANavMesh; i++)
         {
-            GameObject linkNavMeshSphere = Instantiate(_prefabLinkNavMeshSphere, new Vector3(0,0,0), Quaternion.Euler(0,i*360/ (_nbLinkOnANavMesh+1), 0), navMeshSurface.transform);
+            GameObject linkNavMeshSphere = Instantiate(_prefabLinkNavMeshSphere, new Vector3(0,0,0), navMeshSurface.transform.rotation * Quaternion.Euler(0,i*360/ (_nbLinkOnANavMesh+1), 0), navMeshSurface.transform);
         }
     }
 
