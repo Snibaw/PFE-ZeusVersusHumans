@@ -2,45 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[System.Serializable]
-public class GraphNode
-{
-    public Vector3 Position { get; set; }
-    public bool IsObstacle { get; set; }
 
-    private void CheckGroundAndAdaptPosition()
-    {
-        RaycastHit hit;
-        //Raycast from above the point to the center of the sphere (0,0,0)
-        if (Physics.Raycast(Position*1.1f, (Vector3.zero - Position*1.1f), out hit, 2f)) // 2f : experimental
-        {
-            if (hit.collider.gameObject.CompareTag("Water"))
-            {
-                IsObstacle = true;
-            }
-            else if (hit.collider.gameObject.CompareTag("Ground")) // Adapt the position to the ground
-            {
-                Position = hit.point;
-            }
-        }
-        else // If the raycast doesn't hit anything, it's an obstacle
-        {
-            IsObstacle = true;
-        }
-    }
-    public GraphNode(Vector3 position, bool AdaptPosition = false)
-    {
-        Position = position;
-        IsObstacle = false; // Default to not being an obstacle
-        if(AdaptPosition)
-            CheckGroundAndAdaptPosition();
-    }
-}
 public class PointDistribution : MonoBehaviour
 {
     [SerializeField] private float sphereScale = 0.001f;
     [SerializeField] private int numberOfPointsOnSphere = 128;
     [SerializeField] private GameObject sphereParent;
+
+    [SerializeField] private GameObject _startNode;
+    [SerializeField] private GameObject _endNode;
     private GraphNode[] _nodesClicked = new GraphNode[2];
     private float _distanceBtw2Points;
     private GraphNode[] nodes;
@@ -49,8 +19,11 @@ public class PointDistribution : MonoBehaviour
     private List<GameObject> uspheres = new List<GameObject>();
     private float scaling;
 
-    void Start()
+    public void Start()
     {
+
+        ClearSphereFolder();
+        uspheres = new List<GameObject>();
         scaling = transform.localScale.x;
         nodes = PointsOnSphere(numberOfPointsOnSphere);
         
@@ -66,7 +39,7 @@ public class PointDistribution : MonoBehaviour
             sphere.tag = "Sphere";
             
             if(point.IsObstacle)
-                sphere.GetComponent<Renderer>().material.color = Color.blue;
+                sphere.GetComponent<Renderer>().sharedMaterial.color = Color.blue;
             
             uspheres.Add(sphere);
         }
@@ -94,6 +67,15 @@ public class PointDistribution : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void FindPath()
+    {
+        Random.InitState(System.DateTime.Now.Second);
+        if (_startNode == null && _endNode == null) CalculatePath(nodes[Random.Range(0, nodes.Length)], nodes[Random.Range(0, nodes.Length)]);
+        else if (_startNode == null) CalculatePath(nodes[Random.Range(0, nodes.Length)], nodes[uspheres.IndexOf(_endNode)]);
+        else if (_endNode == null) CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[Random.Range(0, nodes.Length)]);
+        else CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[uspheres.IndexOf(_endNode)]);
     }
     
     void CalculatePath(GraphNode startNode, GraphNode endNode)
@@ -148,5 +130,17 @@ public class PointDistribution : MonoBehaviour
         }
 
         return graph;
+    }
+
+
+    public void ClearSphereFolder()
+    {
+        for (int i = sphereParent.transform.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(sphereParent.transform.GetChild(i).gameObject);
+        }
+
+        nodes = null;
+        uspheres = null;
     }
 }
