@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 [System.Serializable]
 public class GraphNode
@@ -38,16 +39,19 @@ public class GraphNode
 }
 public class PointDistribution : MonoBehaviour
 {
+    [SerializeField] private bool showSpheres = true;
     [SerializeField] private float sphereScale = 0.001f;
     [SerializeField] private int numberOfPointsOnSphere = 128;
     [SerializeField] private GameObject sphereParent;
     private GraphNode[] _nodesClicked = new GraphNode[2];
     private float _distanceBtw2Points;
-    private GraphNode[] nodes;
-    private Dictionary<GraphNode, List<GraphNode>> graph;
+    public GraphNode[] nodes;
+    public Dictionary<GraphNode, List<GraphNode>> graph;
     
     private List<GameObject> uspheres = new List<GameObject>();
     private float scaling;
+    
+    SpawnResources spawnResources;
 
     void Start()
     {
@@ -56,20 +60,27 @@ public class PointDistribution : MonoBehaviour
         
         _distanceBtw2Points = Vector3.Distance(nodes[0].Position, nodes[1].Position);
          graph = CreateGraph(nodes, 1.5f * _distanceBtw2Points);
+
+         if (showSpheres)
+         {
+             foreach (GraphNode point in nodes)
+             {
+                 GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                 sphere.transform.parent = sphereParent.transform;
+                 sphere.transform.position = point.Position;
+                 sphere.transform.localScale = new Vector3(sphereScale, sphereScale, sphereScale);
+                 sphere.tag = "Sphere";
+            
+                 if(point.IsObstacle)
+                     sphere.GetComponent<Renderer>().material.color = Color.blue;
+            
+                 uspheres.Add(sphere);
+             }
+         }
         
-        foreach (GraphNode point in nodes)
-        {
-            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            sphere.transform.parent = sphereParent.transform;
-            sphere.transform.position = point.Position;
-            sphere.transform.localScale = new Vector3(sphereScale, sphereScale, sphereScale);
-            sphere.tag = "Sphere";
-            
-            if(point.IsObstacle)
-                sphere.GetComponent<Renderer>().material.color = Color.blue;
-            
-            uspheres.Add(sphere);
-        }
+        
+        spawnResources = GetComponent<SpawnResources>();
+        spawnResources.InitSpawnResourcesOnPlanet();
     }
 
     void Update()
@@ -86,7 +97,7 @@ public class PointDistribution : MonoBehaviour
                     _nodesClicked[0] = _nodesClicked[1];
                     _nodesClicked[1] = nodes[uspheres.IndexOf(hit.collider.gameObject)];
                     
-                    Debug.Log("Clicked on sphere " + _nodesClicked[1].Position);
+                    Debug.Log("Clicked on sphere " + _nodesClicked[1].Position + " is obstacle : " + _nodesClicked[1].IsObstacle);
                     if (_nodesClicked[0] != null && _nodesClicked[1] != null)
                     {
                         CalculatePath(_nodesClicked[0], _nodesClicked[1]);
