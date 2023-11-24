@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum ResourceType
 {
@@ -11,7 +12,12 @@ public enum ResourceType
 
 public class Resource : MonoBehaviour
 {
+    public bool canBeHarvested = true;
     [SerializeField] private ResourceType resourceType;
+    [SerializeField] private GameObject SpawnedModel;
+    [SerializeField] private GameObject HarvestedModel;
+    [SerializeField] private float timeBeforeRespawn = 5f;
+    
     public ResourceType ResourceType
     {
         get
@@ -23,40 +29,13 @@ public class Resource : MonoBehaviour
             resourceType = value;
         }
     }
-
-    [SerializeField] private int initialAmount;
-    public int InitialAmount
-    {
-        get
-        {
-            return initialAmount;
-        }
-        set
-        {
-            initialAmount = value;
-        }
-    }
-
-    [SerializeField] private int amountAvailable;
-    public int AmountAvailable
-    {
-        get
-        {
-            return amountAvailable;
-        }
-        set
-        {
-            amountAvailable = value;
-        }
-    }
-
     public delegate void ResourceExhausted();
     public event ResourceExhausted OnResourceExhausted;
 
     // Start is called before the first frame update
     void Start()
     {
-        AmountAvailable = InitialAmount;
+        ShowModelDependingOnHarvestedState();
     }
 
     // Update is called once per frame
@@ -64,25 +43,23 @@ public class Resource : MonoBehaviour
     {
 
     }
-
-    public void RemoveAmount(int amountToRemove, NPCController _NPCController)
+    private void ShowModelDependingOnHarvestedState()
     {
-        if (amountToRemove <= AmountAvailable)
-        {
-            AmountAvailable -= amountToRemove;
-            _NPCController.Inventory.AddResource(resourceType, amountToRemove);
-        }
-            
-        if (amountToRemove > AmountAvailable)
-        {
-            _NPCController.Inventory.AddResource(resourceType, AmountAvailable);
-            AmountAvailable = 0;
-        }
+        SpawnedModel.SetActive(canBeHarvested);
+        HarvestedModel.SetActive(!canBeHarvested);
+    }
+    
+    public void HasBeenHarvested()
+    {
+        canBeHarvested = false;
+        ShowModelDependingOnHarvestedState();
+        StartCoroutine(WaitBeforeRespawning());
+    }
 
-        if (AmountAvailable <= 0)
-        {
-            OnResourceExhausted?.Invoke();
-            Destroy(gameObject);
-        }
+    private IEnumerator WaitBeforeRespawning()
+    {
+        yield return new WaitForSeconds(timeBeforeRespawn);
+        canBeHarvested = true;
+        ShowModelDependingOnHarvestedState();
     }
 }

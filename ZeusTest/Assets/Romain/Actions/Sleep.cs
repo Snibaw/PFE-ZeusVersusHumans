@@ -12,6 +12,6 @@ public class Sleep : Action
 
     public override void SetRequiredDestination(NPCController _npcController)
     {
-        RequiredDestination = _npcController.context.home.transform;
+        RequiredDestination = _npcController.context.FindClosestRestPosition(_npcController.transform.position);
     }
 }

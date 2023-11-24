@@ -610,6 +610,7 @@ GameObject:
   - component: {fileID: 2775493078811761152}
   - component: {fileID: 2117260571585205483}
   - component: {fileID: 2557184286964688989}
+  - component: {fileID: -4565699556827101220}
   m_Layer: 3
   m_Name: TownTest
   m_TagString: Building
@@ -683,6 +684,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 0
+--- !u!208 &-4565699556827101220
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200180542378709}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &9218475168855285200
 GameObject:
   m_ObjectHideFlags: 0

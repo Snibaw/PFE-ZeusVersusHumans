@@ -6,18 +6,16 @@ public class Context : MonoBehaviour
 {       
     public Storage storage;
     public TownBehaviour TownBehaviour;
-    public GameObject home;
-    public string resourceTag = "resource";
+    public GameObject[] homes;
     public float MinDistance = 5f;
     public int energyLostPerAction = 5;
-    public bool isDebug = false;
     public Dictionary<DestinationType, List<Transform>> Destinations { get; private set; }
 
     public static Context instance;
 
     private void Start()
     {
-        List<Transform> restDestinations = new List<Transform>() { home.transform };
+        List<Transform> restDestinations = new List<Transform>() { TownBehaviour.transform };
         List<Transform> storageDestinations = new List<Transform>() { storage.transform };
         List<Transform> resourceDestinations = GetAllResources();
 
@@ -37,12 +35,39 @@ public class Context : MonoBehaviour
         List<Transform> resources = new List<Transform>();
         foreach (Transform go in gameObjects)
         {
-            if(go.gameObject.tag == resourceTag)
+            if(go.gameObject.tag == "Resources")
             {
                 resources.Add(go);
             }
         }
         return resources;
+    }
+    public Transform FindClosestRestPosition(Vector3 position)
+    {
+        float minDistance = float.MaxValue;
+        Transform minTransform = Destinations[DestinationType.rest][0];
+        foreach (Transform t in Destinations[DestinationType.rest])
+        {
+            float distance = Vector3.Distance(position, t.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                minTransform = t;
+            }
+        }
+        return minTransform;
+    }
+    public void AddDestinationTypeBuild(DestinationType type, Transform destination)
+    {
+        if (Destinations.ContainsKey(type))
+        {
+            Destinations[type].Add(destination);
+        }
+        // Useful for later
+        // else
+        // {
+        //     Destinations.Add(type, new List<Transform>() { destination }); 
+        // }
     }
 
 }

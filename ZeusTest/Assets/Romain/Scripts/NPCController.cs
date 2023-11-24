@@ -21,6 +21,7 @@ public class NPCController : MonoBehaviour
     public State currentState { get; set; }
     public IAConstruction constructionToBuild { get; set; }
     public Vector3 positionToBuild { get; set; }
+    private bool isSleeping = false;
 
     [SerializeField] private UI_Timer uiTimerScript;
 
@@ -40,7 +41,7 @@ public class NPCController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        stats.UpdateEnergy(AmIAtRestDestination());
+        stats.UpdateEnergy(isSleeping);
         // stats.UpdateHunger();
         FSMTick();
     }
@@ -98,11 +99,6 @@ public class NPCController : MonoBehaviour
     {
         aiBrain.DecideBestAction();
     }
-
-    public bool AmIAtRestDestination()
-    {
-        return Vector3.Distance(this.transform.position, context.home.transform.position) <= context.MinDistance;
-    }
     public void DoAction(string action, float time)
     {
         Debug.Log("Doing : " + action);
@@ -110,20 +106,30 @@ public class NPCController : MonoBehaviour
     }
     private IEnumerator ExecuteAction(string action, float time)
     {
-        if (action != "Sleep")
+        //Some exceptions are managed here
+        
+        //Lose energy only when not sleeping
+        isSleeping = action == "Sleep";
+        if (!isSleeping)
         {
             stats.energy -= context.energyLostPerAction;
             if(stats.energy == 0) time = time*2;
         }
-
-        if (context.isDebug) time /= 3; // To speed up the game
+        //If the resource being harvested is not harvestable anymore, we stop the action
+        if(action == "Work" && !aiBrain.bestAction.RequiredDestination.GetComponent<Resource>().canBeHarvested)
+        {
+            aiBrain.finishedExecutingBestAction = true;
+            yield break;
+        }
         uiTimerScript.StartTimer(time);
         yield return new WaitForSeconds(time);
         
         switch (action)
         {
             case "Work":
-                Inventory.AddResource(aiBrain.bestAction.RequiredDestination.GetComponent<Resource>().ResourceType, 1);
+                Resource resource = aiBrain.bestAction.RequiredDestination.GetComponent<Resource>();
+                Inventory.AddResource(resource.ResourceType, 1);
+                resource.HasBeenHarvested();
                 break;
             case "Sleep":
                 stats.energy += 100;
@@ -148,7 +154,12 @@ public class NPCController : MonoBehaviour
     private void ExecuteBuild()
     {
         //Spawn the construction
-        Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
+        GameObject building = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
+        //Tell the context that a new house has been built
+        if(building.GetComponent<Building>().BuildingType == BuildingType.house)
+            context.AddDestinationTypeBuild(DestinationType.rest, building.transform);
+        //Tell the build manager that a new construction has been built
+        buildManager.AddConstructionBuilt(building.GetComponent<Building>().BuildingType);
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
@@ -250,7 +261,6 @@ public class NPCController : MonoBehaviour
                 return 9999;
             }
         }
-        Debug.Log("Nb of resources found at " + SpherePos + " : " + resourcesUnder);
         return resourcesUnder;
     }
 
