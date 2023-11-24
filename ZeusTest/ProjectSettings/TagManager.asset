@@ -16,6 +16,7 @@ TagManager:
   - mine
   - Resources
   - Building
+  - Sphere
   layers:
   - Default
   - TransparentFX
