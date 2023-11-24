@@ -17,17 +17,18 @@ public class SpawnResources : MonoBehaviour
 
     [SerializeField] private ResourceToSpawn[] ResourcesToSpawn;
 
+    PointDistribution _pointDistribution;
 
-    
+    List<GraphNode> nodesWithMostSpaceAround = new List<GraphNode>();
 
 
     private void Start() 
     {
+        _pointDistribution = GetComponent<PointDistribution>();
         planetRadius = planetCollider.bounds.extents.x;
         planetCenter = planetCollider.bounds.center;
-        InitSpawnResourcesOnPlanet();
     }
-    private void InitSpawnResourcesOnPlanet()
+    public void InitSpawnResourcesOnPlanet()
     {
         foreach (ResourceToSpawn Resource in ResourcesToSpawn)
         {
@@ -35,9 +36,7 @@ public class SpawnResources : MonoBehaviour
             {
                 for(int i = 0; i < Resource.numberOfGroupToSpawn; i++)
                 {
-                    // Spawn one Resource then spawn other Resources around it, good idea ??
-                    Vector3 spawnPointOfFirstResource = SpawnSingleResource(Resource.prefab);
-                    SpawnMultipleResources(Resource, spawnPointOfFirstResource);
+                    SpawnMultipleResources(Resource);
                 }
             }
             else
@@ -51,78 +50,101 @@ public class SpawnResources : MonoBehaviour
         }
         
     }
-    private Vector3 SpawnSingleResource(GameObject prefab)
+    private void SpawnSingleResource(GameObject prefab)
     {
+        GraphNode randomNode = null;
         Vector3 spawnPoint;
-        spawnPoint = SearchAPositionToSpawn(prefab, "Random");
-        spawnPoint += spawnPoint.normalized * earthThickness; // Spawn the Resource a little bit above so it's on the surface of the planet
-        InstantiateResource(prefab, spawnPoint);
-
-        NavmeshManager.UpdateNavMesh();
-
-        return spawnPoint;
-    }
-    private void SpawnMultipleResources(ResourceToSpawn Resource, Vector3 spawnPointOfFirstResource)
-    {
-        Vector3 spawnPoint = spawnPointOfFirstResource;
-        for(int i = 0; i < Resource.numberToSpawn - 1; i++) // First Resource was already spawned
-        {
-            spawnPoint = SearchAPositionToSpawn(Resource.prefab, "NearPoint", spawnPoint);
-            spawnPoint += spawnPoint.normalized * earthThickness; // Spawn the Resource a little bit above so it's on the surface of the planet
-            InstantiateResource(Resource.prefab, spawnPoint);
-
-            NavmeshManager.UpdateNavMesh();
-
-        }
-    }
-    private Vector3 SearchAPositionToSpawn(GameObject prefab, string typeOfPositionToSearch, Vector3 nearPoint = new Vector3())
-    {
-        RaycastHit hit;
-
+        // SearchAPositionToSpawn
         for(int i = 0; i < maxIterationToFindAPosition ; i++)
         {
-            // typeOfPositionToSearch can be random or near a specific point
-            Vector3 raycastPosition = ChooseRaycastPosition(typeOfPositionToSearch, nearPoint);
-            Vector3 raycastToCenterOfPlanet = (planetCenter - raycastPosition).normalized;
-            if(Physics.Raycast(raycastPosition, raycastToCenterOfPlanet, out hit, planetRadius*1.5f)) // If the raycast hit something (Be careful if earthThickness >> planetRadius, it will never hit the planet)
+            int index = Random.Range(0, _pointDistribution.nodes.Length);
+            randomNode = _pointDistribution.nodes[index]; // Random node
+            if (randomNode.IsObstacle) continue; // If the node is an obstacle, we continue
+            _pointDistribution.nodes[index].IsObstacle = true; // We set the node as an obstacle
+            break;
+        } 
+        if(randomNode != null)
+        {
+            spawnPoint = randomNode.Position;
+            InstantiateResource(prefab, spawnPoint);
+        }
+    }
+    private void SpawnMultipleResources(ResourceToSpawn Resource)
+    {
+        GraphNode centerNode = null;
+        // SearchAPositionToSpawn
+        centerNode = FindRandomNodeWithMostSpaceAround();
+        if(centerNode != null)
+        {
+            //Find the nodes around the centerNode
+            List<GraphNode> nodesAroundFree = new List<GraphNode>();
+            nodesAroundFree.Add(centerNode);
+            foreach (GraphNode neighbor in _pointDistribution.graph[centerNode])
             {
-                if(hit.collider.gameObject.tag == "Ground")
+                if(neighbor.IsObstacle) continue;
+                foreach (GraphNode neighbor2 in _pointDistribution.graph[neighbor])
                 {
-                    return hit.point;
+                    if(neighbor2.IsObstacle) continue;
+                    nodesAroundFree.Add(neighbor2);
                 }
             }
-        } 
-        Debug.Log("No position found to spawn " + prefab.name);
-        return Vector3.zero;  
-    }
-    private Vector3 ChooseRaycastPosition(string typeOfPositionToSearch, Vector3 positionCloseTo)
-    {
-        switch(typeOfPositionToSearch)
-        {
-            case "Random":
-                return planetCenter + Random.onUnitSphere * (planetRadius*2 + earthThickness); // Multiply by 2 si it's sure to be outside the planet
-            case "NearPoint":
-                //We want to find a point on the circle of radius 1 around positionCloseTo. We will then project this point on the plane perpendicular to the vector planetCenter-positionCloseTo
-                Vector3 planeNormal = (positionCloseTo - planetCenter).normalized;
-                float randomDistance = Random.Range(0.1f, 0.2f); // For now it's now in the ScriptableObject, but it should be I think
-                float randomAngle = Random.Range(0.0f, 2.0f * Mathf.PI);
-                // Calculate a point on the circle (r=1) using trigonometry
-                Vector3 pointOnCircle = positionCloseTo + new Vector3(Mathf.Cos(randomAngle), 0, Mathf.Sin(randomAngle));
-                // Project the point onto the plane perpendicular to the planeNormal
-                Vector3 projectedPoint = pointOnCircle - Vector3.Dot(pointOnCircle - positionCloseTo, planeNormal) * planeNormal;
-                // Calculate the new point near positionCloseTo
-                Vector3 newPoint = projectedPoint + Random.onUnitSphere * randomDistance;
-                return newPoint;  
-            default:
-                return Vector3.zero;
+            
+            //Now build randomly around the centerNode
+            for(int i = 0; i < Resource.numberToSpawn-1; i++)
+            {
+                if(nodesAroundFree.Count == 0) break;
+                int index = Random.Range(0, nodesAroundFree.Count);
+                GraphNode nodeToBuild = nodesAroundFree[index];
+                nodesAroundFree.RemoveAt(index);
+                nodeToBuild.IsObstacle = true; 
+                InstantiateResource(Resource.prefab, nodeToBuild.Position);
+            }
         }
+    }
+
+    private GraphNode FindRandomNodeWithMostSpaceAround()
+    {
+        // Find the node with the most space around in the graph
+        int maxSpaceAround = 0;
+        if(nodesWithMostSpaceAround.Count == 0)
+        {
+            foreach (GraphNode node in _pointDistribution.nodes)
+            {
+                if (node.IsObstacle) continue;
+                int spaceAround = 0;
+                foreach (GraphNode neighbor in _pointDistribution.graph[node]) // We check the neighbors
+                {
+                    if (neighbor.IsObstacle) continue;
+                    foreach (GraphNode neighbor2 in _pointDistribution.graph[neighbor]) // We check the neighbors of the neighbors
+                    {
+                        if (neighbor2.IsObstacle) continue;
+                        spaceAround += 1;
+                    }
+                }
+                
+                if (spaceAround > maxSpaceAround) // We find a node with more space around
+                {
+                    maxSpaceAround = spaceAround;
+                    nodesWithMostSpaceAround.Clear();
+                    nodesWithMostSpaceAround.Add(node);
+                }
+                else if(spaceAround == maxSpaceAround) // We find a node with the same space around
+                {
+                    nodesWithMostSpaceAround.Add(node);
+                }
+            }
+        }
+        // Return a random node with the most space around
+        int index = Random.Range(0, nodesWithMostSpaceAround.Count);
+        GraphNode nodeToReturn = nodesWithMostSpaceAround[index];
+        nodesWithMostSpaceAround.RemoveAt(index);
+        
+        return nodeToReturn;
     }
     private void InstantiateResource(GameObject prefab, Vector3 spawnPoint)
     {
         GameObject objSpawned = Instantiate(prefab, spawnPoint, Quaternion.identity);
         SetRotationAndParent(objSpawned);
-        NavmeshManager.UpdateNavMesh();
-
     }
     public void SetRotationAndParent(GameObject objSpawned)
     {
