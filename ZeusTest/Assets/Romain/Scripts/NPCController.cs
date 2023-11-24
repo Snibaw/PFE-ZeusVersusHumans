@@ -17,7 +17,7 @@ public class NPCController : MonoBehaviour
     public NPCStats stats { get; set; }
     public Context context;
     public BuildManager buildManager { get; set; }
-    
+    public UpgradeManager upgradeManager { get; set; }
     public State currentState { get; set; }
     public IAConstruction constructionToBuild { get; set; }
     public Building buildingToUpgrade {get; set; }
@@ -36,6 +36,7 @@ public class NPCController : MonoBehaviour
         Inventory = GetComponent<NPCInventory>();
         stats = GetComponent<NPCStats>();
         buildManager = context.storage.gameObject.GetComponent<BuildManager>();
+        upgradeManager = context.storage.gameObject.GetComponent<UpgradeManager>();
         isExecuting = false;
         constructionToBuild = null;
     }
@@ -165,6 +166,8 @@ public class NPCController : MonoBehaviour
             context.AddDestinationTypeBuild(DestinationType.rest, building.transform);
         //Tell the build manager that a new construction has been built
         buildManager.AddConstructionBuilt(building.GetComponent<Building>().BuildingType);
+        //Tell the upgrade manager that a new construction has been built
+        upgradeManager.AddBuildingBuilt(building.GetComponent<Building>());
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
@@ -183,6 +186,9 @@ public class NPCController : MonoBehaviour
 
         //raise the level of the building
         buildingToUpgrade.levelUp();
+
+        constructionToUpgrade = null;
+        buildingToUpgrade = null;
     }
     public float GetPossibleBuildScore()
     {
@@ -193,6 +199,12 @@ public class NPCController : MonoBehaviour
     public float GetHypotheticalBuildScore()
     {
         float score = buildManager.HowManyConstructionCanBeBuilt(this);
+        return Mathf.Clamp01(score);
+    }
+
+    public float GetPossibleUpgradeScore()
+    {
+        float score = upgradeManager.HowManyBuildingCanBeUpgraded(this, Inventory);
         return Mathf.Clamp01(score);
     }
     public Transform FindUpgradePosition()

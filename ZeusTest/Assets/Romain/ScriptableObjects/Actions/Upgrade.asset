@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03641cf8ebc1b348a42704d3b3f72de, type: 3}
-  m_Name: IAMine
+  m_Script: {fileID: 11500000, guid: b00427e4b1acda445a413e3add2674fd, type: 3}
+  m_Name: Upgrade
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7928200180542378709, guid: ecb4eecce44799e448c2bff2096e2b1a, type: 3}
-  numberMaxToSpawn: 1
-  woodCost: 00000000
-  stoneCost: 00000000
-  metalCost: 05000000
-  Maxlevel: 0
+  Name: 
+  timeToExecute: 0
+  considerations: []

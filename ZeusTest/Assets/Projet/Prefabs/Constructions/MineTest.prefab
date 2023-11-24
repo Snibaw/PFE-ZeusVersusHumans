@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 1
-  destinationType: 3
+  level: 1
 --- !u!114 &-2591919945897852947
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -609,6 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 3
+  level: 1
 --- !u!208 &-5957465923600300325
 NavMeshObstacle:
   m_ObjectHideFlags: 0

@@ -3441,6 +3441,7 @@ GameObject:
   - component: {fileID: 7928200181557715466}
   - component: {fileID: 7928200181557715463}
   - component: {fileID: 7928200181557715465}
+  - component: {fileID: 7928200181557715467}
   m_Layer: 3
   m_Name: TownTest
   m_TagString: Building
@@ -3521,6 +3522,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 0
+  level: 1
+--- !u!114 &7928200181557715467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200181557715461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d93606ab31672b4ba0a520d4553ac39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleUpgrades: []
+  buildingToConstruction: 00000000010000000200000003000000
+  constructionValue:
+  - {fileID: 11400000, guid: e221a230f1363e24792cbd57347a197c, type: 2}
+  - {fileID: 11400000, guid: 8eb128c759201aa40bba021098c07ad0, type: 2}
+  - {fileID: 11400000, guid: 487a6867f5974dc4f97278c50d8d1fde, type: 2}
+  - {fileID: 11400000, guid: 99e525e90f0f7ae4ab8f360bdfed8527, type: 2}
 --- !u!1 &7928200182008588601
 GameObject:
   m_ObjectHideFlags: 0
@@ -3570,6 +3591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingType: 3
+  level: 0
 --- !u!33 &7993451621086415331
 MeshFilter:
   m_ObjectHideFlags: 0

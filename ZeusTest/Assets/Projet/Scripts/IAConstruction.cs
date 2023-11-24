@@ -10,7 +10,7 @@ public class IAConstruction : ScriptableObject
     public List<int> woodCost;
     public List<int> stoneCost;
     public List<int> metalCost;
-    public int Maxlevel;
+    public int maxLevel;
     public int GetResourceNeededOld(TypeOfResources resource)
     {
         switch(resource)
