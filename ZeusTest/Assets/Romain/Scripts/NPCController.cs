@@ -20,6 +20,8 @@ public class NPCController : MonoBehaviour
     
     public State currentState { get; set; }
     public IAConstruction constructionToBuild { get; set; }
+    public Building buildingToUpgrade {get; set; }
+    public IAConstruction constructionToUpgrade {get; set; }
     public Vector3 positionToBuild { get; set; }
     private bool isSleeping = false;
 
@@ -147,6 +149,9 @@ public class NPCController : MonoBehaviour
             case "Build":
                 ExecuteBuild();
                 break;
+            case "Upgrade":
+                ExecuteUpgrade();
+                break;
         }
         aiBrain.finishedExecutingBestAction = true;
     }
@@ -163,10 +168,21 @@ public class NPCController : MonoBehaviour
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
-            Inventory.RemoveResource(r, constructionToBuild.GetResourceNeeded(r));
+            Inventory.RemoveResource(r, constructionToBuild.GetResourceNeeded(r,0));
         }
         constructionToBuild = null;
         positionToBuild = Vector3.zero;
+    }
+    private void ExecuteUpgrade()
+    {
+        //delete resources from the inventory
+        foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
+        {
+            Inventory.RemoveResource(r, constructionToUpgrade.GetResourceNeeded(r,buildingToUpgrade.level));
+        }
+
+        //raise the level of the building
+        buildingToUpgrade.levelUp();
     }
     public float GetPossibleBuildScore()
     {
@@ -178,6 +194,10 @@ public class NPCController : MonoBehaviour
     {
         float score = buildManager.HowManyConstructionCanBeBuilt(this);
         return Mathf.Clamp01(score);
+    }
+    public Transform FindUpgradePosition()
+    {
+        return buildingToUpgrade.transform;
     }
     public Transform FindBuildPosition()
     {

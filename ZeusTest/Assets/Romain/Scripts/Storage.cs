@@ -74,7 +74,7 @@ public class Storage : StorageInventory
             int maxNumberOfResourcesNeeded = -100000;
             foreach(ResourceType resourceType in System.Enum.GetValues(typeof(ResourceType)))
             {
-                int numberOfRessourceNeeded = cheapestConstruction.GetResourceNeeded(resourceType) - (Inventory[resourceType] + npcInventory.Inventory[resourceType]);
+                int numberOfRessourceNeeded = cheapestConstruction.GetResourceNeeded(resourceType, 0) - (Inventory[resourceType] + npcInventory.Inventory[resourceType]);
                 if(numberOfRessourceNeeded > maxNumberOfResourcesNeeded && numberOfRessourceNeeded > 0)
                 {
                     maxNumberOfResourcesNeeded = numberOfRessourceNeeded;

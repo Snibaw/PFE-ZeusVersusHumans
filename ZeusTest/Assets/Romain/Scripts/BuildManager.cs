@@ -56,7 +56,7 @@ public class BuildManager : MonoBehaviour
         int values = 0;
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
-            float resourceNeeded = construction.GetResourceNeeded(r);
+            float resourceNeeded = construction.GetResourceNeeded(r, 0);
             
             if (resourceNeeded > 0)
             {

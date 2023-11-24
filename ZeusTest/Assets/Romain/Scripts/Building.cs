@@ -13,6 +13,11 @@ public enum BuildingType
 public class Building : MonoBehaviour
 {
     [SerializeField] private BuildingType buildingType;
+    public int level = 0;
+    public void levelUp()
+    {
+        level++;
+    }
     public BuildingType BuildingType
     {
         get
