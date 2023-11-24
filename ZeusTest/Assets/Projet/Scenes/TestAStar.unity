@@ -615,7 +615,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1121175522}
   m_Layer: 0
-  m_Name: Spheres
+  m_Name: SphereFolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1586,6 +1586,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1529867752345672780, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1573106408389988748, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_Name
+      value: ResourceFolder
+      objectReference: {fileID: 0}
     - target: {fileID: 1924416899607500103, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_NavMeshData
@@ -1722,7 +1732,12 @@ PrefabInstance:
     - target: {fileID: 4980886981678548918, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6433044525191601215, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6531234658710103778, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
@@ -1734,6 +1749,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UseGeometry
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891360847805711372, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891360847805711372, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891360847805711372, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.98
       objectReference: {fileID: 0}
     - target: {fileID: 8005865526713731574, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
@@ -1801,7 +1831,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4424615238809328101, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 3467093215610649154}
     - targetCorrespondingSourceObject: {fileID: 1383636856132970476, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
@@ -1826,9 +1856,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea4d62501609214b8d3a417b315c67e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphereScale: 0.01
+  showSpheres: 1
+  sphereScale: 0.015
   numberOfPointsOnSphere: 4096
   sphereParent: {fileID: 1121175521}
+  nodes: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

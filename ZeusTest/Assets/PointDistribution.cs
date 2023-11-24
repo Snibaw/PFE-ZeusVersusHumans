@@ -1,77 +1,103 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-[System.Serializable]
-public class GraphNode
-{
-    public Vector3 Position { get; }
-    public bool IsObstacle { get; set; }
-
-    public GraphNode(Vector3 position)
-    {
-        Position = position;
-        IsObstacle = false; // Default to not being an obstacle
-    }
-}
 
 public class PointDistribution : MonoBehaviour
 {
+    [SerializeField] private bool showSpheres = true;
     [SerializeField] private float sphereScale = 0.001f;
     [SerializeField] private int numberOfPointsOnSphere = 128;
     [SerializeField] private GameObject sphereParent;
+
+    [SerializeField] private GameObject _startNode;
+    [SerializeField] private GameObject _endNode;
     private GraphNode[] _nodesClicked = new GraphNode[2];
     private float _distanceBtw2Points;
-    private GraphNode[] nodes;
-    private Dictionary<GraphNode, List<GraphNode>> graph;
+    public GraphNode[] nodes;
+    public Dictionary<GraphNode, List<GraphNode>> graph;
     
     private List<GameObject> uspheres = new List<GameObject>();
+    private float scaling;
+    
+    SpawnResources spawnResources;
 
-    void Start()
+    public void Start()
     {
-        float scaling = transform.localScale.x;
+
+        ClearSphereFolder();
+        uspheres = new List<GameObject>();
+        scaling = transform.localScale.x;
         nodes = PointsOnSphere(numberOfPointsOnSphere);
         
         _distanceBtw2Points = Vector3.Distance(nodes[0].Position, nodes[1].Position);
          graph = CreateGraph(nodes, 1.5f * _distanceBtw2Points);
-         
-         GraphNode startNode = nodes[Random.Range(0, nodes.Length - 1)];
-         GraphNode endNode = nodes[Random.Range(0, nodes.Length - 1)];
-         
-         AStar aStar = new AStar();
-         
-         List<Vector3> path = aStar.FindPath(graph, startNode, endNode);
-        
-        foreach (GraphNode point in nodes)
-        {
-            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            sphere.transform.parent = sphereParent.transform;
-            sphere.transform.position = point.Position * scaling;
-            sphere.transform.localScale = new Vector3(sphereScale, sphereScale, sphereScale);
-            sphere.tag = "Sphere";
 
-            if (path.Contains(point.Position))
-            {
-                sphere.GetComponent<Renderer>().material.color = Color.red;
-                sphere.transform.localScale *= 3;
-            }
+         if (showSpheres)
+         {
+             foreach (GraphNode point in nodes)
+             {
+                 GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                 sphere.transform.parent = sphereParent.transform;
+                 sphere.transform.position = point.Position;
+                 sphere.transform.localScale = new Vector3(sphereScale, sphereScale, sphereScale);
+                 sphere.tag = "Sphere";
             
-            uspheres.Add(sphere);
+                 if(point.IsObstacle)
+                     sphere.GetComponent<Renderer>().material.color = Color.blue;
+            
+                 uspheres.Add(sphere);
+             }
+         }
+        
+        
+        spawnResources = GetComponent<SpawnResources>();
+        spawnResources.InitSpawnResourcesOnPlanet();
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Raycast from the mouse position to the world, check if it hits a sphere
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100f))
+            {
+                if (hit.collider.gameObject.CompareTag("Sphere"))
+                {
+                    _nodesClicked[0] = _nodesClicked[1];
+                    _nodesClicked[1] = nodes[uspheres.IndexOf(hit.collider.gameObject)];
+                    
+                    Debug.Log("Clicked on sphere " + _nodesClicked[1].Position + " is obstacle : " + _nodesClicked[1].IsObstacle);
+                    if (_nodesClicked[0] != null && _nodesClicked[1] != null)
+                    {
+                        CalculatePath(_nodesClicked[0], _nodesClicked[1]);
+                    }
+                }
+            }
         }
+    }
+
+    public void FindPath()
+    {
+        Random.InitState(System.DateTime.Now.Second);
+        if (_startNode == null && _endNode == null) CalculatePath(nodes[Random.Range(0, nodes.Length)], nodes[Random.Range(0, nodes.Length)]);
+        else if (_startNode == null) CalculatePath(nodes[Random.Range(0, nodes.Length)], nodes[uspheres.IndexOf(_endNode)]);
+        else if (_endNode == null) CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[Random.Range(0, nodes.Length)]);
+        else CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[uspheres.IndexOf(_endNode)]);
     }
     
     void CalculatePath(GraphNode startNode, GraphNode endNode)
     {        
         AStar aStar = new AStar();
-
-        // Call the FindPath method on the AStar instance
-        List<Vector3> path = aStar.FindPath(graph, startNode, endNode);
-        Debug.Log("FindPath");
         
-        // Draw the path
+        List<Vector3> path = aStar.FindPath(graph, startNode, endNode);
+        
         for (int i = 0; i < path.Count - 1; i++)
         {
-            Debug.DrawLine(path[i], path[i + 1], Color.red, 10f);
+            Debug.DrawLine(path[i], path[i + 1], Color.red, 5f);
         }
     }
 
@@ -90,7 +116,7 @@ public class PointDistribution : MonoBehaviour
             x = Mathf.Cos(phi) * r;
             z = Mathf.Sin(phi) * r;
 
-            upts.Add(new GraphNode(new Vector3(x, y, z)));
+            upts.Add(new GraphNode(new Vector3(x, y, z) * scaling, true));
         }
         return upts.ToArray();
     }
@@ -115,5 +141,17 @@ public class PointDistribution : MonoBehaviour
         }
 
         return graph;
+    }
+
+
+    public void ClearSphereFolder()
+    {
+        for (int i = sphereParent.transform.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(sphereParent.transform.GetChild(i).gameObject);
+        }
+
+        nodes = null;
+        uspheres = null;
     }
 }
