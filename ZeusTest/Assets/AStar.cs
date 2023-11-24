@@ -18,11 +18,9 @@ public class AStar
         while (openSet.Count > 0)
         {
             GraphNode current = openSet.Dequeue();
-            Debug.Log("Current: " + current.Position);
 
             if (current == goalNode)
             {
-                Debug.Log("Goal reached!");
                 return ReconstructPath(cameFrom, current);
             }
 
@@ -30,7 +28,7 @@ public class AStar
 
             foreach (GraphNode neighbor in graph[current])
             {
-                if (closedSet.Contains(neighbor))
+                if (closedSet.Contains(neighbor) || neighbor.IsObstacle)
                     continue;
 
                 float tentativeGScore = gScore[current] + Vector3.Distance(current.Position, neighbor.Position);
@@ -44,7 +42,6 @@ public class AStar
                     if (!openSet.Contains(neighbor))
                     {
                         openSet.Enqueue(neighbor, fScore[neighbor]);
-                        Debug.Log("Enqueued: " + neighbor.Position + " with fScore: " + fScore[neighbor]);
                     }
                 }
             }

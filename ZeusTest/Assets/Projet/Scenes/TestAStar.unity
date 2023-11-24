@@ -615,7 +615,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1121175522}
   m_Layer: 0
-  m_Name: Spheres
+  m_Name: SphereFolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1585,6 +1585,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1573106408389988748, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_Name
+      value: ResourceFolder
       objectReference: {fileID: 0}
     - target: {fileID: 1924416899607500103, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
