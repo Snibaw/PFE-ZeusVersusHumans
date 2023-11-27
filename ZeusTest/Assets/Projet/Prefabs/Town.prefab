@@ -460,7 +460,7 @@ MonoBehaviour:
   HumanAI: {fileID: 7229285560104876441, guid: 19afcaa946af50642b78e4a2173ca531, type: 3}
   timeBtwHumanSpawn: 60
   townContext: {fileID: 5594762623879093672}
-  canSpanwHuman: 0
+  canSpanwHuman: 1
 --- !u!114 &7670254101678347645
 MonoBehaviour:
   m_ObjectHideFlags: 0

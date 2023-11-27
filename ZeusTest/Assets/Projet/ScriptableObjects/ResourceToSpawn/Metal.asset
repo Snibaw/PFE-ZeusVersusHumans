@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20570afd6e6f4ef42b559f653d209a4d, type: 3}
   m_Name: Metal
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3794398894257477211, guid: 14eac7271e43331428291c4f2fcc7ba6, type: 3}
+  prefab: {fileID: 6870033667784628146, guid: ab6dfb1c20969b045b958b0cf41d0d9a, type: 3}
   numberToSpawn: 10
   spawnOnGroup: 0
   numberOfGroupToSpawn: 0
