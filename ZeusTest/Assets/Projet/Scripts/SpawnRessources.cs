@@ -42,14 +42,10 @@ public class SpawnResources : MonoBehaviour
             foreach (GraphNode neighbor in _pointDistribution.graph[centerNode])
             {
                 if(neighbor.IsObstacle) continue;
-                foreach (GraphNode neighbor2 in _pointDistribution.graph[neighbor])
-                {
-                    if(neighbor2.IsObstacle) continue;
-                    neighbor2.IsObstacle = true;
-                }
+                neighbor.IsObstacle = true;
             }
-            
-            InstantiateResource(townPrefab, centerNode.Position);
+            centerNode.IsObstacle = true;
+            InstantiateResource(townPrefab, centerNode);
         }
         
         
@@ -88,8 +84,7 @@ public class SpawnResources : MonoBehaviour
         } 
         if(randomNode != null)
         {
-            spawnPoint = randomNode.Position;
-            InstantiateResource(prefab, spawnPoint);
+            InstantiateResource(prefab, randomNode);
         }
     }
     private void SpawnMultipleResources(ResourceToSpawn Resource)
@@ -120,7 +115,7 @@ public class SpawnResources : MonoBehaviour
                 GraphNode nodeToBuild = nodesAroundFree[index];
                 nodesAroundFree.RemoveAt(index);
                 nodeToBuild.IsObstacle = true; 
-                InstantiateResource(Resource.prefab, nodeToBuild.Position);
+                InstantiateResource(Resource.prefab, nodeToBuild);
             }
         }
     }
@@ -164,9 +159,10 @@ public class SpawnResources : MonoBehaviour
         
         return nodeToReturn;
     }
-    private void InstantiateResource(GameObject prefab, Vector3 spawnPoint)
+    private void InstantiateResource(GameObject prefab, GraphNode node)
     {
-        GameObject objSpawned = Instantiate(prefab, spawnPoint, Quaternion.identity);
+        if(_pointDistribution.uspheres.Count > 0) _pointDistribution.uspheres[node.index].GetComponent<MeshRenderer>().material.color = Color.blue;
+        GameObject objSpawned = Instantiate(prefab, node.Position, Quaternion.identity);
         SetRotationAndParent(objSpawned);
     }
     public void SetRotationAndParent(GameObject objSpawned)

@@ -22,7 +22,6 @@ public class MoveController : MonoBehaviour
 
         _followPath = null;
         stats = GetComponent<NPCStats>();
-        //startSpeed = _navMeshAgent.speed;
         exhaustedSpeed = startSpeed / 2;
         currentSpeed = startSpeed;
     }
@@ -70,8 +69,7 @@ public class MoveController : MonoBehaviour
             else
             {
                 Vector3 direction = (path[index] - transform.position).normalized;
-                transform.position = transform.position + direction * currentSpeed * Time.deltaTime;
-                Debug.Log("current speed : " + currentSpeed);
+                transform.position += direction * currentSpeed * Time.deltaTime;
             }
             yield return new WaitForEndOfFrame();
         }

@@ -7,6 +7,7 @@ public class GraphNode
 {
     public Vector3 Position { get; set; }
     public bool IsObstacle { get; set; }
+    public int index { get; set; }
 
     private void CheckGroundAndAdaptPosition()
     {
@@ -28,9 +29,10 @@ public class GraphNode
             IsObstacle = true;
         }
     }
-    public GraphNode(Vector3 position, bool AdaptPosition = false)
+    public GraphNode(Vector3 position, int _index, bool AdaptPosition = false)
     {
         Position = position;
+        index = _index;
         IsObstacle = false; // Default to not being an obstacle
         if (AdaptPosition)
             CheckGroundAndAdaptPosition();

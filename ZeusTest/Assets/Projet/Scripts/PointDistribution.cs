@@ -22,7 +22,8 @@ public class PointDistribution : MonoBehaviour
     public GraphNode[] nodes;
     public Dictionary<GraphNode, List<GraphNode>> graph;
 
-    private List<GameObject> uspheres = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> uspheres = new List<GameObject>();
     private float scaling;
     
     SpawnResources spawnResources;
@@ -112,7 +113,6 @@ public class PointDistribution : MonoBehaviour
         for (int i = 0; i < path.Count - 1; i++)
         {
             Debug.DrawLine(path[i], path[i + 1], Color.red, 5f);
-            Debug.Log("Point " + (i + 1) + " : " + path[i]);
         }
 
         return path;
@@ -133,7 +133,7 @@ public class PointDistribution : MonoBehaviour
             x = Mathf.Cos(phi) * r;
             z = Mathf.Sin(phi) * r;
 
-            upts.Add(new GraphNode(new Vector3(x, y, z) * scaling, true));
+            upts.Add(new GraphNode(new Vector3(x, y, z) * scaling, k, true));
         }
         return upts.ToArray();
     }
