@@ -181,7 +181,7 @@ public class NPCController : MonoBehaviour
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
-            Inventory.RemoveResource(r, constructionToUpgrade.GetResourceNeeded(r,buildingToUpgrade.level));
+            context.storage.RemoveResource(r, constructionToUpgrade.GetResourceNeeded(r,buildingToUpgrade.level));
         }
 
         //raise the level of the building
@@ -204,7 +204,7 @@ public class NPCController : MonoBehaviour
 
     public float GetPossibleUpgradeScore()
     {
-        float score = upgradeManager.HowManyBuildingCanBeUpgraded(this, Inventory);
+        float score = upgradeManager.HowManyBuildingCanBeUpgraded(this);
         return Mathf.Clamp01(score);
     }
     public Transform FindUpgradePosition()
