@@ -28,6 +28,8 @@ public class MoveController : MonoBehaviour
     }
     public void MoveTo(Vector3 position)
     {
+        transform.rotation = Quaternion.FromToRotation(Vector3.up, transform.position - Vector3.zero);
+        
         if (isMoving) return;
 
         isMoving = true;
