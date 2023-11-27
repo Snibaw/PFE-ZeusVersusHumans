@@ -14,7 +14,6 @@ public class PointDistribution : MonoBehaviour
     [SerializeField] private GameObject sphereParent;
 
     [SerializeField] private GameObject _follower;
-    [SerializeField] private GameObject _planet;
 
     [SerializeField] private GameObject _startNode;
     [SerializeField] private GameObject _endNode;
@@ -39,7 +38,7 @@ public class PointDistribution : MonoBehaviour
 
         ClearSphereFolder();
         uspheres = new List<GameObject>();
-        scaling = _planet.transform.localScale.x;
+        scaling = transform.localScale.x;
         nodes = PointsOnSphere(numberOfPointsOnSphere);
         
         _distanceBtw2Points = Vector3.Distance(nodes[0].Position, nodes[1].Position);
@@ -63,7 +62,7 @@ public class PointDistribution : MonoBehaviour
          }
         
         
-        spawnResources = _planet.GetComponent<SpawnResources>();
+        spawnResources = GetComponent<SpawnResources>();
         spawnResources.InitSpawnResourcesOnPlanet();
     }
 
