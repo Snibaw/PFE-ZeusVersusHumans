@@ -14,6 +14,7 @@ public class MoveController : MonoBehaviour
     private float currentSpeed;
 
     private Coroutine _followPath;
+    private bool isMoving = false;
 
     // public Transform destination;
     // Start is called before the first frame update
@@ -27,9 +28,10 @@ public class MoveController : MonoBehaviour
     }
     public void MoveTo(Vector3 position)
     {
-        if (_followPath != null) StopCoroutine(_followPath);
+        if (isMoving) return;
 
-        _followPath = StartCoroutine(FollowPath(PointDistribution.instance.CalculatePath(
+        isMoving = true;
+        StartCoroutine(FollowPath(PointDistribution.instance.CalculatePath(
             PointDistribution.instance.FindTheClosestGraphNode(transform.position), 
             PointDistribution.instance.FindTheClosestGraphNode(position))));
         
@@ -73,5 +75,6 @@ public class MoveController : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
+        isMoving = false;
     }
 }
