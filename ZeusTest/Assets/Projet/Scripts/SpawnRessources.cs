@@ -23,9 +23,10 @@ public class SpawnResources : MonoBehaviour
     List<GraphNode> nodesWithMostSpaceAround = new List<GraphNode>();
 
 
+
     private void Start() 
     {
-        _pointDistribution = GetComponent<PointDistribution>();
+        _pointDistribution = PointDistribution.instance;
         planetRadius = planetCollider.bounds.extents.x;
         planetCenter = planetCollider.bounds.center;
     }

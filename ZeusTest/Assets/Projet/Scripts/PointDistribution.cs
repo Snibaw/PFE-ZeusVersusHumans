@@ -6,10 +6,15 @@ using System.Linq;
 
 public class PointDistribution : MonoBehaviour
 {
+    public static PointDistribution instance = null;
+
     [SerializeField] private bool showSpheres = true;
     [SerializeField] private float sphereScale = 0.001f;
     [SerializeField] private int numberOfPointsOnSphere = 128;
     [SerializeField] private GameObject sphereParent;
+
+    [SerializeField] private GameObject _follower;
+    [SerializeField] private GameObject _planet;
 
     [SerializeField] private GameObject _startNode;
     [SerializeField] private GameObject _endNode;
@@ -23,12 +28,18 @@ public class PointDistribution : MonoBehaviour
     
     SpawnResources spawnResources;
 
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+        else if (instance != this) Destroy(gameObject);
+    }
+
     public void Start()
     {
 
         ClearSphereFolder();
         uspheres = new List<GameObject>();
-        scaling = transform.localScale.x;
+        scaling = _planet.transform.localScale.x;
         nodes = PointsOnSphere(numberOfPointsOnSphere);
         
         _distanceBtw2Points = Vector3.Distance(nodes[0].Position, nodes[1].Position);
@@ -52,7 +63,7 @@ public class PointDistribution : MonoBehaviour
          }
         
         
-        spawnResources = GetComponent<SpawnResources>();
+        spawnResources = _planet.GetComponent<SpawnResources>();
         spawnResources.InitSpawnResourcesOnPlanet();
     }
 
@@ -73,10 +84,10 @@ public class PointDistribution : MonoBehaviour
                     Debug.Log("Clicked on sphere " + _nodesClicked[1].Position + " is obstacle : " + _nodesClicked[1].IsObstacle);
                     if (_nodesClicked[0] != null && _nodesClicked[1] != null)
                     {
-                        GameObject follower = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                        follower.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-                        StartCoroutine(FollowPath(follower, CalculatePath(_nodesClicked[0], _nodesClicked[1])));
-                        
+
+                        MoveController follower = Instantiate(_follower).GetComponent<MoveController>();
+                        follower.transform.position = _nodesClicked[0].Position;
+                        follower.MoveTo(_nodesClicked[1].Position);
                         
                     }
                 }
@@ -151,6 +162,27 @@ public class PointDistribution : MonoBehaviour
     }
 
 
+    public GraphNode FindTheClosestGraphNode(Vector3 position)
+    {
+        GraphNode closestNode = null;
+        float closestDistance = float.MaxValue;
+        
+        foreach(var node in graph.Keys)
+        {
+            float distance = Vector3.Distance(node.Position, position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestNode = node;
+            }
+        }
+
+        return closestNode;
+
+    }
+
+
     public void ClearSphereFolder()
     {
         for (int i = sphereParent.transform.childCount - 1; i >= 0; i--)
@@ -162,26 +194,4 @@ public class PointDistribution : MonoBehaviour
         uspheres = null;
     }
 
-    public IEnumerator FollowPath(GameObject follower, List<Vector3> path)
-    {
-        follower.transform.position = path[0];
-        float distanceRequire = 0.25f;
-        int index = 0;
-
-        while (Vector3.Distance(follower.transform.position, path[path.Count - 1]) > distanceRequire)
-        {
-            if(Vector3.Distance(follower.transform.position, path[index]) <= distanceRequire){
-                index++;
-            }
-            else
-            {
-                Vector3 direction = (path[index] - follower.transform.position).normalized;
-                follower.transform.position = follower.transform.position + direction * 0.5f * Time.deltaTime;
-            }
-            yield return new WaitForEndOfFrame();
-        }
-
-        yield return new WaitForSeconds(3f);
-        Destroy(follower);
-    }
 }
