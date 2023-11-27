@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float gameSpeed = 1f;
     [SerializeField] private TMP_Text damageText;
     [SerializeField] public GameObject planet;
+
+    public List<Vector3> AllPointsOnSphere = new List<Vector3>();
+
     private void Awake() {
         Application.targetFrameRate = 60;
         Time.timeScale = gameSpeed;
