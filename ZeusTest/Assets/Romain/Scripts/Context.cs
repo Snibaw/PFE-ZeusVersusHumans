@@ -15,6 +15,8 @@ public class Context : MonoBehaviour
 
     private void Start()
     {
+        GameManager.instance.context = this;
+        
         List<Transform> restDestinations = new List<Transform>() { TownBehaviour.transform };
         List<Transform> storageDestinations = new List<Transform>() { storage.transform };
         List<Transform> resourceDestinations = GetAllResources();

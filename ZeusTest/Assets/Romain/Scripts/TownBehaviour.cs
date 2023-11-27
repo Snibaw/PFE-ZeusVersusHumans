@@ -7,7 +7,7 @@ public class TownBehaviour : MonoBehaviour
     [SerializeField] private GameObject HumanAI;
     [SerializeField] private float timeBtwHumanSpawn = 5f;
     [SerializeField] private Context townContext;
-    private bool canSpanwHuman = true;
+    public bool canSpanwHuman = true;
     // Start is called before the first frame update
     IEnumerator Start()
     {

@@ -16,7 +16,8 @@ public class SpawnResources : MonoBehaviour
     [SerializeField] private GameObject folderParentOfResources;
 
     [SerializeField] private ResourceToSpawn[] ResourcesToSpawn;
-
+    [SerializeField] private GameObject townPrefab;
+    
     PointDistribution _pointDistribution;
 
     List<GraphNode> nodesWithMostSpaceAround = new List<GraphNode>();
@@ -30,6 +31,27 @@ public class SpawnResources : MonoBehaviour
     }
     public void InitSpawnResourcesOnPlanet()
     {
+        //First spawn the bigger object (town)
+        GraphNode centerNode = null;
+        centerNode = FindRandomNodeWithMostSpaceAround();
+        
+        if(centerNode != null)
+        {
+            //Make the nodes around the city as obstacles
+            foreach (GraphNode neighbor in _pointDistribution.graph[centerNode])
+            {
+                if(neighbor.IsObstacle) continue;
+                foreach (GraphNode neighbor2 in _pointDistribution.graph[neighbor])
+                {
+                    if(neighbor2.IsObstacle) continue;
+                    neighbor2.IsObstacle = true;
+                }
+            }
+            
+            InstantiateResource(townPrefab, centerNode.Position);
+        }
+        
+        
         foreach (ResourceToSpawn Resource in ResourcesToSpawn)
         {
             if(Resource.spawnOnGroup)
