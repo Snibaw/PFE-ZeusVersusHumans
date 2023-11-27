@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00427e4b1acda445a413e3add2674fd, type: 3}
   m_Name: Upgrade
   m_EditorClassIdentifier: 
-  Name: 
-  timeToExecute: 0
-  considerations: []
+  Name: Upgrade
+  timeToExecute: 5
+  considerations:
+  - {fileID: 11400000, guid: efa7a82394603a9469c85d0c11734030, type: 2}
