@@ -22,6 +22,7 @@ public class ActivateTownUI : MonoBehaviour
     private void Start()
     {
         mainCam = Camera.main;
+        canvasUI = GameManager.instance.NBResources;
     }
 
 
@@ -31,6 +32,7 @@ public class ActivateTownUI : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow, 5f);
         RaycastHit hit;
 
+        if(canvasUI == null) return;
         if (Physics.Raycast(ray, out hit, 100f))
         {
             if( hit.collider.gameObject.CompareTag("Building"))
@@ -57,7 +59,7 @@ public class ActivateTownUI : MonoBehaviour
             // At the first input we check if its below or above the yborder between rotation and lightning
             if(Input.GetMouseButtonDown(0)) // First left click input
             {
-                if (canvasUI.activeInHierarchy)
+                if (canvasUI != null && canvasUI.activeInHierarchy)
                 {
                     DeActivateUI(); //Deactivate UI when click elsewhere
                 }

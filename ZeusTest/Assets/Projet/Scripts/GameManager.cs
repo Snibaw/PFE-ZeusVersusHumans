@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float gameSpeed = 1f;
     [SerializeField] private TMP_Text damageText;
     [SerializeField] public GameObject planet;
+
+    public Context context;
+    public GameObject NBResources;
 
     public List<Vector3> AllPointsOnSphere = new List<Vector3>();
 

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class UI_Town : MonoBehaviour
 {
-    [SerializeField] private Context contextScript;
+    private Context contextScript;
     [SerializeField] private List<ResourceAndTxt> resourceAndTxtList;
     
     [Serializable]
@@ -18,6 +18,8 @@ public class UI_Town : MonoBehaviour
 
     public void SetResourcesNb()
     {
+        if(contextScript == null) contextScript = GameManager.instance.context;
+        
         foreach (var resourceAndTxt in resourceAndTxtList)
         {
             int nbResource = contextScript.storage.GetNbResources(resourceAndTxt.type);
