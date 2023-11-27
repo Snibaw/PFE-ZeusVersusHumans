@@ -17,7 +17,7 @@ public class PointDistribution : MonoBehaviour
     private float _distanceBtw2Points;
     public GraphNode[] nodes;
     public Dictionary<GraphNode, List<GraphNode>> graph;
-    
+
     private List<GameObject> uspheres = new List<GameObject>();
     private float scaling;
     
@@ -73,7 +73,11 @@ public class PointDistribution : MonoBehaviour
                     Debug.Log("Clicked on sphere " + _nodesClicked[1].Position + " is obstacle : " + _nodesClicked[1].IsObstacle);
                     if (_nodesClicked[0] != null && _nodesClicked[1] != null)
                     {
-                        CalculatePath(_nodesClicked[0], _nodesClicked[1]);
+                        GameObject follower = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        follower.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+                        StartCoroutine(FollowPath(follower, CalculatePath(_nodesClicked[0], _nodesClicked[1])));
+                        
+                        
                     }
                 }
             }
@@ -89,16 +93,19 @@ public class PointDistribution : MonoBehaviour
         else CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[uspheres.IndexOf(_endNode)]);
     }
     
-    void CalculatePath(GraphNode startNode, GraphNode endNode)
+    public List<Vector3> CalculatePath(GraphNode startNode, GraphNode endNode)
     {        
         AStar aStar = new AStar();
-        
+
         List<Vector3> path = aStar.FindPath(graph, startNode, endNode);
         
         for (int i = 0; i < path.Count - 1; i++)
         {
             Debug.DrawLine(path[i], path[i + 1], Color.red, 5f);
+            Debug.Log("Point " + (i + 1) + " : " + path[i]);
         }
+
+        return path;
     }
 
     GraphNode[] PointsOnSphere(int n)
@@ -153,5 +160,28 @@ public class PointDistribution : MonoBehaviour
 
         nodes = null;
         uspheres = null;
+    }
+
+    public IEnumerator FollowPath(GameObject follower, List<Vector3> path)
+    {
+        follower.transform.position = path[0];
+        float distanceRequire = 0.25f;
+        int index = 0;
+
+        while (Vector3.Distance(follower.transform.position, path[path.Count - 1]) > distanceRequire)
+        {
+            if(Vector3.Distance(follower.transform.position, path[index]) <= distanceRequire){
+                index++;
+            }
+            else
+            {
+                Vector3 direction = (path[index] - follower.transform.position).normalized;
+                follower.transform.position = follower.transform.position + direction * 0.5f * Time.deltaTime;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(3f);
+        Destroy(follower);
     }
 }
