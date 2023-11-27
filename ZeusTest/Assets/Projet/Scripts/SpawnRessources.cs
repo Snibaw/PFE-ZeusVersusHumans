@@ -24,9 +24,9 @@ public class SpawnResources : MonoBehaviour
 
 
 
-    private void Start() 
+    private void Awake() 
     {
-        _pointDistribution = PointDistribution.instance;
+        _pointDistribution = GetComponent<PointDistribution>();
         planetRadius = planetCollider.bounds.extents.x;
         planetCenter = planetCollider.bounds.center;
     }
