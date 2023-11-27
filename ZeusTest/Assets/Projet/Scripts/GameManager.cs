@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float gameSpeed = 1f;
     [SerializeField] private TMP_Text damageText;
     [SerializeField] public GameObject planet;
+    public Context context;
+    public GameObject NBResources;
     private void Awake() {
         Application.targetFrameRate = 60;
         Time.timeScale = gameSpeed;
