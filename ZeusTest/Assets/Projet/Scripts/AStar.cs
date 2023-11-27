@@ -12,6 +12,11 @@ public class AStar
         Dictionary<GraphNode, float> fScore = new Dictionary<GraphNode, float>();
 
         openSet.Enqueue(startNode, 0);
+        if (goalNode.IsObstacle)
+        {
+            goalNode = PointDistribution.instance.FindClosestNodeFree(goalNode.Position);
+        }
+        
         gScore[startNode] = 0;
         fScore[startNode] = HeuristicCostEstimate(startNode.Position, goalNode.Position);
 
@@ -46,9 +51,7 @@ public class AStar
                 }
             }
         }
-
-        Debug.Log("No path found");
-        // No path found
+        Debug.Log("No path found between " + startNode.Position + " and " + goalNode.Position +"whiche are obstacles?" + startNode.IsObstacle + " " + goalNode.IsObstacle);
         return null;
     }
 private static List<Vector3> ReconstructPath(Dictionary<GraphNode, GraphNode> cameFrom, GraphNode current)

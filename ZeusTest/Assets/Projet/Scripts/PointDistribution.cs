@@ -193,4 +193,23 @@ public class PointDistribution : MonoBehaviour
         uspheres = null;
     }
 
+    public GraphNode FindClosestNodeFree(Vector3 position)
+    {
+        GraphNode closestNode = null;
+        float closestDistance = float.MaxValue;
+        
+        foreach(var node in graph.Keys)
+        {
+            if(node.IsObstacle) continue;
+            float distance = Vector3.Distance(node.Position, position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestNode = node;
+            }
+        }
+        return closestNode;
+    }
+
 }
