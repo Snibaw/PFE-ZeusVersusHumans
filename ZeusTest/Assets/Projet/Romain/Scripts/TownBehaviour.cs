@@ -7,6 +7,7 @@ public class TownBehaviour : MonoBehaviour
     [SerializeField] private GameObject HumanAI;
     [SerializeField] private float timeBtwHumanSpawn = 5f;
     [SerializeField] private Context townContext;
+    
     public bool canSpanwHuman = true;
     // Start is called before the first frame update
     IEnumerator Start()
@@ -27,7 +28,8 @@ public class TownBehaviour : MonoBehaviour
     }
     void SpawnHuman()
     {
-        GameObject human = Instantiate(HumanAI, transform.position, Quaternion.identity);
-        human.GetComponent<NPCController>().context = townContext;
+        GraphNode spawnNode = PointDistribution.instance.FindClosestNodeFree(transform.position);
+        GameObject human = Instantiate(HumanAI, spawnNode.Position, Quaternion.identity);
+        human.transform.rotation = Quaternion.FromToRotation(Vector3.up, human.transform.position - Vector3.zero);
     }
 }

@@ -822,6 +822,9 @@ MonoBehaviour:
   gameSpeed: 4
   damageText: {fileID: 0}
   planet: {fileID: 0}
+  context: {fileID: 0}
+  NBResources: {fileID: 0}
+  AllPointsOnSphere: []
 --- !u!1 &698592685
 GameObject:
   m_ObjectHideFlags: 0
@@ -2075,6 +2078,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TownTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787211579326384670, guid: 5c4dee8c44d46324aaffc61ecd24a991,
+        type: 3}
+      propertyPath: canSpanwHuman
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
