@@ -29,6 +29,8 @@ public class ThrowLightning : MonoBehaviour
         GameObject lightning = Instantiate(lightningPrefab, mainCam.transform.position, Quaternion.identity);
         lightning.GetComponent<LightningBehaviour>().InitValues(curve, 1/(3*time));
         Destroy(lightning, 10f);
+        
+        AdorationBar.instance.ChangeAdorationBarValue(AdorationBarEvents.ThrowLightning);
 
     }
     private void FindFinalPointOnPlanet(Vector3 direction, float magnitude)

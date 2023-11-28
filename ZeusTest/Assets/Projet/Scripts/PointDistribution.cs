@@ -30,8 +30,8 @@ public class PointDistribution : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
-        
+        if (instance == null) instance = this;
+        else if(instance != this) Destroy(gameObject);
     }
 
     public void Start()

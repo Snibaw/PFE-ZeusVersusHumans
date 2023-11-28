@@ -150,6 +150,7 @@ public class NPCController : MonoBehaviour
                 break;
             case "Build":
                 ExecuteBuild();
+                AdorationBar.instance.ChangeAdorationBarValue(AdorationBarEvents.ConstructBuilding);
                 break;
             case "Upgrade":
                 ExecuteUpgrade();

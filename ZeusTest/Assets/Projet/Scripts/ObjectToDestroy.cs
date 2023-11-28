@@ -28,6 +28,10 @@ public class ObjectToDestroy : MonoBehaviour
 
         if(life <= 0)
         {
+            if(GetComponent<NPCController>() != null) //If the object is an AI
+            {
+                AdorationBar.instance.ChangeAdorationBarValue(AdorationBarEvents.KillHuman);
+            }
             Destroy(gameObject);
             //TODO: Event to tell the GameManager that the player destroyed an object or an AI (spawn more AI ...)
         }
