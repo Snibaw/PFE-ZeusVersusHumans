@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     [SerializeField] private CameraMovement cameraMovement;
+    private GameObject canvasUI;
     private ThrowLightning throwLightning;
     private float x,y;
     private bool fingerHasMoved = false;
@@ -13,6 +14,8 @@ public class InputController : MonoBehaviour
     [SerializeField] private float yBorderBtwRotationAndLightning = 0.25f;
     private bool isBelowYBorder = false;
     private float timePressed = 0;
+    
+    private Camera mainCam;
 
     //* This is for PC *//
     #if UNITY_EDITOR
@@ -21,7 +24,28 @@ public class InputController : MonoBehaviour
     
     void Start()
     {
+        mainCam = Camera.main;
+        canvasUI = GameManager.instance.NBResources;
         throwLightning = GetComponent<ThrowLightning>();
+    }
+    private void ActivateUI()
+    {
+        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow, 5f);
+        RaycastHit hit;
+
+        if(canvasUI == null) return;
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+            if( hit.collider.gameObject.CompareTag("Building"))
+            {
+                if (hit.collider.gameObject.GetComponent<Building>().BuildingType == BuildingType.village)
+                {
+                    canvasUI.SetActive(true);
+                    canvasUI.GetComponent<UI_Town>().SetResourcesNb();
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -74,6 +98,14 @@ public class InputController : MonoBehaviour
             // At the first input we check if its below or above the yborder between rotation and lightning
             if(Input.GetMouseButtonDown(0)) // First left click input
             {
+                if (canvasUI != null && canvasUI.activeInHierarchy)
+                {
+                    canvasUI.SetActive(false); //Deactivate UI when click elsewhere
+                }
+                else
+                {
+                    ActivateUI();
+                }
                 if(Input.mousePosition.y < Screen.height * yBorderBtwRotationAndLightning)
                     isBelowYBorder = true;
                 else

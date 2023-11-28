@@ -197,7 +197,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2098366336712402291}
   - component: {fileID: 5594762623879093672}
-  - component: {fileID: 2643145703372878872}
   m_Layer: 0
   m_Name: Context
   m_TagString: Untagged
@@ -237,20 +236,6 @@ MonoBehaviour:
   homes: []
   MinDistance: 1.2
   energyLostPerAction: 10
---- !u!114 &2643145703372878872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2987318286303932205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52c6616272d72004eacc29ce6e220bd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yBorderBtwRotationAndLightning: 0.25
-  canvasUI: {fileID: 0}
 --- !u!1 &4346289606373738492
 GameObject:
   m_ObjectHideFlags: 0
