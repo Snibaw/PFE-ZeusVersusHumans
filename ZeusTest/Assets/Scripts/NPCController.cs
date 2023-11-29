@@ -131,9 +131,15 @@ public class NPCController : MonoBehaviour
         switch (action)
         {
             case "Work":
-                Resource resource = aiBrain.bestAction.RequiredDestination.GetComponent<Resource>();
-                Inventory.AddResource(resource.ResourceType, 1);
-                resource.HasBeenHarvested();
+                Resource resource = null;
+                if (aiBrain.bestAction.RequiredDestination != null)
+                    resource = aiBrain.bestAction.RequiredDestination.GetComponent<Resource>();
+                
+                if (resource != null && resource.canBeHarvested)
+                {
+                    Inventory.AddResource(resource.ResourceType, 1);
+                    resource.HasBeenHarvested();
+                }
                 break;
             case "Sleep":
                 stats.energy += 100;

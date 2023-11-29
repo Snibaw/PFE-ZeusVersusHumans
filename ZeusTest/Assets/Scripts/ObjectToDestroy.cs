@@ -28,7 +28,14 @@ public class ObjectToDestroy : MonoBehaviour
 
         if(life <= 0)
         {
-            if(GetComponent<NPCController>() != null) //If the object is an AI
+            Resource resource = GetComponent<Resource>();
+            if(resource != null) //If the object is a resource
+            {
+                if (resource.canBeHarvested == false) return;
+                resource.HasBeenHarvested();
+                return;
+            }
+            else if(GetComponent<NPCController>() != null) //If the object is an AI
             {
                 AdorationBar.instance.ChangeAdorationBarValue(AdorationBarEvents.KillHuman);
             }

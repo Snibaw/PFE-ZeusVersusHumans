@@ -435,7 +435,7 @@ MonoBehaviour:
   resourceType: 2
   SpawnedModel: {fileID: 2786958705479122101}
   HarvestedModel: {fileID: 3438330675106065343}
-  timeBeforeRespawn: 5
+  timeBeforeRespawn: 15
 --- !u!1 &7790247566414593002
 GameObject:
   m_ObjectHideFlags: 0
