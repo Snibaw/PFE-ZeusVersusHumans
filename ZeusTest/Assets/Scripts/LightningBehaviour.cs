@@ -33,7 +33,7 @@ public class LightningBehaviour : MonoBehaviour
     public void InitValues(QuadraticCurve _curve, float _intensity)
     {
         curve = _curve;
-        intensity = _intensity;
+        intensity = Mathf.Clamp01(_intensity);
         transform.localScale = Vector3.one * intensity;
     }
 
@@ -53,7 +53,7 @@ public class LightningBehaviour : MonoBehaviour
                     Debug.LogWarning("Object" + collider.gameObject.name + " has no ObjectToDestroy script");
                     continue;
                 }
-                collider.GetComponent<ObjectToDestroy>().TakeDamage(Mathf.Clamp01(intensity/5)*100);
+                collider.GetComponent<ObjectToDestroy>().TakeDamage(Mathf.Clamp01(intensity)*100);
                 needToBeDestroyed = true;
             }
         }

@@ -528,8 +528,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.5226415, g: 0.53030914, b: 1, a: 1}
-  m_Intensity: 0.7
+  m_Color: {r: 0.5803922, g: 0.5882353, b: 1, a: 1}
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAroundObject: {fileID: 3467093215610649153}
-  rotationSpeed: 150
+  rotationSpeed: 4
 --- !u!64 &1097599604 stripped
 MeshCollider:
   m_CorrespondingSourceObject: {fileID: 1023160662258584601, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
@@ -1271,7 +1271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1151957350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2541,7 +2541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1791678100
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3154,7 +3154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2011217570
 RectTransform:
   m_ObjectHideFlags: 0
