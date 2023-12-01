@@ -11,7 +11,7 @@ public class SerialHandler : MonoBehaviour
     [SerializeField] private string serialPort = "COM3";
     [SerializeField] private int baudrate = 115200;
     
-    [SerializeField] private Component river;
+    //[SerializeField] private Component river;
     private Rigidbody2D _riverRigidbody2D;
     private SpriteRenderer _riverSprite;
     public int xValue = 0, yValue = 0;
@@ -25,8 +25,8 @@ public class SerialHandler : MonoBehaviour
         // Once configured, the serial communication must be opened just like a file : the OS handles the communication.
         _serial.Open();
         
-        _riverRigidbody2D = river.GetComponentInParent<Rigidbody2D>();
-        _riverSprite = river.GetComponentInParent<SpriteRenderer>();
+        //_riverRigidbody2D = river.GetComponentInParent<Rigidbody2D>();
+        //_riverSprite = river.GetComponentInParent<SpriteRenderer>();
     }
 
     // Update is called once per frame
