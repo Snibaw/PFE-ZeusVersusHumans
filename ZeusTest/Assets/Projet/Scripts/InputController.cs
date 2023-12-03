@@ -139,8 +139,8 @@ public class InputController : MonoBehaviour
 
         if(x != 0 || y != 0)
         {
-            Vector2 direction = new Vector2(x,-y).normalized;
-            cameraMovement.RotateAround(direction.y, -direction.x);
+            Vector2 direction = new Vector2(-x,y).normalized;
+            cameraMovement.RotateAround(direction.x, direction.y);
         }
 #endif
     }

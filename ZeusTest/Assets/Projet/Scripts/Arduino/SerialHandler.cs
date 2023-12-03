@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SerialHandler : MonoBehaviour
 {
-    
-    private SerialPort _serial;
+    public static SerialHandler instance;
+
+    public SerialPort _serial;
 
     // Common default serial device on a Windows machine
     [SerializeField] private string serialPort = "COM3";
@@ -24,6 +25,7 @@ public class SerialHandler : MonoBehaviour
         _serial.NewLine = "\n";
         // Once configured, the serial communication must be opened just like a file : the OS handles the communication.
         _serial.Open();
+        instance = this;
         
         //_riverRigidbody2D = river.GetComponentInParent<Rigidbody2D>();
         //_riverSprite = river.GetComponentInParent<SpriteRenderer>();
@@ -67,6 +69,7 @@ public class SerialHandler : MonoBehaviour
     public void SetLed(bool newState)
     {
         _serial.WriteLine(newState ? "LED ON" : "LED OFF");
+        Debug.Log(newState ? "LED ON" : "LED OFF");
     }
     
     private void OnDestroy()

@@ -16,6 +16,8 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   // Internal pullup, no external resistor necessary
   pinMode(buttonPin,INPUT_PULLUP);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
   pinMode(A0,INPUT);
   pinMode(A1,INPUT);
   // 115200 is a common baudrate : fast without being overwhelming
@@ -61,8 +63,10 @@ void serialEvent()
 {
   String message = Serial.readStringUntil('\n');
   if (message == "LED ON") {
-    digitalWrite(13,HIGH);
+    digitalWrite(7,LOW);
+    digitalWrite(8,HIGH);
   } else if (message == "LED OFF") {
-    digitalWrite(13,LOW);
+    digitalWrite(7,HIGH);
+    digitalWrite(8,LOW);
   }
 }

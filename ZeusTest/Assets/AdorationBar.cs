@@ -40,6 +40,13 @@ public class AdorationBar : MonoBehaviour
         InvokeRepeating("PassiveIncrease", 1, 1f);
     }
 
+    public void SetValue(int value)
+    {
+        slider = GetComponent<Slider>();
+        adorationValue = value;
+        slider.value = adorationValue;
+    }
+
     private void PassiveIncrease()
     {
         ChangeAdorationBarValue(AdorationBarEvents.PassivelyIncreasePerSeconds);
@@ -53,6 +60,7 @@ public class AdorationBar : MonoBehaviour
             {
                 adorationValue = Mathf.Clamp(adorationValue + adorationEvent.value, 0, 100);
                 slider.value = adorationValue;
+                SerialHandler.instance.SetLed(adorationValue > 50);
             }
         }
     }
