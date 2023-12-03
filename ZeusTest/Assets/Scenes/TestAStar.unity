@@ -3402,6 +3402,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LowPolyPlanet
       objectReference: {fileID: 0}
+    - target: {fileID: 4424615238809328101, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Planet
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

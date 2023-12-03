@@ -17,6 +17,7 @@ TagManager:
   - Resources
   - Building
   - Sphere
+  - Planet
   layers:
   - Default
   - TransparentFX
