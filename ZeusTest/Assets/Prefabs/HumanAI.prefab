@@ -966,6 +966,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   context: {fileID: 0}
   uiTimerScript: {fileID: 1312519491588432525}
+  _pointDistribution: {fileID: 4819868603943438810, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+    type: 3}
 --- !u!114 &1312519491588432525
 MonoBehaviour:
   m_ObjectHideFlags: 0
