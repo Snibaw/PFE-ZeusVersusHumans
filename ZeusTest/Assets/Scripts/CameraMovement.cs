@@ -9,7 +9,7 @@ public class CameraMovement : MonoBehaviour
 
     public void RotateAround(float xInput, float yInput)
     {
-        transform.RotateAround(rotateAroundObject.position, Vector3.up, xInput * rotationSpeed * Time.deltaTime);
+        transform.RotateAround(rotateAroundObject.position, transform.up, xInput * rotationSpeed * Time.deltaTime);
         transform.RotateAround(rotateAroundObject.position, transform.right, -yInput * rotationSpeed * Time.deltaTime);
     }
 }
