@@ -26,6 +26,7 @@ public class NPCController : MonoBehaviour
     private bool isSleeping = false;
 
     [SerializeField] private UI_Timer uiTimerScript;
+    PointDistribution _pointDistribution;
 
     private bool isExecuting;
     // Start is called before the first frame update
@@ -38,6 +39,7 @@ public class NPCController : MonoBehaviour
         context = GameManager.instance.context;
         buildManager = context.storage.gameObject.GetComponent<BuildManager>();
         upgradeManager = context.storage.gameObject.GetComponent<UpgradeManager>();
+        _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
         isExecuting = false;
         constructionToBuild = null;
     }
@@ -169,6 +171,7 @@ public class NPCController : MonoBehaviour
     {
         //Spawn the construction
         GameObject building = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
+        building.transform.LookAt(transform.position, positionToBuild.normalized);
         //Tell the context that a new house has been built
         if(building.GetComponent<Building>().BuildingType == BuildingType.house)
             context.AddDestinationTypeBuild(DestinationType.rest, building.transform);
@@ -219,6 +222,27 @@ public class NPCController : MonoBehaviour
     {
         return buildingToUpgrade.transform;
     }
+
+    public Transform FindBuildPosition()
+    {
+        GraphNode targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, constructionToBuild.prefab.GetComponent<BoxCollider>().size.x * 1.2f);
+        positionToBuild = targetNode.Position;
+        GameObject Target = new GameObject();
+        Target.transform.position = targetNode.Position;
+        targetNode.IsObstacle = true;
+        _pointDistribution.SetAllInRadiusToObstacle(targetNode, constructionToBuild.prefab.GetComponent<BoxCollider>().size.x * 1.2f);
+        return  Target.transform;
+    }
+
+    public Transform FindBuildRequiredDestination()
+    {
+        GraphNode targetNode = _pointDistribution.FindClosestNodeFree(positionToBuild);
+        GameObject Target = new GameObject();
+        Target.transform.position = targetNode.Position;
+        return  Target.transform;
+    }
+
+    /*
     public Transform FindBuildPosition()
     {
         Vector3[] CheckDirections = new Vector3[9];
@@ -334,6 +358,6 @@ public class NPCController : MonoBehaviour
             get { return comparer; }
         }
     }
-
+    */
 }
 

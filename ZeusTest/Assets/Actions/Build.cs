@@ -13,6 +13,7 @@ public class Build : Action
     public override void SetRequiredDestination(NPCController _npcController)
     {
         Vector3 currentConstructionPosition = _npcController.FindBuildPosition().position;
+        /*
         Vector3 IAposition = _npcController.gameObject.transform.position;
         Vector3 IAforward = _npcController.gameObject.transform.forward;
         GameObject Target = new GameObject();
@@ -26,8 +27,8 @@ public class Build : Action
         {
             Target.transform.position = currentConstructionPosition + ( IAposition - currentConstructionPosition).normalized*1.5f;
             // Debug.Log("Far");
-        }
-        RequiredDestination = Target.transform;
+        }*/
+        RequiredDestination = _npcController.FindBuildRequiredDestination();
         
     }
 }

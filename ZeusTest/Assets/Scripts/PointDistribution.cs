@@ -211,5 +211,45 @@ public class PointDistribution : MonoBehaviour
         }
         return closestNode;
     }
+    public GraphNode FindClosestNodeWithAllFreeInRadius(Vector3 position, float radius)
+    {
+        GraphNode closestNode = null;
+        float closestDistance = float.MaxValue;
+        
+        foreach(var node in graph.Keys)
+        {
+            if(node.IsObstacle) continue;
+            bool neighborIsObstacle = false;
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                if (nodes[i].IsObstacle && Vector3.Distance(nodes[i].Position, node.Position) < radius)
+                {
+                    neighborIsObstacle = true;
+                    break;
+                }
+            }
+            if(neighborIsObstacle) continue;
+            float distance = Vector3.Distance(node.Position, position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestNode = node;
+            }
+        }
+        return closestNode;
+    }
+
+    public void SetAllInRadiusToObstacle(GraphNode positionNode, float radius)
+    {
+        for (int i = 0; i < nodes.Length; i++)
+            {
+                if (Vector3.Distance(nodes[i].Position, positionNode.Position) < radius)
+                {
+                    nodes[i].IsObstacle = true;
+                }
+            }
+    }
+
 
 }
