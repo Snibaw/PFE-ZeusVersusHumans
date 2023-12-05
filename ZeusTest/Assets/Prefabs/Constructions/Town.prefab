@@ -234,7 +234,7 @@ MonoBehaviour:
   storage: {fileID: 1256132855981416632}
   TownBehaviour: {fileID: 5787211579326384670}
   homes: []
-  MinDistance: 1.2
+  MinDistance: 2
   energyLostPerAction: 10
 --- !u!1 &4346289606373738492
 GameObject:

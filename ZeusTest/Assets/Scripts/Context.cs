@@ -49,6 +49,7 @@ public class Context : MonoBehaviour
     public Transform FindClosestRestPosition(Vector3 position)
     {
         float minDistance = float.MaxValue;
+        Debug.Log("DestinationCount" + Destinations[DestinationType.rest].Count);
         Transform minTransform = Destinations[DestinationType.rest][0];
         foreach (Transform t in Destinations[DestinationType.rest])
         {

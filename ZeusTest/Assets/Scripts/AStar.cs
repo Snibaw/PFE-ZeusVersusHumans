@@ -10,6 +10,11 @@ public class AStar
         Dictionary<GraphNode, GraphNode> cameFrom = new Dictionary<GraphNode, GraphNode>();
         Dictionary<GraphNode, float> gScore = new Dictionary<GraphNode, float>();
         Dictionary<GraphNode, float> fScore = new Dictionary<GraphNode, float>();
+        
+        if(startNode.IsObstacle)
+        {
+            startNode = PointDistribution.instance.FindClosestNodeFree(startNode.Position);
+        }
 
         openSet.Enqueue(startNode, 0);
         if (goalNode.IsObstacle)

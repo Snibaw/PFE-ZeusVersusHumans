@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.0007787092, g: 0.0041236565, b: 0.019990839, a: 1}
+  m_IndirectSpecularColor: {r: 0.00073307287, g: 0.004035685, b: 0.019824302, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1546,6 +1546,11 @@ PrefabInstance:
       objectReference: {fileID: 1998815436}
     - target: {fileID: 5468227707601585405, guid: 4e78565083bb6f64db159255170852c2,
         type: 3}
+      propertyPath: gameSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468227707601585405, guid: 4e78565083bb6f64db159255170852c2,
+        type: 3}
       propertyPath: damageText
       value: 
       objectReference: {fileID: 2011217571}
@@ -1970,15 +1975,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adorationBarEvent:
   - adorationBarEvent: 0
-    value: 6
+    value: 3
   - adorationBarEvent: 1
-    value: 6
+    value: 3
   - adorationBarEvent: 2
-    value: 6
+    value: 3
   - adorationBarEvent: 3
-    value: -6
+    value: -3
   - adorationBarEvent: 4
-    value: -1
+    value: -0.5
 --- !u!1 &1599826074
 GameObject:
   m_ObjectHideFlags: 0
