@@ -17,6 +17,9 @@ public class Resource : MonoBehaviour
     [SerializeField] private GameObject SpawnedModel;
     [SerializeField] private GameObject HarvestedModel;
     [SerializeField] private float timeBeforeRespawn = 5f;
+
+    [Header("Chose Model Randomly")] [SerializeField]
+    private GameObject[] possibleModel;
     
     public ResourceType ResourceType
     {
@@ -35,6 +38,7 @@ public class Resource : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ChoseModelRandomly();
         ShowModelDependingOnHarvestedState();
     }
 
@@ -42,6 +46,18 @@ public class Resource : MonoBehaviour
     void Update()
     {
 
+    }
+    private void ChoseModelRandomly()
+    {
+        if (possibleModel.Length > 0)
+        {
+            int random = Random.Range(0, possibleModel.Length);
+            foreach (var model in possibleModel)
+            {
+                model.SetActive(false);
+            }
+            possibleModel[random].SetActive(true);
+        }
     }
     private void ShowModelDependingOnHarvestedState()
     {
