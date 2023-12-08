@@ -21,8 +21,8 @@ public class ObjectToDestroy : MonoBehaviour
         // {
         //     healthBar.ActivateHealthBar();
         // }
-        healthBar.SetMaxHealth(life);
-        healthBar.DamageRessource(damage);
+        // healthBar.SetMaxHealth(life);
+        // healthBar.DamageRessource(damage);
 
         life -= damage;
 
