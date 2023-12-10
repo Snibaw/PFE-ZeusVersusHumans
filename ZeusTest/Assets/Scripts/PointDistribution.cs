@@ -133,7 +133,8 @@ public class PointDistribution : MonoBehaviour
             x = Mathf.Cos(phi) * r;
             z = Mathf.Sin(phi) * r;
 
-            upts.Add(new GraphNode(new Vector3(x, y, z) * scaling, k, true));
+            GraphNode g = new GraphNode(new Vector3(x, y, z) * scaling * 1.3f, k, true);
+            upts.Add(g);
         }
         return upts.ToArray();
     }
