@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class HumanAnimation : MonoBehaviour
 {
-    [SerializeField] private Animator _humanAnimator;
-    [SerializeField] private NPCController _humanNPCController;
+    private Animator _humanAnimator;
+    private NPCController _humanNPCController;
     private Vector3 _lastPosition;
 
     private void Start()
     {
         _lastPosition = transform.position;
+        _humanAnimator = GetComponentInChildren<Animator>();
+        _humanNPCController = GetComponent<NPCController>();
     }
     void Update()
     {
