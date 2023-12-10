@@ -6,19 +6,19 @@ using UnityEngine.AI;
 public class MoveController : MonoBehaviour
 {
     //private NavMeshAgent _navMeshAgent;
-    private NPCStats stats;
-    [SerializeField] private float startSpeed;
-    private float exhaustedSpeed;
-    private float lastEnergy = 0;
+    protected NPCStats stats;
+    [SerializeField] protected float startSpeed;
+    protected float exhaustedSpeed;
+    protected float lastEnergy = 0;
 
-    private float currentSpeed;
+    protected float currentSpeed;
 
-    private Coroutine _followPath;
-    private bool isMoving = false;
+    protected Coroutine _followPath;
+    protected bool isMoving = false;
 
     // public Transform destination;
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
 
         _followPath = null;
@@ -53,7 +53,7 @@ public class MoveController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
     }
 

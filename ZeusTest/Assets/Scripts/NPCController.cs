@@ -28,7 +28,7 @@ public class NPCController : MonoBehaviour
     [SerializeField] private UI_Timer uiTimerScript;
     PointDistribution _pointDistribution;
 
-    private bool isExecuting;
+    public bool isExecuting;
     // Start is called before the first frame update
     void Start()
     {
@@ -112,6 +112,7 @@ public class NPCController : MonoBehaviour
     }
     private IEnumerator ExecuteAction(string action, float time)
     {
+
         //Some exceptions are managed here
         
         //Lose energy only when not sleeping
