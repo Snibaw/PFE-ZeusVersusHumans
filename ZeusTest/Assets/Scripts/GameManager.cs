@@ -64,10 +64,5 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void Test()
-    {
-        Debug.Log("test");
-    }
-
 
 }

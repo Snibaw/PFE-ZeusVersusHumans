@@ -74,5 +74,13 @@ public class Context : MonoBehaviour
         //     Destinations.Add(type, new List<Transform>() { destination }); 
         // }
     }
+    public void RemoveObjectFromDestination(Transform destination, DestinationType type)
+    {
+        if (Destinations.ContainsKey(type))
+        {
+            Destinations[type].Remove(destination);
+            Debug.Log("Removed " + destination.name + " from " + type);
+        }
+    }
 
 }

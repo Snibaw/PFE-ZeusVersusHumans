@@ -29,11 +29,21 @@ public class ObjectToDestroy : MonoBehaviour
         if(life <= 0)
         {
             Resource resource = GetComponent<Resource>();
+            Building building = GetComponent<Building>();
             if(resource != null) //If the object is a resource
             {
                 if (resource.canBeHarvested == false) return;
                 resource.HasBeenHarvested();
                 return;
+            }
+            else if(building != null) //If the object is a building
+            {
+                if (building.BuildingType == BuildingType.house)
+                {
+                    GameManager.instance.context.RemoveObjectFromDestination(transform, DestinationType.rest);
+                }
+                
+                
             }
             else if(GetComponent<NPCController>() != null) //If the object is an AI
             {
