@@ -34,7 +34,7 @@ public class LightningBehaviour : MonoBehaviour
     {
         curve = _curve;
         intensity = Mathf.Clamp01(_intensity);
-        transform.localScale = Vector3.one * intensity;
+        transform.localScale = Vector3.one * intensity*2;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -53,7 +53,7 @@ public class LightningBehaviour : MonoBehaviour
                     Debug.LogWarning("Object" + collider.gameObject.name + " has no ObjectToDestroy script");
                     continue;
                 }
-                collider.GetComponent<ObjectToDestroy>().TakeDamage(Mathf.Clamp01(intensity)*100);
+                collider.GetComponent<ObjectToDestroy>().TakeDamage(intensity*100);
                 needToBeDestroyed = true;
             }
         }

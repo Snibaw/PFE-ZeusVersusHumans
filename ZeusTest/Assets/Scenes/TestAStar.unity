@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.0007787092, g: 0.0041236565, b: 0.019990839, a: 1}
+  m_IndirectSpecularColor: {r: 0.00073307287, g: 0.004035685, b: 0.019824302, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -651,8 +651,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightningPrefab: {fileID: 2682979775544059843, guid: 8279a9a6f742f914aa9fdbe48d1a6116,
     type: 3}
-  planetCollider: {fileID: 1097599604}
+  planetCollider: {fileID: 483916112}
   AimCurve: {fileID: 544430096555177, guid: cbed2ed7e80e1c14785f462f46bc212a, type: 3}
+  cooldownBtwLightning: 3
+  lightningUI:
+  - {fileID: 1246550842}
+  - {fileID: 1413737493}
+  - {fileID: 207584601}
+  - {fileID: 1908260030}
+  - {fileID: 1023186699}
 --- !u!4 &92050136
 Transform:
   m_ObjectHideFlags: 0
@@ -1342,7 +1349,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -325, y: 299}
+  m_AnchoredPosition: {x: -325, y: 201}
   m_SizeDelta: {x: 102, y: 301}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &207584603
@@ -4737,6 +4744,12 @@ MonoBehaviour:
   m_SkinMeshRef: {fileID: 0}
   m_OriginalMeshObject: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   m_Mode: 0
+--- !u!64 &483916112 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 2293405192462524866, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2285710095489055792}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &500602438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7292,7 +7305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -254.3, y: 306.8}
+  m_AnchoredPosition: {x: -240, y: 286}
   m_SizeDelta: {x: 107, y: 165}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1023186701
@@ -7588,12 +7601,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e29574f61c003a45a3cc9a571582336, type: 3}
---- !u!64 &1097599604 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 1023160662258584601, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
-    type: 3}
-  m_PrefabInstance: {fileID: 2285710095489055792}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1101789017
 GameObject:
   m_ObjectHideFlags: 0
@@ -8551,7 +8558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -358, y: 300.9}
+  m_AnchoredPosition: {x: -358, y: 231.90002}
   m_SizeDelta: {x: 95, y: 233}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1246550844
@@ -9310,7 +9317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -270.4, y: 302}
+  m_AnchoredPosition: {x: -270.4, y: 233}
   m_SizeDelta: {x: 104, y: 255}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1413737495
@@ -12393,7 +12400,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -404.5, y: 300.3}
+  m_AnchoredPosition: {x: -390, y: 263}
   m_SizeDelta: {x: 163, y: 174}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1908260032
@@ -13600,6 +13607,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 419166132053993959, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1176663888064159555, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_Mesh
@@ -13621,6 +13633,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4753602130079823826, guid: 5c4dee8c44d46324aaffc61ecd24a991,
         type: 3}
+    - target: {fileID: 2091848405090338958, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: planetCollider
+      value: 
+      objectReference: {fileID: 483916112}
     - target: {fileID: 2293405192462524866, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_Mesh
@@ -25331,6 +25348,11 @@ PrefabInstance:
       propertyPath: m_PolyMesh.vertices.Array.data[512].z
       value: -0.3572187
       objectReference: {fileID: 0}
+    - target: {fileID: 5443377271313400676, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6433044525191601215, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_IsActive
@@ -25341,13 +25363,25 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1965977263}
+    - target: {fileID: 8005865526713731574, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8005865526713731574, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9001302000076283324, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_SelectedEditorRenderState
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1529867752345672780, guid: 3b00647dd829ead408ea0e12b6d4c3f5, type: 3}
+    - {fileID: 419166132053993959, guid: 3b00647dd829ead408ea0e12b6d4c3f5, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4053487398174980219, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}

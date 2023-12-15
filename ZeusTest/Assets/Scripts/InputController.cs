@@ -110,7 +110,6 @@ public class InputController : MonoBehaviour
                         if(xWhenPressed != x || yWhenPressed != y) // If the player move the mouse
                         {
                             Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
-                            Debug.Log("TimePressed : " + timePressed);
                             throwLightning.Throw(lightningDirection.normalized, lightningDirection.magnitude, Time.time-timePressed);
                         }
                     }
