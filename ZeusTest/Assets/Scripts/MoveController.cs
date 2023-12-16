@@ -63,20 +63,23 @@ public class MoveController : MonoBehaviour
         //transform.position = path[0];
         float distanceRequire = 0.25f;
         int index = 0;
-
-        while (Vector3.Distance(transform.position, path[path.Count - 1]) > distanceRequire)
+        if(path != null)
         {
-            if (Vector3.Distance(transform.position, path[index]) <= distanceRequire)
+            while (Vector3.Distance(transform.position, path[path.Count - 1]) > distanceRequire)
             {
-                index++;
+                if (Vector3.Distance(transform.position, path[index]) <= distanceRequire)
+                {
+                    index++;
+                }
+                else
+                {
+                    Vector3 direction = (path[index] - transform.position).normalized;
+                    transform.position += direction * currentSpeed * Time.deltaTime;
+                }
+                yield return new WaitForEndOfFrame();
             }
-            else
-            {
-                Vector3 direction = (path[index] - transform.position).normalized;
-                transform.position += direction * currentSpeed * Time.deltaTime;
-            }
-            yield return new WaitForEndOfFrame();
         }
+        
         isMoving = false;
     }
 }

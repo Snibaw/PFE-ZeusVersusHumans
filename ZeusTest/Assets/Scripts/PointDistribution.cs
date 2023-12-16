@@ -109,6 +109,7 @@ public class PointDistribution : MonoBehaviour
         AStar aStar = new AStar();
 
         List<Vector3> path = aStar.FindPath(graph, startNode, endNode);
+        if (path == null) return null;
         
         for (int i = 0; i < path.Count - 1; i++)
         {
