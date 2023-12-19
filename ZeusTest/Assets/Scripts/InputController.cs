@@ -5,11 +5,17 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
+
+    [SerializeField] private float seuilEclair = 10f;
+    [SerializeField] private float timerEclair = 0.5f;
+    private float timeEclair = 0;
+
     [SerializeField] private CameraMovement cameraMovement;
     private GameObject canvasUI;
     private ThrowLightning throwLightning;
     private float x,y;
     private bool fingerHasMoved = false;
+    [SerializeField] private float strenghtThrowThunder = 1;
 
     [SerializeField] private SerialHandler serialHandler;
 
@@ -21,8 +27,10 @@ public class InputController : MonoBehaviour
     private Camera mainCam;
     private float xWhenPressed, yWhenPressed;
     private Touch touch;
+    private bool isButtonPressed = false;
+    private float aXCumul = 0, aYCumul = 0;
 
-    private float aXCumul = 0, ayCumul = 0;
+    Vector3 acceleration = Vector3.zero, oldAcceleration = Vector3.zero;
     void Start()
     {
         mainCam = Camera.main;
@@ -53,7 +61,7 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        timeEclair -= Time.deltaTime;
         //* This is for Android *//
 
         //Check if the player is touching the screen, then check if he is moving his finger (to rotate the planet) or not (to throw lightning)
@@ -183,7 +191,7 @@ public class InputController : MonoBehaviour
 
 
         //Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
-        Debug.Log("serialHandler.xValue " + serialHandler.xValueJoystick + " serialHandler.yValue " + serialHandler.yValueJoystick);
+        //Debug.Log("serialHandler.xValue " + serialHandler.xValueJoystick + " serialHandler.yValue " + serialHandler.yValueJoystick);
         float x = serialHandler.xValueJoystick;
         x = Mathf.Abs(x - 506) < 50 ? 0 : (x - 506);
         float y = serialHandler.yValueJoystick;
@@ -199,26 +207,44 @@ public class InputController : MonoBehaviour
         }
 
         int pressJoystick = serialHandler.pressJoystick, lastPressJoystick = serialHandler.lastPressJoystick;
-        float ax = serialHandler.xValueAcc, ay = serialHandler.yValueAcc;
+        oldAcceleration = acceleration;
+        acceleration = new Vector3(serialHandler.xValueAcc, serialHandler.yValueAcc, serialHandler.zValueAcc);
+
+        //Debug.Log("acc "+ Vector3.Distance(acceleration, oldAcceleration) + "old " + oldAcceleration + "acc " + acceleration);
+
+        if(Vector3.Distance(acceleration, oldAcceleration) >= seuilEclair && timeEclair < 0)
+        {
+            timeEclair = timerEclair;
+            throwLightning.Throw(Vector3.zero,0, 1);
+        }
+
 
         if (pressJoystick != lastPressJoystick) //Changement
         {
-            if(pressJoystick == 1) // Il vient d'appuyer sur le bouton
+            isButtonPressed = !isButtonPressed;
+            if(isButtonPressed == true) // Il vient d'appuyer sur le bouton
             {
-                aXCumul = ax;
-                ayCumul = ay;
+                throwLightning.Throw(Vector3.zero, 0, 1);
+                //aXCumul = ax;
+                //aYCumul = ay;
             }
-            else //Le bouton vient d'être relaché
+            /*else //Le bouton vient d'être relaché
             {
-                Vector3 direction = new Vector3(aXCumul, ayCumul, 0);
+                Vector3 direction = new Vector3(aYCumul, aXCumul, 0);
                 Debug.Log(direction);
-                throwLightning.Throw(direction.normalized, 1, 1);
-            }
+                throwLightning.Throw(direction.normalized, direction.magnitude * strenghtThrowThunder, 1);
+            }*/
         }
-        else if(pressJoystick == 1) // Le bouton est enlenché
+        /*Debug.Log("PressJoystick " + (pressJoystick == 0));
+        if(pressJoystick == 1) // Le bouton est enlenché
         {
             aXCumul += ax;
-            ayCumul += ay;
-        }
+            aYCumul += ay;
+            Debug.Log("PressJoystick2 " + (pressJoystick == 0));
+            Debug.Log("ax " + aXCumul + " ay " + aYCumul);
+            Vector3 direction = new Vector3(aXCumul, aYCumul, 0);
+            throwLightning.FindFinalPointOnPlanet(direction.normalized, direction.magnitude);
+            
+        }*/
     }
 }

@@ -649,6 +649,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a814327b44298a54492e8c4184dcfbab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPrefab: {fileID: 589410412762793574, guid: 1ce792410cc871e459ef0bd16f7af661,
+    type: 3}
   lightningPrefab: {fileID: 2682979775544059843, guid: 8279a9a6f742f914aa9fdbe48d1a6116,
     type: 3}
   planetCollider: {fileID: 483916112}
@@ -687,7 +689,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31082e0fa6d73e346b298ddd08fbb6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seuilEclair: 10
+  timerEclair: 0.5
   cameraMovement: {fileID: 963194229}
+  strenghtThrowThunder: 5
   serialHandler: {fileID: 744898027}
   timeBtwClickAndHold: 0.5
   yBorderBtwRotationAndLightning: 0.25
@@ -5986,8 +5991,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serialPort: COM3
   baudrate: 115200
-  xValue: 0
-  yValue: 0
+  xValueJoystick: 0
+  yValueJoystick: 0
+  xValueAcc: 0
+  yValueAcc: 0
+  zValueAcc: 0
+  pressJoystick: 0
+  lastPressJoystick: 0
 --- !u!4 &744898028
 Transform:
   m_ObjectHideFlags: 0
@@ -9877,6 +9887,7 @@ MonoBehaviour:
     value: -3
   - adorationBarEvent: 4
     value: -0.5
+  slider: {fileID: 0}
 --- !u!4 &1560070590 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 464626, guid: 8e29574f61c003a45a3cc9a571582336,
@@ -25401,6 +25412,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5443377271313400676, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 6433044525191601215, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}

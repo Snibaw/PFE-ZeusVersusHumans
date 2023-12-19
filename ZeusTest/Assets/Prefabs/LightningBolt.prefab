@@ -49,9 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b224b1fd330bc45a6115e9ec4835d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  speedAugmentationOverTime: 0.02
-  maxSpeed: 2
+  curve: {fileID: 0}
+  speed: 0.5
+  speedAugmentationOverTime: 0.05
+  maxSpeed: 3
 --- !u!54 &-2205202490226168448
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -108,7 +109,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2682979775544059843}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: f1755bea3c60dbe4890bd33d9eaed5bc, type: 3}
+  m_Asset: {fileID: 0}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0

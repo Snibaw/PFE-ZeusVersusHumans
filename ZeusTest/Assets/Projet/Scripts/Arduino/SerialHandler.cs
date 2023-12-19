@@ -11,14 +11,16 @@ public class SerialHandler : MonoBehaviour
     // Common default serial device on a Windows machine
     [SerializeField] private string serialPort = "COM3";
     [SerializeField] private int baudrate = 115200;
+
     
     //[SerializeField] private Component river;
     private Rigidbody2D _riverRigidbody2D;
     private SpriteRenderer _riverSprite;
-    public int xValueJoystick = 0, yValueJoystick = 0;
-    public float xValueAcc = 0, yValueAcc = 0, zValueAcc = 0;
-    public int pressJoystick = 0;
-    public int lastPressJoystick = 0;
+
+    [HideInInspector] public int xValueJoystick = 0, yValueJoystick = 0;
+    [HideInInspector] public float xValueAcc = 0, yValueAcc = 0, zValueAcc = 0;
+    [HideInInspector] public int pressJoystick = 0;
+    [HideInInspector] public int lastPressJoystick = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -84,8 +86,8 @@ public class SerialHandler : MonoBehaviour
                 pressJoystick = int.Parse(message.Substring(1));
             }
 
-            Debug.Log("xValueJoystick " + xValueJoystick + " yValueJoystick " + yValueJoystick);
-            Debug.Log("xValueAcc " + xValueAcc + " yValueAcc " + yValueAcc + " zValueAcc " + zValueAcc);
+            //Debug.Log("xValueJoystick " + xValueJoystick + " yValueJoystick " + yValueJoystick);
+            //Debug.Log("xValueAcc " + xValueAcc + " yValueAcc " + yValueAcc + " zValueAcc " + zValueAcc);
 
         }
         
@@ -96,7 +98,12 @@ public class SerialHandler : MonoBehaviour
         _serial.WriteLine(newState ? "LED ON" : "LED OFF");
         Debug.Log(newState ? "LED ON" : "LED OFF");
     }
-    
+
+    public void SendMessageToArduino(string msg)
+    {
+        _serial.WriteLine(msg);
+    }
+
     private void OnDestroy()
     {
         _serial.Close();

@@ -31,6 +31,15 @@ public class GameManager : MonoBehaviour
         
         startTime = Time.time;
         endOfLevelPanel.SetActive(false);
+        InvokeRepeating("ShowScoreOnLCD", 0, 1);
+    }
+
+    private void ShowScoreOnLCD()
+    {
+        int score = (int)((Time.time - startTime) * 1000);
+        int bar = (int) AdorationBar.instance.slider.value * 16;
+        SerialHandler.instance.SendMessageToArduino(score.ToString()+";"+bar.ToString());
+
     }
     
     

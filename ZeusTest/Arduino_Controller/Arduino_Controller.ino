@@ -2,7 +2,10 @@
 #include <Wire.h>//https://www.arduino.cc/en/reference/wire
 #include <Adafruit_MPU6050.h>//https://github.com/adafruit/Adafruit_MPU6050
 #include <Adafruit_Sensor.h>//https://github.com/adafruit/Adafruit_Sensor
+#include "LiquidCrystal.h" // ajout de la librairie
 
+
+LiquidCrystal lcd(41,40,39,38,37,36,35,34,33,32); // liaison 8 bits de données
 Adafruit_MPU6050 mpu;
 
 // // The flag signals to the rest of the program an interrupt occured
@@ -11,6 +14,28 @@ static bool button_flag = false;
 // static bool river_state = true;
 static int xValue = 0;
 static int yValue = 0;
+
+byte BlackCharacter[8] = {
+	0b11111,
+	0b11111,
+	0b11111,
+	0b11111,
+	0b11111,
+	0b11111,
+	0b11111,
+	0b11111
+};
+
+byte WhiteCharacter[8] = {
+	0b11111,
+	0b10001,
+	0b10001,
+	0b10001,
+	0b10001,
+	0b10001,
+	0b10001,
+	0b11111
+};
 
 
 
@@ -21,6 +46,9 @@ void buttonPress() {
 
 void setup() {
   int buttonPin = 2;
+
+  lcd.begin(16,2); // utilisation d'un écran 16 colonnes et 2 lignes
+  lcd.write("Ready to be use");
   
   pinMode(LED_BUILTIN, OUTPUT);
   // Internal pullup, no external resistor necessary
@@ -90,11 +118,27 @@ void serialEvent()
   if (message == "LED ON") {
     digitalWrite(7,LOW);
     digitalWrite(8,HIGH);
+    //lcd.clear();
+    //lcd.write("LED ON");
   } else if (message == "LED OFF") {
     digitalWrite(7,HIGH);
     digitalWrite(8,LOW);
+    //lcd.clear();
+    //lcd.write("LED OFF");
+  }else{
+    //ToDo Substring ;
+    String score = message;
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.write("score = ");
+    lcd.write(message.c_str());
+    lcd.setCursor(0, 1);
+    lcd.write("Custom");
   }
 }
+
+
+
 void readMPU( ) { /* function readMPU */
   ////Read acceleromter data
   sensors_event_t a, g, temp;

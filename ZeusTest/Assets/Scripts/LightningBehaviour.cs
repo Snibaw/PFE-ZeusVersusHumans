@@ -8,6 +8,7 @@ public class LightningBehaviour : MonoBehaviour
     public float speed = 0.1f;
     [SerializeField] private float speedAugmentationOverTime = 0.01f;
     [SerializeField] private float maxSpeed = 2f;
+    [SerializeField] private float radiusMultiplier = 3f;
     private float sampleTime = 0;
     private float intensity = 1;
 
@@ -43,7 +44,7 @@ public class LightningBehaviour : MonoBehaviour
         bool needToBeDestroyed = false;
         if(other.CompareTag("Ground") || other.CompareTag("Water")) needToBeDestroyed = true;
         
-        Collider[] colliders = Physics.OverlapSphere(transform.position, intensity);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, intensity * radiusMultiplier);
         foreach(Collider collider in colliders)
         {
             if(collider.gameObject.layer == LayerMask.NameToLayer("CanBeDestroyed"))

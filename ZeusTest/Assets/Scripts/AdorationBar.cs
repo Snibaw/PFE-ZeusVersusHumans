@@ -23,7 +23,7 @@ public class AdorationBar : MonoBehaviour
     public static AdorationBar instance = null;
     [SerializeField] private AdorationBarEvent[] adorationBarEvent;
     private float adorationValue = 0;
-    private Slider slider;
+    public Slider slider;
     
     private void Awake()
     {
