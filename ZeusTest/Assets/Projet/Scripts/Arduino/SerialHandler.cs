@@ -15,8 +15,11 @@ public class SerialHandler : MonoBehaviour
     //[SerializeField] private Component river;
     private Rigidbody2D _riverRigidbody2D;
     private SpriteRenderer _riverSprite;
-    public int xValue = 0, yValue = 0;
-    
+    public int xValueJoystick = 0, yValueJoystick = 0;
+    public float xValueAcc = 0, yValueAcc = 0, zValueAcc = 0;
+    public int pressJoystick = 0;
+    public int lastPressJoystick = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +37,7 @@ public class SerialHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        lastPressJoystick = pressJoystick;
         // Prevent blocking if no message is available as we are not doing anything else
         // Alternative solutions : set a timeout, read messages in another thread, coroutines, futures...
         if (_serial.BytesToRead <= 0) return;
@@ -54,14 +58,35 @@ public class SerialHandler : MonoBehaviour
         }
         else if(message.Length > 0)
         {
-            if (message[0] == 'x')
+
+            if (message[0] == 'x')//Joystick x
             {
-                xValue = int.Parse(message.Substring(1));
+                xValueJoystick = int.Parse(message.Substring(1));
             }
-            else if (message[0] == 'y')
+            else if (message[0] == 'y')//Joystick y
             {
-                yValue = int.Parse(message.Substring(1));
+                yValueJoystick = int.Parse(message.Substring(1));
             }
+            else if (message[0] == 'X')//Accélération X
+            {
+                xValueAcc = float.Parse(message.Substring(1).Replace(".",","));
+            }
+            else if (message[0] == 'Y')//Accélération Y
+            {
+                yValueAcc = float.Parse(message.Substring(1).Replace(".", ","));
+            }
+            else if (message[0] == 'Z')//Accélération Z
+            {
+                zValueAcc = float.Parse(message.Substring(1).Replace(".", ","));
+            }
+            else if (message[0] == 'b')//Accélération Z
+            {
+                pressJoystick = int.Parse(message.Substring(1));
+            }
+
+            Debug.Log("xValueJoystick " + xValueJoystick + " yValueJoystick " + yValueJoystick);
+            Debug.Log("xValueAcc " + xValueAcc + " yValueAcc " + yValueAcc + " zValueAcc " + zValueAcc);
+
         }
         
     }
