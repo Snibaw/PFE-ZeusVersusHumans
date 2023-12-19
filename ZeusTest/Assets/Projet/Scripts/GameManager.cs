@@ -22,8 +22,6 @@ public class GameManager : MonoBehaviour
         if (instance == null) instance = this;
         else if(instance != this) Destroy(gameObject);
 
-        //serialHandler.SetLed(false);
-
     }
     
     
@@ -33,9 +31,6 @@ public class GameManager : MonoBehaviour
     {
         damageText.text = Mathf.Ceil(damage).ToString() + " / " + Mathf.Ceil(life).ToString();
         StartCoroutine(ResetDamageText(0.5f));
-
-        //Debug.Log("serialHandler: " + (life > damage));
-        //serialHandler.SetLed(life > damage);
     }
     IEnumerator ResetDamageText(float time)
     {
