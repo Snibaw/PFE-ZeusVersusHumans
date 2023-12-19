@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     private void ShowScoreOnLCD()
     {
         int score = (int)((Time.time - startTime) * 1000);
-        int bar = (int) AdorationBar.instance.slider.value * 16;
+        int bar = (int) AdorationBar.instance.slider.value * 16 / 100;
         SerialHandler.instance.SendMessageToArduino(score.ToString()+";"+bar.ToString());
 
     }

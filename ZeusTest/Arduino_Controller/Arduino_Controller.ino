@@ -49,6 +49,8 @@ void setup() {
 
   lcd.begin(16,2); // utilisation d'un écran 16 colonnes et 2 lignes
   lcd.write("Ready to be use");
+  lcd.createChar(0, WhiteCharacter);
+  lcd.createChar(1, BlackCharacter);
   
   pinMode(LED_BUILTIN, OUTPUT);
   // Internal pullup, no external resistor necessary
@@ -127,13 +129,25 @@ void serialEvent()
     //lcd.write("LED OFF");
   }else{
     //ToDo Substring ;
-    String score = message;
+    int index = message.lastIndexOf(';');
+    int length = message.length();
+    String score = message.substring(0,index-1);
+    String barNb = message.substring(index+1,length);
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.write("score = ");
-    lcd.write(message.c_str());
+    lcd.write(score.c_str());
     lcd.setCursor(0, 1);
-    lcd.write("Custom");
+    int barNbWhiteCharacter = barNb.toInt()+1;
+    int barNbBlackCharacter = 16-barNbWhiteCharacter;
+    for(int i = 0; i < 16; i++){
+      if(i <= barNbBlackCharacter){
+        lcd.write(byte(1));
+      }else{
+        lcd.write(byte(0));
+      }
+    }
+    
   }
 }
 
