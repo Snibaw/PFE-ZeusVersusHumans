@@ -53,7 +53,6 @@ public class AdorationBar : MonoBehaviour
             {
                 adorationValue = Mathf.Clamp(adorationValue + adorationEvent.value, 0, 100);
                 slider.value = adorationValue;
-                SerialHandler.instance.SetLed(adorationValue > 50);
                 if (adorationValue <= 0 || adorationValue >= 100)
                 {
                     GameManager.instance.EndGame(adorationValue <= 0);
