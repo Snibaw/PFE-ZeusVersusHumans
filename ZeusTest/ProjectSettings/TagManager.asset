@@ -17,6 +17,7 @@ TagManager:
   - Resources
   - Building
   - Sphere
+  - Planet
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - CanBeDestroyed
   - Water
   - UI
-  - 
+  - Postprocessing
   - 
   - 
   - 
