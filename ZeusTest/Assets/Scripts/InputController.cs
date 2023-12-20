@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
+    [SerializeField] private Tutorial _tutorial;
     [SerializeField] private CameraMovement cameraMovement;
     private GameObject canvasUI;
     private ThrowLightning throwLightning;
@@ -60,7 +61,7 @@ public class InputController : MonoBehaviour
             switch(touch.phase)
             {
                 case TouchPhase.Began: // If the player just touched the screen
-
+                    if(_tutorial != null) _tutorial.CompletePhase(3);
                     timePressed = Time.time;
                     if (canvasUI != null && canvasUI.activeInHierarchy)
                     {
@@ -93,6 +94,8 @@ public class InputController : MonoBehaviour
                         if (Time.time-timePressed >= 0.03f) // If not, the planet will rotate too fast
                         {
                             cameraMovement.RotateAround(x,y);
+                            if(_tutorial != null)
+                                _tutorial.CompletePhase(1);
                         }
                     }
 
@@ -109,6 +112,7 @@ public class InputController : MonoBehaviour
                     {
                         if(xWhenPressed != x || yWhenPressed != y) // If the player move the mouse
                         {
+                            if(_tutorial != null) _tutorial.CompletePhase(2);
                             Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
                             throwLightning.Throw(lightningDirection.normalized, lightningDirection.magnitude, Time.time-timePressed);
                         }

@@ -24,6 +24,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake() {
         Application.targetFrameRate = 60;
+        
+        if(SceneManager.GetActiveScene().name == "MainScene")
+        {
+            if (!PlayerPrefs.HasKey("Tutorial"))
+            {
+                SceneManager.LoadScene("Tuto");
+                return;
+            }
+        }
         Time.timeScale = gameSpeed;
 
         if (instance == null) instance = this;
