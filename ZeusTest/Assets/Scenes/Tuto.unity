@@ -689,7 +689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tutorial: {fileID: 650145615}
   cameraMovement: {fileID: 963194229}
-  timeBtwClickAndHold: 0.5
+  timeBtwClickAndHold: 0.1
   yBorderBtwRotationAndLightning: 0.25
 --- !u!1 &100944740
 GameObject:
@@ -5929,6 +5929,8 @@ MonoBehaviour:
   - Ta jauge d'eclair se trouve en bas et se regenere au cours du temps
   - Ne gaspille pas tes eclairs car si ta jauge d'adoration et de science n'est pas
     equilibre, tu perds la partie
+  - "Maintenant c'est a toi de jouer ! Survis le plus longtemps possible face \xE0
+    une civilisation evolutive"
   - 
   mouseUI: {fileID: 1136538820}
   hideObjectsPhase1:
@@ -5949,6 +5951,10 @@ MonoBehaviour:
   - {fileID: 1008923666}
   showObjectsPhase4:
   - {fileID: 1506533862}
+  hideObjectsPhase5:
+  - {fileID: 1506533862}
+  - {fileID: 1008923666}
+  showObjectsPhase5: []
   throwLightning: {fileID: 92050135}
 --- !u!4 &650145616
 Transform:

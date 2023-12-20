@@ -28,6 +28,10 @@ public class Tutorial : MonoBehaviour
     [Header("Phase 4")]
     [SerializeField] private GameObject[] hideObjectsPhase4;
     [SerializeField] private GameObject[] showObjectsPhase4;
+    
+    [Header("Phase 5")]
+    [SerializeField] private GameObject[] hideObjectsPhase5;
+    [SerializeField] private GameObject[] showObjectsPhase5;
 
     [SerializeField] private ThrowLightning throwLightning;
     // Start is called before the first frame update
@@ -104,6 +108,18 @@ public class Tutorial : MonoBehaviour
 
                 break;
             case 5:
+                foreach (GameObject hideObject in hideObjectsPhase5)
+                {
+                    hideObject.SetActive(false);
+                }
+                foreach (GameObject showObject in showObjectsPhase5)
+                {
+                    showObject.SetActive(true);
+                }
+
+                break;
+                
+            case 6:
                 PlayerPrefs.SetInt("Tutorial", 1);
                 SceneManager.LoadScene("MainScene");
                 break;
@@ -112,8 +128,10 @@ public class Tutorial : MonoBehaviour
     public void CompletePhase(int i)
     {
         if((phaseNumber <= 3 && i != phaseNumber) || changingPhase) return;
+        if(phaseNumber >= 4 && i != 3) return; // We can only complete phase 4 and above by clicking like phase 3
+        
         changingPhase = true;
         mouseUI.SetActive(false);
-        Invoke("ChangePhase", 1f);
+        ChangePhase();
     }
 }

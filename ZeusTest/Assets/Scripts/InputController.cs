@@ -61,7 +61,6 @@ public class InputController : MonoBehaviour
             switch(touch.phase)
             {
                 case TouchPhase.Began: // If the player just touched the screen
-                    if(_tutorial != null) _tutorial.CompletePhase(3);
                     timePressed = Time.time;
                     if (canvasUI != null && canvasUI.activeInHierarchy)
                     {
@@ -116,6 +115,10 @@ public class InputController : MonoBehaviour
                             Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
                             throwLightning.Throw(lightningDirection.normalized, lightningDirection.magnitude, Time.time-timePressed);
                         }
+                    }
+                    if(!isBelowYBorder && Time.time - timePressed < timeBtwClickAndHold)
+                    {
+                        if(_tutorial != null) _tutorial.CompletePhase(3);
                     }
 
                     timePressed = Time.time;
