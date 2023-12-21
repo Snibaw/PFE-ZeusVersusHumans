@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AStar
 {
-    public List<Vector3> FindPath(Dictionary<GraphNode, List<GraphNode>> graph, GraphNode startNode, GraphNode goalNode)
+    public List<Vector3> FindPath(Dictionary<GraphNode, List<GraphNode>> graph, GraphNode startNode, GraphNode goalNode, bool canMoveOnWater)
     {
         PriorityQueue<GraphNode> openSet = new PriorityQueue<GraphNode>();
         HashSet<GraphNode> closedSet = new HashSet<GraphNode>();
@@ -13,13 +13,13 @@ public class AStar
         
         if(startNode.IsObstacle)
         {
-            startNode = PointDistribution.instance.FindClosestNodeFree(startNode.Position);
+            startNode = PointDistribution.instance.FindClosestNodeFree(startNode.Position, canMoveOnWater);
         }
 
         openSet.Enqueue(startNode, 0);
         if (goalNode.IsObstacle)
         {
-            goalNode = PointDistribution.instance.FindClosestNodeFree(goalNode.Position);
+            goalNode = PointDistribution.instance.FindClosestNodeFree(goalNode.Position, canMoveOnWater);
         }
         
         gScore[startNode] = 0;
