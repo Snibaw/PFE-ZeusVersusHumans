@@ -12,7 +12,9 @@ public class Build : Action
 
     public override void SetRequiredDestination(NPCController _npcController)
     {
-        Vector3 currentConstructionPosition = _npcController.FindBuildPosition().position;
+        Transform target = _npcController.FindBuildPosition();
+        Vector3 currentConstructionPosition = target.position;
+        Destroy(target.gameObject);
         /*
         Vector3 IAposition = _npcController.gameObject.transform.position;
         Vector3 IAforward = _npcController.gameObject.transform.forward;

@@ -178,6 +178,8 @@ public class NPCController : MonoBehaviour
     private void ExecuteBuild()
     {
         buildingToBuild.SetActive(true);
+
+        Destroy(aiBrain.bestAction.RequiredDestination.gameObject);
         //Tell the context that a new house has been built
         if(buildingToBuild.GetComponent<Building>().BuildingType == BuildingType.house)
             context.AddDestinationTypeBuild(DestinationType.rest, buildingToBuild.transform);
