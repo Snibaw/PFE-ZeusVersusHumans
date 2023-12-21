@@ -39,8 +39,8 @@ public class SpawnResources : MonoBehaviour
         if(centerNode != null)
         {
             centerNode.IsObstacle = true;
-            _pointDistribution.SetAllInRadiusToObstacle(centerNode, townPrefab.GetComponent<BoxCollider>().size.x);
-            InstantiateResource(townPrefab, centerNode);
+            var townSpawned = InstantiateResource(townPrefab, centerNode);
+            _pointDistribution.SetAllInColliderToObstacle(townSpawned.GetComponent<BoxCollider>());
         }
         
         
@@ -154,11 +154,12 @@ public class SpawnResources : MonoBehaviour
         
         return nodeToReturn;
     }
-    private void InstantiateResource(GameObject prefab, GraphNode node)
+    private GameObject InstantiateResource(GameObject prefab, GraphNode node)
     {
         if(_pointDistribution.uspheres.Count > 0) _pointDistribution.uspheres[node.index].GetComponent<MeshRenderer>().material.color = Color.blue;
         GameObject objSpawned = Instantiate(prefab, node.Position, Quaternion.identity);
         SetRotationAndParent(objSpawned);
+        return objSpawned;
     }
     public void SetRotationAndParent(GameObject objSpawned)
     {

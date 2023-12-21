@@ -22,7 +22,7 @@ public class NPCController : MonoBehaviour
     public IAConstruction constructionToBuild { get; set; }
     public Building buildingToUpgrade {get; set; }
     public IAConstruction constructionToUpgrade {get; set; }
-    public Vector3 positionToBuild { get; set; }
+    public GameObject buildingToBuild { get; set; }
     private bool isSleeping = false;
 
     [SerializeField] private UI_Timer uiTimerScript;
@@ -177,23 +177,21 @@ public class NPCController : MonoBehaviour
 
     private void ExecuteBuild()
     {
-        //Spawn the construction
-        GameObject building = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
-        building.transform.LookAt(transform.position, positionToBuild.normalized);
+        buildingToBuild.SetActive(true);
         //Tell the context that a new house has been built
-        if(building.GetComponent<Building>().BuildingType == BuildingType.house)
-            context.AddDestinationTypeBuild(DestinationType.rest, building.transform);
+        if(buildingToBuild.GetComponent<Building>().BuildingType == BuildingType.house)
+            context.AddDestinationTypeBuild(DestinationType.rest, buildingToBuild.transform);
         //Tell the build manager that a new construction has been built
-        buildManager.AddConstructionBuilt(building.GetComponent<Building>().BuildingType);
+        buildManager.AddConstructionBuilt(buildingToBuild.GetComponent<Building>().BuildingType);
         //Tell the upgrade manager that a new construction has been built
-        upgradeManager.AddBuildingBuilt(building.GetComponent<Building>());
+        upgradeManager.AddBuildingBuilt(buildingToBuild.GetComponent<Building>());
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
             Inventory.RemoveResource(r, constructionToBuild.GetResourceNeeded(r,0));
         }
         constructionToBuild = null;
-        positionToBuild = Vector3.zero;
+        buildingToBuild = null;
     }
     private void ExecuteUpgrade()
     {
@@ -234,17 +232,22 @@ public class NPCController : MonoBehaviour
     public Transform FindBuildPosition()
     {
         GraphNode targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, constructionToBuild.prefab.GetComponent<BoxCollider>().size.x * 1.2f);
-        positionToBuild = targetNode.Position;
+        var positionToBuild = targetNode.Position;
+        //Spawn the construction
+        buildingToBuild = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
+        buildingToBuild.transform.LookAt(transform.position, positionToBuild.normalized);
+        _pointDistribution.SetAllInColliderToObstacle(buildingToBuild.GetComponent<BoxCollider>());
+        buildingToBuild.SetActive(false);
+
         GameObject Target = new GameObject();
         Target.transform.position = targetNode.Position;
-        targetNode.IsObstacle = true;
-        _pointDistribution.SetAllInRadiusToObstacle(targetNode, constructionToBuild.prefab.GetComponent<BoxCollider>().size.x * 1.2f);
+        
         return  Target.transform;
     }
 
     public Transform FindBuildRequiredDestination()
     {
-        GraphNode targetNode = _pointDistribution.FindClosestNodeFree(positionToBuild, _canMoveOnWater);
+        GraphNode targetNode = _pointDistribution.FindClosestNodeFree(buildingToBuild.transform.position, _canMoveOnWater);
         GameObject Target = new GameObject();
         Target.transform.position = targetNode.Position;
         return  Target.transform;

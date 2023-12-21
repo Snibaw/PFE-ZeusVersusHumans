@@ -269,12 +269,18 @@ public class PointDistribution : MonoBehaviour
     {
         for (int i = 0; i < nodes.Length; i++)
             {
-                if (collider.bounds.Contains(nodes[i].Position))
+                if (IsInside(collider, nodes[i].Position))
                 {
                     nodes[i].IsObstacle = true;
                 }
             }
     }
+
+    public static bool IsInside(Collider c, Vector3 point)
+    	{
+    		Vector3 closest = c.ClosestPoint(point);
+    		return closest == point;
+    	}
 
 
 }
