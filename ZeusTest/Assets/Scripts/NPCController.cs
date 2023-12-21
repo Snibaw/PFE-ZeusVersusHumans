@@ -26,7 +26,10 @@ public class NPCController : MonoBehaviour
     private bool isSleeping = false;
 
     [SerializeField] private UI_Timer uiTimerScript;
+    [SerializeField] private bool _canMoveOnWater;
     PointDistribution _pointDistribution;
+
+    
 
     public bool isExecuting;
     // Start is called before the first frame update
@@ -42,6 +45,8 @@ public class NPCController : MonoBehaviour
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
         isExecuting = false;
         constructionToBuild = null;
+        _canMoveOnWater = false;
+        
     }
 
     // Update is called once per frame
@@ -51,6 +56,8 @@ public class NPCController : MonoBehaviour
         // stats.UpdateHunger();
         FSMTick();
     }
+
+    
 
     public void FSMTick()
     {
@@ -78,7 +85,7 @@ public class NPCController : MonoBehaviour
                 }
                 else
                 {
-                    mover.MoveTo(aiBrain.bestAction.RequiredDestination.position);
+                    mover.MoveTo(aiBrain.bestAction.RequiredDestination.position, _canMoveOnWater);
                 }    
                 
                 break;
@@ -237,11 +244,14 @@ public class NPCController : MonoBehaviour
 
     public Transform FindBuildRequiredDestination()
     {
-        GraphNode targetNode = _pointDistribution.FindClosestNodeFree(positionToBuild);
+        GraphNode targetNode = _pointDistribution.FindClosestNodeFree(positionToBuild, _canMoveOnWater);
         GameObject Target = new GameObject();
         Target.transform.position = targetNode.Position;
         return  Target.transform;
     }
+
+
+    
 
     /*
     public Transform FindBuildPosition()

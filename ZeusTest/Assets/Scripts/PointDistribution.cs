@@ -69,6 +69,7 @@ public class PointDistribution : MonoBehaviour
 
     void Update()
     {
+        /*
         if (Input.GetMouseButtonDown(0))
         {
             // Raycast from the mouse position to the world, check if it hits a sphere
@@ -93,6 +94,7 @@ public class PointDistribution : MonoBehaviour
                 }
             }
         }
+        */
         if (showSpheres)
          {
              foreach (GameObject sphere in GameObject.FindGameObjectsWithTag("Sphere"))
@@ -104,20 +106,20 @@ public class PointDistribution : MonoBehaviour
          }
     }
 
-    public void FindPath()
+    public void FindPath(bool canMoveOnWater)
     {
         Random.InitState(System.DateTime.Now.Second);
-        if (_startNode == null && _endNode == null) CalculatePath(nodes[Random.Range(0, nodes.Length)], nodes[Random.Range(0, nodes.Length)]);
-        else if (_startNode == null) CalculatePath(nodes[Random.Range(0, nodes.Length)], nodes[uspheres.IndexOf(_endNode)]);
-        else if (_endNode == null) CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[Random.Range(0, nodes.Length)]);
-        else CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[uspheres.IndexOf(_endNode)]);
+        if (_startNode == null && _endNode == null) CalculatePath(nodes[Random.Range(0, nodes.Length)], nodes[Random.Range(0, nodes.Length)], canMoveOnWater);
+        else if (_startNode == null) CalculatePath(nodes[Random.Range(0, nodes.Length)], nodes[uspheres.IndexOf(_endNode)], canMoveOnWater);
+        else if (_endNode == null) CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[Random.Range(0, nodes.Length)], canMoveOnWater);
+        else CalculatePath(nodes[uspheres.IndexOf(_startNode)], nodes[uspheres.IndexOf(_endNode)], canMoveOnWater);
     }
     
-    public List<Vector3> CalculatePath(GraphNode startNode, GraphNode endNode)
+    public List<Vector3> CalculatePath(GraphNode startNode, GraphNode endNode, bool canMoveOnWater)
     {        
         AStar aStar = new AStar();
 
-        List<Vector3> path = aStar.FindPath(graph, startNode, endNode);
+        List<Vector3> path = aStar.FindPath(graph, startNode, endNode, canMoveOnWater);
         if (path == null) return null;
         
         for (int i = 0; i < path.Count - 1; i++)
@@ -204,7 +206,7 @@ public class PointDistribution : MonoBehaviour
         uspheres = null;
     }
 
-    public GraphNode FindClosestNodeFree(Vector3 position)
+    public GraphNode FindClosestNodeFree(Vector3 position, bool canMoveOnWater)
     {
         GraphNode closestNode = null;
         float closestDistance = float.MaxValue;
@@ -212,6 +214,7 @@ public class PointDistribution : MonoBehaviour
         foreach(var node in graph.Keys)
         {
             if(node.IsObstacle) continue;
+            if (node.IsWater && !canMoveOnWater) continue;
             float distance = Vector3.Distance(node.Position, position);
 
             if (distance < closestDistance)

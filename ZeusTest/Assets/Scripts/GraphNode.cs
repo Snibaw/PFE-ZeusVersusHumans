@@ -7,6 +7,8 @@ public class GraphNode
 {
     public Vector3 Position { get; set; }
     public bool IsObstacle { get; set; }
+
+    public bool IsWater { get; set; }
     public int index { get; set; }
 
     private void CheckGroundAndAdaptPosition()
@@ -18,7 +20,7 @@ public class GraphNode
             Position = hit.point;
             if (hit.collider.gameObject.CompareTag("Water"))
             {
-                IsObstacle = true;
+                IsWater = true;
             }
         }
         else // If the raycast doesn't hit anything, it's an obstacle

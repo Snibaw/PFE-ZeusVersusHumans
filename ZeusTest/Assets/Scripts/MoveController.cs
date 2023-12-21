@@ -16,6 +16,8 @@ public class MoveController : MonoBehaviour
     protected Coroutine _followPath;
     protected bool isMoving = false;
 
+    private Vector3 _positionLastFrame;
+
     // public Transform destination;
     // Start is called before the first frame update
     protected void Start()
@@ -25,17 +27,20 @@ public class MoveController : MonoBehaviour
         stats = GetComponent<NPCStats>();
         exhaustedSpeed = startSpeed / 2;
         currentSpeed = startSpeed;
+        _positionLastFrame = transform.position;
     }
-    public void MoveTo(Vector3 position)
+
+   
+    public void MoveTo(Vector3 position, bool canMoveOnWater)
     {
-        transform.rotation = Quaternion.FromToRotation(Vector3.up, transform.position - Vector3.zero);
+        
         
         if (isMoving) return;
 
         isMoving = true;
         StartCoroutine(FollowPath(PointDistribution.instance.CalculatePath(
             PointDistribution.instance.FindTheClosestGraphNode(transform.position), 
-            PointDistribution.instance.FindTheClosestGraphNode(position))));
+            PointDistribution.instance.FindTheClosestGraphNode(position), canMoveOnWater)));
         
     }
 
@@ -55,6 +60,22 @@ public class MoveController : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
+        //TurnNPCToMovementDirection();
+    }
+
+    private void LateUpdate()
+    {
+        _positionLastFrame = transform.position;
+    }
+
+    private void TurnNPCToMovementDirection()
+    {
+        if (transform.position == _positionLastFrame) return;
+
+        Vector3 direction = (transform.position - _positionLastFrame).normalized;
+
+        transform.LookAt(direction + transform.position);
+
     }
 
 
@@ -74,7 +95,11 @@ public class MoveController : MonoBehaviour
                 else
                 {
                     Vector3 direction = (path[index] - transform.position).normalized;
-                    transform.position += direction * currentSpeed * Time.deltaTime;
+                    transform.rotation = Quaternion.FromToRotation(Vector3.up, transform.position);
+                    Vector3 directionToAdd = direction * currentSpeed * Time.deltaTime;
+                    transform.LookAt(transform.position - direction, transform.up);
+                    transform.position += directionToAdd;
+                    
                 }
                 yield return new WaitForEndOfFrame();
             }
