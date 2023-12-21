@@ -127,58 +127,60 @@ public class InputController : MonoBehaviour
         }
 
         //* This is for PC *//
-        // #if UNITY_EDITOR
-        //     // At the first input we check if its below or above the yborder between rotation and lightning
-        //     if(Input.GetMouseButtonDown(0)) // First left click input
-        //     {
-        //         if (canvasUI != null && canvasUI.activeInHierarchy)
-        //         {
-        //             canvasUI.SetActive(false); //Deactivate UI when click elsewhere
-        //         }
-        //         else
-        //         {
-        //             ActivateUI();
-        //         }
-        //         if(Input.mousePosition.y < Screen.height * yBorderBtwRotationAndLightning)
-        //             isBelowYBorder = true;
-        //         else
-        //             isBelowYBorder = false;
-        //         
-        //         xWhenPressed = Input.mousePosition.x;
-        //         yWhenPressed = Input.mousePosition.y;
-        //     }
-        //     if(Input.GetMouseButton(0)) // If player hold left click
-        //     {
-        //         if(isBelowYBorder) 
-        //         {
-        //             x = Input.mousePosition.x;
-        //             y = Input.mousePosition.y;
-        //         }
-        //         else //Rotate the planet
-        //         {
-        //             x = Input.GetAxis("Mouse X");
-        //             y = Input.GetAxis("Mouse Y");
-        //             
-        //             if (timePressed >= 0.03f) // If not, the planet will rotate too fast
-        //             {
-        //                 cameraMovement.RotateAround(x,y);
-        //             }
-        //             
-        //         }
-        //         timePressed += Time.deltaTime;
-        //     }
-        //     else 
-        //     {
-        //         if(isBelowYBorder && timePressed > 0) // The player wants to throw lightning
-        //         {
-        //             if(xWhenPressed != x || yWhenPressed != y) // If the player move the mouse
-        //             {
-        //                 Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
-        //                 throwLightning.Throw(lightningDirection.normalized, lightningDirection.magnitude, timePressed);
-        //             }
-        //         }
-        //         timePressed = 0;
-        //     }
-        // #endif
+        /*
+        #if UNITY_EDITOR
+            // At the first input we check if its below or above the yborder between rotation and lightning
+            if(Input.GetMouseButtonDown(0)) // First left click input
+            {
+                if (canvasUI != null && canvasUI.activeInHierarchy)
+                {
+                    canvasUI.SetActive(false); //Deactivate UI when click elsewhere
+                }
+                else
+                {
+                    ActivateUI();
+                }
+                if(Input.mousePosition.y < Screen.height * yBorderBtwRotationAndLightning)
+                    isBelowYBorder = true;
+                else
+                    isBelowYBorder = false;
+                 
+                xWhenPressed = Input.mousePosition.x;
+                yWhenPressed = Input.mousePosition.y;
+            }
+            if(Input.GetMouseButton(0)) // If player hold left click
+            {
+                if(isBelowYBorder) 
+                {
+                    x = Input.mousePosition.x;
+                    y = Input.mousePosition.y;
+                }
+                else //Rotate the planet
+                {
+                    x = Input.GetAxis("Mouse X");
+                    y = Input.GetAxis("Mouse Y");
+                    
+                    if (timePressed >= 0.03f) // If not, the planet will rotate too fast
+                    {
+                        cameraMovement.RotateAround(x,y);
+                    }
+                    
+                }
+                timePressed += Time.deltaTime;
+            }
+            else 
+            {
+                if(isBelowYBorder && timePressed > 0) // The player wants to throw lightning
+                {
+                    if(xWhenPressed != x || yWhenPressed != y) // If the player move the mouse
+                    {
+                        Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
+                        throwLightning.Throw(lightningDirection.normalized, lightningDirection.magnitude, timePressed);
+                    }
+                }
+                timePressed = 0;
+            }
+        #endif
+        */
     }
 }

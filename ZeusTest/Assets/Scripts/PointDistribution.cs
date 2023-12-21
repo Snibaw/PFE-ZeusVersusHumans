@@ -93,6 +93,15 @@ public class PointDistribution : MonoBehaviour
                 }
             }
         }
+        if (showSpheres)
+         {
+             foreach (GameObject sphere in GameObject.FindGameObjectsWithTag("Sphere"))
+             {
+                if(nodes[uspheres.IndexOf(sphere)].IsObstacle)
+                     sphere.GetComponent<Renderer>().material.color = Color.blue;
+                else sphere.GetComponent<Renderer>().material.color = Color.white;
+             }
+         }
     }
 
     public void FindPath()
@@ -247,6 +256,17 @@ public class PointDistribution : MonoBehaviour
         for (int i = 0; i < nodes.Length; i++)
             {
                 if (Vector3.Distance(nodes[i].Position, positionNode.Position) < radius)
+                {
+                    nodes[i].IsObstacle = true;
+                }
+            }
+    }
+
+    public void SetAllInColliderToObstacle(Collider collider)
+    {
+        for (int i = 0; i < nodes.Length; i++)
+            {
+                if (collider.bounds.Contains(nodes[i].Position))
                 {
                     nodes[i].IsObstacle = true;
                 }

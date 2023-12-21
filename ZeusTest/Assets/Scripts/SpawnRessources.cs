@@ -38,13 +38,8 @@ public class SpawnResources : MonoBehaviour
         
         if(centerNode != null)
         {
-            //Make the nodes around the city as obstacles
-            foreach (GraphNode neighbor in _pointDistribution.graph[centerNode])
-            {
-                if(neighbor.IsObstacle) continue;
-                neighbor.IsObstacle = true;
-            }
             centerNode.IsObstacle = true;
+            _pointDistribution.SetAllInRadiusToObstacle(centerNode, townPrefab.GetComponent<BoxCollider>().size.x);
             InstantiateResource(townPrefab, centerNode);
         }
         
