@@ -17,6 +17,7 @@ public class MoveController : MonoBehaviour
     protected bool isMoving = false;
 
     private Vector3 _positionLastFrame;
+    [SerializeField] private GameObject _boat;
 
     // public Transform destination;
     // Start is called before the first frame update
@@ -57,31 +58,9 @@ public class MoveController : MonoBehaviour
             currentSpeed = startSpeed;
     }
 
-    // Update is called once per frame
-    protected void Update()
-    {
-        //TurnNPCToMovementDirection();
-    }
-
-    private void LateUpdate()
-    {
-        _positionLastFrame = transform.position;
-    }
-
-    private void TurnNPCToMovementDirection()
-    {
-        if (transform.position == _positionLastFrame) return;
-
-        Vector3 direction = (transform.position - _positionLastFrame).normalized;
-
-        transform.LookAt(direction + transform.position);
-
-    }
-
 
     public IEnumerator FollowPath(List<Vector3> path)
     {
-        //transform.position = path[0];
         float distanceRequire = 0.25f;
         int index = 0;
         if(path != null)
@@ -99,6 +78,14 @@ public class MoveController : MonoBehaviour
                     Vector3 directionToAdd = direction * currentSpeed * Time.deltaTime;
                     transform.LookAt(transform.position - direction, transform.up);
                     transform.position += directionToAdd;
+                    if (PointDistribution.instance.FindTheClosestGraphNode(transform.position).IsWater)
+                    {
+                        if(_boat != null) _boat.SetActive(true);
+                    }
+                    else
+                    {
+                        if (_boat != null) _boat.SetActive(false);
+                    }
                     
                 }
                 yield return new WaitForEndOfFrame();
