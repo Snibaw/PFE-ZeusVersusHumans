@@ -49,9 +49,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curve: {fileID: 0}
-  speed: 0
+  speed: 0.7
   speedAugmentationOverTime: 0.02
-  maxSpeed: 2
+  maxSpeed: 3
 --- !u!54 &-2205202490226168448
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -166,7 +166,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4419999949185646, guid: fd915375aaf0fc84eb9c7494badb5054, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114008910386843990, guid: fd915375aaf0fc84eb9c7494badb5054,
+        type: 3}
+      propertyPath: MaxLength
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114008910386843990, guid: fd915375aaf0fc84eb9c7494badb5054,
+        type: 3}
+      propertyPath: damageOverTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114008910386843990, guid: fd915375aaf0fc84eb9c7494badb5054,
+        type: 3}
+      propertyPath: MainTextureLength
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -247,6 +262,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3243425875439924772, guid: b2e6067334f423d488eb648303ed5700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -657070759458676009, guid: b2e6067334f423d488eb648303ed5700,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -657070759458676009, guid: b2e6067334f423d488eb648303ed5700,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -260,6 +285,11 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b2e6067334f423d488eb648303ed5700,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3350008874023799960, guid: b2e6067334f423d488eb648303ed5700,
+        type: 3}
+      propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

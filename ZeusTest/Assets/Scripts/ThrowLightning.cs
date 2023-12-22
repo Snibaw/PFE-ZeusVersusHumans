@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public class ThrowLightning : MonoBehaviour
 {
+    [SerializeField] private Vector3 spawnOffset;
     [SerializeField] private GameObject lightningPrefab;
     [SerializeField] private MeshCollider planetCollider;
     [SerializeField] private GameObject AimCurve;
@@ -76,9 +78,11 @@ public class ThrowLightning : MonoBehaviour
     {
         //Make the direction relative to the rotation of the camera
         direction =  Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * direction;
-        
+
+        Vector3 changeSpawnOffset = new Vector3(spawnOffset.x * UnityEngine.Random.Range(-1, 1), spawnOffset.y, spawnOffset.z);
+        Vector3 rotatedSpawnOffset = mainCam.transform.rotation * changeSpawnOffset;
+        curve.A.position = mainCam.transform.position + rotatedSpawnOffset;
         float magnitudeMax = Screen.height;
-        curve.A.position = mainCam.transform.position;
         Vector3 finalPosition = direction.normalized * planetRadius * magnitude * 3 / magnitudeMax;
         finalPosition -= new Vector3(0, planetRadius, 0); // Lower point = planet bottom
         curve.B.position = finalPosition;
