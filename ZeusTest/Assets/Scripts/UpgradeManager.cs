@@ -21,6 +21,7 @@ public class UpgradeManager : MonoBehaviour
     private void Start()
     {
         storageInventory = GetComponent<StorageInventory>();
+        AddBuildingBuilt(gameObject.GetComponent<Building>());
     }
     public void AddBuildingBuilt(Building building)
     {

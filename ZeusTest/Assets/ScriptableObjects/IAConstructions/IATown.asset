@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f03641cf8ebc1b348a42704d3b3f72de, type: 3}
   m_Name: IATown
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7928200180542378709, guid: e838f049a8ab05c448000919b26131c3, type: 3}
+  prefab: {fileID: 4753602130079823826, guid: 5c4dee8c44d46324aaffc61ecd24a991, type: 3}
   numberMaxToSpawn: 0
   woodCost: 050000000500000005000000
   stoneCost: 050000000500000005000000
