@@ -21,7 +21,7 @@ public class Work : Action
         foreach (Transform resource in resources)
         {
             Resource resourceComponent = resource.GetComponent<Resource>();
-            if(resourceComponent.ResourceType != resourceNeeded || !resourceComponent.canBeHarvested) 
+            if(resourceComponent.ResourceType != resourceNeeded || !resourceComponent.canBeHarvested || resourceComponent.isMarked) 
                 continue;
             
             float distanceFromResource = Vector3.Distance(_npcController.transform.position, resource.position);
@@ -36,6 +36,8 @@ public class Work : Action
             _npcController.currentState = State.decide;
             return;
         }
+
+        nearestResource.GetComponent<Resource>().MarkThisResource();
         RequiredDestination = nearestResource;
     }
 }
