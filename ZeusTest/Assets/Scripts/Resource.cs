@@ -13,6 +13,7 @@ public enum ResourceType
 public class Resource : MonoBehaviour
 {
     public bool canBeHarvested = true;
+    public bool isMarked = false; // Is someone going to harvest this resource ?
     [SerializeField] private ResourceType resourceType;
     [SerializeField] private GameObject SpawnedModel;
     [SerializeField] private GameObject HarvestedModel;
@@ -76,6 +77,17 @@ public class Resource : MonoBehaviour
     {
         yield return new WaitForSeconds(timeBeforeRespawn);
         canBeHarvested = true;
+        isMarked = false;
         ShowModelDependingOnHarvestedState();
+    }
+    public void MarkThisResource()
+    {
+        isMarked = true;
+        StartCoroutine(WaitBeforeUnmarking(5f));
+    }
+    private IEnumerator WaitBeforeUnmarking(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isMarked = false;
     }
 }
