@@ -1484,6 +1484,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6145647731863675197, guid: 17c56660cef6fcc4088e1f30292e8e4a,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6872243824899630401, guid: 17c56660cef6fcc4088e1f30292e8e4a,
         type: 3}
       propertyPath: m_Name
