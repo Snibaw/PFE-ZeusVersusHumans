@@ -33,8 +33,8 @@ public class Resource : MonoBehaviour
             resourceType = value;
         }
     }
-    public delegate void ResourceExhausted();
-    public event ResourceExhausted OnResourceExhausted;
+    // public delegate void ResourceExhausted();
+    // public event ResourceExhausted OnResourceExhausted;
 
     // Start is called before the first frame update
     void Start()

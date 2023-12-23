@@ -14,7 +14,7 @@ public class Work : Action
     {
         float distance = Mathf.Infinity;
         Transform nearestResource = null;
-        GameObject targetObject = null;
+        // GameObject targetObject = null;
 
         ResourceType resourceNeeded = _npcController.context.storage.GetResourceNeeded(_npcController.Inventory);
         List<Transform> resources = _npcController.context.Destinations[DestinationType.resource];

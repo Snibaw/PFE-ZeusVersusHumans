@@ -74,21 +74,21 @@ public class ThrowLightning : MonoBehaviour
         lightningUI[_numberOfLightning].SetActive(false);
 
     }
+
     private void FindFinalPointOnPlanet(Vector3 direction, float magnitude)
     {
-        //Make the direction relative to the rotation of the camera
-        direction =  Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * direction;
-
-        Vector3 changeSpawnOffset = new Vector3(spawnOffset.x * UnityEngine.Random.Range(-1, 1), spawnOffset.y, spawnOffset.z);
-        Vector3 rotatedSpawnOffset = mainCam.transform.rotation * changeSpawnOffset;
-        curve.A.position = mainCam.transform.position + rotatedSpawnOffset;
-        float magnitudeMax = Screen.height;
-        Vector3 finalPosition = direction.normalized * planetRadius * magnitude * 3 / magnitudeMax;
-        finalPosition -= new Vector3(0, planetRadius, 0); // Lower point = planet bottom
-        curve.B.position = finalPosition;
-        //Change control so its a curve
-        curve.Control.position = curve.A.position + (curve.B.position - curve.A.position) / 2 +
-                                 new Vector3(direction.x / 2, planetRadius / 2, 0);
+         //Make the direction relative to the rotation of the camera
+         direction =  Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * direction;
+        
+         Vector3 changeSpawnOffset = new Vector3(spawnOffset.x * UnityEngine.Random.Range(-1, 1), spawnOffset.y, spawnOffset.z);
+         Vector3 rotatedSpawnOffset = mainCam.transform.rotation * changeSpawnOffset;
+         curve.A.position = mainCam.transform.position + rotatedSpawnOffset;
+         float magnitudeMax = Screen.height;
+         Vector3 finalPosition = direction.normalized * planetRadius * (magnitude / magnitudeMax) * 3;
+         finalPosition -= Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * new Vector3(0, planetRadius, 0);
+         curve.B.position = finalPosition;
+         //Change control so its a curve
+         curve.Control.position = curve.A.position + (curve.B.position - curve.A.position) / 2 + Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * new Vector3(direction.x / 2, planetRadius / 2, 0);
 
     }
 }

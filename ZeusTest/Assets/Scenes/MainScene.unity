@@ -871,7 +871,7 @@ MonoBehaviour:
     type: 3}
   planetCollider: {fileID: 483916112}
   AimCurve: {fileID: 544430096555177, guid: cbed2ed7e80e1c14785f462f46bc212a, type: 3}
-  cooldownBtwLightning: 3
+  cooldownBtwLightning: 0.5
   lightningUI:
   - {fileID: 1246550842}
   - {fileID: 1413737493}

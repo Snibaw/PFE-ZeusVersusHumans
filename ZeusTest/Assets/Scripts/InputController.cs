@@ -10,7 +10,6 @@ public class InputController : MonoBehaviour
     private GameObject canvasUI;
     private ThrowLightning throwLightning;
     private float x,y;
-    private bool fingerHasMoved = false;
 
     [SerializeField] private float timeBtwClickAndHold = 0.5f;
     [SerializeField] private float yBorderBtwRotationAndLightning = 0.25f;

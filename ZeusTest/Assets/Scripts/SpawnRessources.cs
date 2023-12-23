@@ -9,7 +9,6 @@ public class SpawnResources : MonoBehaviour
     [SerializeField] private MeshCollider planetCollider;
     private float planetRadius;
     private Vector3 planetCenter;
-    [SerializeField] private float earthThickness = 0.3f; // Need to adapt this value if there are hills on the planet
     [SerializeField] private int maxIterationToFindAPosition = 100;
 
     [Header("ResourcesToSpawn")]
@@ -67,7 +66,7 @@ public class SpawnResources : MonoBehaviour
     private void SpawnSingleResource(GameObject prefab)
     {
         GraphNode randomNode = null;
-        Vector3 spawnPoint;
+        // Vector3 spawnPoint;
         // SearchAPositionToSpawn
         for(int i = 0; i < maxIterationToFindAPosition ; i++)
         {

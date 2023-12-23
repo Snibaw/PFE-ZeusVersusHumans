@@ -7,7 +7,6 @@ public class LightningBehaviour : MonoBehaviour
     public QuadraticCurve curve;
     public float speed = 0.1f;
     [SerializeField] private float speedAugmentationOverTime = 0.01f;
-    [SerializeField] private float maxSpeed = 2f;
     private float sampleTime = 0;
     private float intensity = 1;
 
