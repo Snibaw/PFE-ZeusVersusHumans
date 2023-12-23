@@ -120,6 +120,7 @@ public class NPCController : MonoBehaviour
     }
     private IEnumerator ExecuteAction(string action, float time)
     {
+        thoughtsScript.ActivateThoughts(false);
 
         //Some exceptions are managed here
         
@@ -147,7 +148,7 @@ public class NPCController : MonoBehaviour
                     resource = aiBrain.bestAction.RequiredDestination.GetComponent<Resource>();
                     //Change Action in Timer / Thought bubble
                     SetAction(resource.ResourceType);
-                    thoughtsScript.ActivateThoughts(true);
+                    thoughtsScript.ActivateThoughts(false);
                 }
                 
                 if (resource != null && resource.canBeHarvested)

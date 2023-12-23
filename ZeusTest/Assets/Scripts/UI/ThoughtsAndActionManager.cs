@@ -8,7 +8,6 @@ public enum ActionOfIA{Food, Iron, Wood, Stone, Sleep, Home}
 public class ThoughtsAndActionManager : MonoBehaviour
 {
     [SerializeField] private GameObject thoughtBubble;
-    [SerializeField] private GameObject timerSlider;
     
     [SerializeField] private ActionUI actionUI;
 
@@ -27,7 +26,8 @@ public class ThoughtsAndActionManager : MonoBehaviour
 
     private void Start()
     {
-        currentActionOrThought = actionUI.Food; // So current is not null !
+        currentActionOrThought = actionUI.Home; // So current is not null !
+        currentActionOrThought.SetActive(false);
     }
 
 
@@ -36,39 +36,46 @@ public class ThoughtsAndActionManager : MonoBehaviour
         switch (action)
         {
             case ActionOfIA.Food :
-                currentActionOrThought.gameObject.SetActive(false);
-                actionUI.Food.SetActive(true);
+                Debug.Log("Food");
+                currentActionOrThought.SetActive(false);
                 currentActionOrThought = actionUI.Food;
+                currentActionOrThought.SetActive(true);
+
                 break;
             
             case ActionOfIA.Iron :
-                currentActionOrThought.gameObject.SetActive(false);
-                actionUI.Food.SetActive(true);
+                Debug.Log("Iron");
+                currentActionOrThought.SetActive(false);
                 currentActionOrThought = actionUI.Iron;
+                currentActionOrThought.SetActive(true);
                 break;
             
             case ActionOfIA.Wood :
-                currentActionOrThought.gameObject.SetActive(false);
-                actionUI.Food.SetActive(true);
+                Debug.Log("Wood");
+                currentActionOrThought.SetActive(false);
                 currentActionOrThought = actionUI.Wood;
+                currentActionOrThought.SetActive(true);
                 break;
             
             case ActionOfIA.Stone :
-                currentActionOrThought.gameObject.SetActive(false);
-                actionUI.Food.SetActive(true);
+                Debug.Log("Stone");
+                currentActionOrThought.SetActive(false);
                 currentActionOrThought = actionUI.Stone;
+                currentActionOrThought.SetActive(true);
                 break;
             
             case ActionOfIA.Sleep :
-                currentActionOrThought.gameObject.SetActive(false);
-                actionUI.Food.SetActive(true);
+                Debug.Log("Sleep");
+                currentActionOrThought.SetActive(false);
                 currentActionOrThought = actionUI.Sleep;
+                currentActionOrThought.SetActive(true);
                 break;
             
             case ActionOfIA.Home :
-                currentActionOrThought.gameObject.SetActive(false);
-                actionUI.Food.SetActive(true);
+                Debug.Log("Home");
+                currentActionOrThought.SetActive(false);
                 currentActionOrThought = actionUI.Home;
+                currentActionOrThought.SetActive(true);
                 break;
         }
     }
