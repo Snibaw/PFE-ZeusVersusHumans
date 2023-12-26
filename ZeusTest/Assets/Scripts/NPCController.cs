@@ -79,6 +79,12 @@ public class NPCController : MonoBehaviour
                 break;
             
             case State.move:
+                if(aiBrain.bestAction.RequiredDestination == null)
+                {
+                    currentState = State.decide;
+                    break;
+                }
+                
                 if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance * MinDistanceModifier)
                 {
                     mover.StopMoving();
