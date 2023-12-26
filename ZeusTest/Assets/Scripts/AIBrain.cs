@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class AIBrain : MonoBehaviour
     
     [SerializeField] private Billboard _billboard;
     [SerializeField] private Action[] actionsAvailable;
+    [SerializeField] private ThoughtsAndActionManager thoughtsScript;
     
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,8 @@ public class AIBrain : MonoBehaviour
     {
         finishedExecutingBestAction = false;
         
+        thoughtsScript.ActivateThoughts(true);
+        
         float score = 0f;
         int nextBestActionIndex = 0;
         for (int i = 0; i < actionsAvailable.Length; i++)
@@ -42,9 +46,38 @@ public class AIBrain : MonoBehaviour
         
         bestAction = actionsAvailable[nextBestActionIndex];
         bestAction.SetRequiredDestination(_npcController);
-        
+
+        SetBestActionThought(bestAction);
+        Debug.Log("action name : " + bestAction.name);
+
         finishedDeciding = true;
         _billboard.UpdateBestActionText(bestAction.name);
+    }
+
+    private void SetBestActionThought(Action act)
+    {
+        Debug.Log("set action");
+        
+        var actionName = act.name;
+        switch (actionName)
+        {
+            case "Sleep" :
+                thoughtsScript.ChangeAction(ActionOfIA.Sleep);
+                break;
+            case "DropOffResource" :
+                thoughtsScript.ChangeAction(ActionOfIA.Home);
+                break;
+            case "Eat" :
+                //thoughtsScript.ChangeAction(ActionOfIA.Food);
+                break;
+            case "Work" :
+                //TODO : gerer les différents cas en fct du type de ressources ??
+                thoughtsScript.ChangeAction(ActionOfIA.Wood);
+                break;
+            default:
+                thoughtsScript.ChangeAction(ActionOfIA.Home);
+                break;
+        }
     }
         
     public float ScoreAction(Action action)

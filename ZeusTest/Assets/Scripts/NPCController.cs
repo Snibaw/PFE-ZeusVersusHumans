@@ -26,6 +26,7 @@ public class NPCController : MonoBehaviour
     private bool isSleeping = false;
 
     [SerializeField] private UI_Timer uiTimerScript;
+    [SerializeField] private ThoughtsAndActionManager thoughtsScript;
     [SerializeField] private bool _canMoveOnWater;
     PointDistribution _pointDistribution;
 
@@ -119,6 +120,7 @@ public class NPCController : MonoBehaviour
     }
     private IEnumerator ExecuteAction(string action, float time)
     {
+        thoughtsScript.ActivateThoughts(false);
 
         //Some exceptions are managed here
         
@@ -142,8 +144,12 @@ public class NPCController : MonoBehaviour
         {
             case "Work":
                 Resource resource = null;
-                if (aiBrain.bestAction.RequiredDestination != null)
+                if (aiBrain.bestAction.RequiredDestination != null) {
                     resource = aiBrain.bestAction.RequiredDestination.GetComponent<Resource>();
+                    //Change Action in Timer / Thought bubble
+                    SetAction(resource.ResourceType);
+                    thoughtsScript.ActivateThoughts(false);
+                }
                 
                 if (resource != null && resource.canBeHarvested)
                 {
@@ -152,12 +158,18 @@ public class NPCController : MonoBehaviour
                 }
                 break;
             case "Sleep":
+                thoughtsScript.ChangeAction(ActionOfIA.Sleep);
+                thoughtsScript.ActivateThoughts(false);
+                
                 stats.energy += 100;
                 break;
             // case "Eat":
             //     stats.hunger -= 30;
             //     break;
             case "DropOffResource":
+                thoughtsScript.ChangeAction(ActionOfIA.Home);
+                thoughtsScript.ActivateThoughts(false);
+                
                 context.storage.GetAllResourcesFromNPC(Inventory);
                 stats.resource = 0;
                 break;
@@ -253,6 +265,22 @@ public class NPCController : MonoBehaviour
         GameObject Target = new GameObject();
         Target.transform.position = targetNode.Position;
         return  Target.transform;
+    }
+
+    private void SetAction(ResourceType resource)
+    {
+        switch (resource)
+        {
+            case ResourceType.metal :
+                thoughtsScript.ChangeAction(ActionOfIA.Iron);
+                break;
+            case ResourceType.wood :
+                thoughtsScript.ChangeAction(ActionOfIA.Wood);
+                break;
+            case ResourceType.stone :
+                thoughtsScript.ChangeAction(ActionOfIA.Iron);
+                break;
+        }
     }
 
 
