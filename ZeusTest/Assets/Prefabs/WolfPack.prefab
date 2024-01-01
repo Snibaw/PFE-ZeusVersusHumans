@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8778244535860413332}
   m_Layer: 0
   m_Name: guideWolf
-  m_TagString: Untagged
+  m_TagString: guideWolf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,6 +47,7 @@ MonoBehaviour:
   _prefabWolf: {fileID: 5949034007679275925, guid: 9be4807468933d946ba199238b6c4db6,
     type: 3}
   _parentWolf: {fileID: 1474500166897138785}
+  humanToFollow: {fileID: 0}
   _rayonMovement: 30
 --- !u!1 &7817518065203584354
 GameObject:

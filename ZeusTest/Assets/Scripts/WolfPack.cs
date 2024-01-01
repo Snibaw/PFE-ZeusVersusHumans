@@ -58,18 +58,26 @@ public class WolfPack : MonoBehaviour
 
     private IEnumerator WolfPackMovement()
     {
+        float delay = 0;
         yield return new WaitForSeconds(1);
         while (true) 
         {
+            Debug.Log("Human To Follow:" + humanToFollow);
+            delay -= Time.deltaTime;
             if(humanToFollow == null)
             {
-                transform.position = _pointDistribution.FindTheClosestGraphNode(transform.position + Random.insideUnitSphere * _rayonMovement).Position;
+                if(delay <= 0)
+                {
+                    transform.position = _pointDistribution.FindTheClosestGraphNode(transform.position + Random.insideUnitSphere * _rayonMovement).Position;
+                    delay = Random.Range(15, 45);
+                }
+
                 //Debug.Log("Guide: "+ transform.position);
-                yield return new WaitForSeconds(Random.Range(15, 45));
+                yield return new WaitForEndOfFrame();
             }
             else
             {
-                transform.position = humanToFollow.position;
+                transform.position = humanToFollow.transform.position;
                 yield return new WaitForEndOfFrame();
             }
             

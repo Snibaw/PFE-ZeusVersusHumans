@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WolfController : MonoBehaviour
@@ -25,7 +26,7 @@ public class WolfController : MonoBehaviour
 
         StartCoroutine(FollowAroundWolfPack());
 
-        _wolfPack = wolfGuide.transform.parent.GetComponent<WolfPack>();
+        _wolfPack = wolfGuide.GetComponent<WolfPack>();
     }
 
     private void Update()
@@ -53,7 +54,7 @@ public class WolfController : MonoBehaviour
         if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
         {
             Debug.Log("Detected: "+ hit.collider.tag);
-            Debug.Log("_wolfPack.humanToFollow: " + _wolfPack.humanToFollow == null); 
+            Debug.Log("_wolfPack.humanToFollow: " + (_wolfPack.humanToFollow == null)); 
             if (_wolfPack.humanToFollow == null)
             {
                 _wolfPack.humanToFollow = hit.collider.transform;
