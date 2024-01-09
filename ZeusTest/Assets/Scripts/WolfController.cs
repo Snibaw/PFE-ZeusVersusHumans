@@ -6,6 +6,8 @@ public class WolfController : MonoBehaviour
     public MoveController mover { get; set; }
     public Transform wolfGuide { get; set; }
 
+    [SerializeField] private GameObject[] _skinWolf;
+
     private WolfPack _wolfPack;
 
     private Transform _closestHumanToFollow;
@@ -29,6 +31,16 @@ public class WolfController : MonoBehaviour
         StartCoroutine(FollowAroundWolfPack());
 
         _wolfPack = wolfGuide.GetComponent<WolfPack>();
+
+    }
+
+    public void ChooseWolfColor(int choice)
+    {
+        for (int i = 0; i < _skinWolf.Length; i++)
+        {
+            if ((choice % _skinWolf.Length) == i) _skinWolf[i].SetActive(true);
+            else _skinWolf[i].SetActive(false);
+        }
     }
 
     private void Update()
