@@ -53,6 +53,8 @@ public class NPCController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (stats.energy <= 0) return;
+        
         stats.UpdateEnergy(isSleeping);
         // stats.UpdateHunger();
         FSMTick();
@@ -124,10 +126,10 @@ public class NPCController : MonoBehaviour
         Debug.Log("Doing : " + action);
         StartCoroutine(ExecuteAction(action, time));
     }
-    private IEnumerator ExecuteAction(string action, float time)
+    public IEnumerator ExecuteAction(string action, float time)
     {
+       
         thoughtsScript.ActivateThoughts(false);
-
         //Some exceptions are managed here
         
         //Lose energy only when not sleeping
@@ -143,8 +145,10 @@ public class NPCController : MonoBehaviour
             aiBrain.finishedExecutingBestAction = true;
             yield break;
         }
-        uiTimerScript.StartTimer(time);
-        yield return new WaitForSeconds(time);
+        //If exhausted, take more time to do action
+        float calculatedTime = time * (0.5f - (stats.energy / 200)); // energy between 0 and 100 => 0 to 0.5 => * 0.5 to 0
+        uiTimerScript.StartTimer(calculatedTime);
+        yield return new WaitForSeconds(calculatedTime);
         
         switch (action)
         {
@@ -159,6 +163,7 @@ public class NPCController : MonoBehaviour
                 
                 if (resource != null && resource.canBeHarvested)
                 {
+                    
                     Inventory.AddResource(resource.ResourceType, 1);
                     resource.HasBeenHarvested();
                 }

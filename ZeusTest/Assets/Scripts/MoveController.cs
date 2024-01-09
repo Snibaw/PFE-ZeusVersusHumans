@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,11 +32,14 @@ public class MoveController : MonoBehaviour
         _positionLastFrame = transform.position;
     }
 
-   
+    public void AdaptSpeedToEnergy(float energy)
+    {
+        currentSpeed = startSpeed * (0.5f + (energy / 200)); // Energy between 0 and 100 => 0 to 0.5 => * btw 0.5 and 1
+    }
+
     public void MoveTo(Vector3 position, bool canMoveOnWater)
     {
-        
-        
+        if(stats.energy <= 0) return;
         if (isMoving) return;
 
         isMoving = true;
@@ -49,15 +53,6 @@ public class MoveController : MonoBehaviour
     {
         if (_followPath != null) StopCoroutine(_followPath);
     }
-
-    public void SetSpeed(bool isExhausted)
-    {
-        if (isExhausted)
-            currentSpeed = exhaustedSpeed;
-        else
-            currentSpeed = startSpeed;
-    }
-
 
     public IEnumerator FollowPath(List<Vector3> path)
     {
