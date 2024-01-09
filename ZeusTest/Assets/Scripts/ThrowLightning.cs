@@ -65,10 +65,6 @@ public class ThrowLightning : MonoBehaviour
         GameObject lightning = Instantiate(lightningPrefab, mainCam.transform.position, Quaternion.identity);
         lightning.GetComponent<LightningBehaviour>().InitValues(curve, time);
         Destroy(lightning, 10f);
-        
-        
-        AdorationBar.instance.ChangeAdorationBarValue(AdorationBarEvents.ThrowLightning);
-        
         //Cooldown
         _numberOfLightning--;
         lightningUI[_numberOfLightning].SetActive(false);

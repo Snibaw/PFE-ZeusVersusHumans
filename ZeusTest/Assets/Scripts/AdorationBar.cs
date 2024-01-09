@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public enum AdorationBarEvents
 {
-    ThrowLightning,
+    DestroyResource,
+    KillWolf,
     DestroyBuilding,
     KillHuman,
     ConstructBuilding,
