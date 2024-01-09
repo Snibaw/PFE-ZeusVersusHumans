@@ -5,18 +5,21 @@ using UnityEngine;
 public class NPCStats : MonoBehaviour
 {
     private MoveController mover;
+    private NPCController npcController;
     private int _energy;
     public int energy
     {
         get { return _energy; }
         set
         {
-            if(energy > 0 && value <= 0)
-                mover.SetSpeed(true);
-            else if(energy <= 0 && value > 0)
-                mover.SetSpeed(false);
+            if(_energy <= 0 && value > 0)
+            {
+                mover.StopMoving();
+                StartCoroutine(npcController.ExecuteAction("Sleep", 10f));
+            }
             
             _energy = Mathf.Clamp(value, 0, 100);
+            mover.AdaptSpeedToEnergy(_energy);
             OnStatValueChanged?.Invoke();
         }
     }
@@ -57,6 +60,7 @@ public class NPCStats : MonoBehaviour
     void Start()
     {
         mover = GetComponent<MoveController>();
+        npcController = GetComponent<NPCController>();
         // Test case: NPC will likely work
         hunger = 0;
         energy = 100;
