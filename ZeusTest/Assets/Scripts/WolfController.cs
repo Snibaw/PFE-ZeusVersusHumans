@@ -40,9 +40,17 @@ public class WolfController : MonoBehaviour
 
         while (true)
         {
-            //Debug.Log("Deplacement Wolf");
-            mover.MoveTo(wolfGuide.position + Random.insideUnitSphere * 2f, false);
-            yield return new WaitForSeconds(Random.Range(3,8));
+
+            if(_wolfPack.humanToFollow == null)
+            {
+                mover.MoveTo(wolfGuide.position + Random.insideUnitSphere * 2f, false);
+                yield return new WaitForSeconds(Random.Range(3, 8));
+            }
+            else
+            {
+                mover.MoveTo(_wolfPack.humanToFollow.position + Random.insideUnitSphere * 0.5f, false);
+                yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+            }
         }
     }
 

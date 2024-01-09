@@ -9899,15 +9899,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adorationBarEvent:
   - adorationBarEvent: 0
-    value: 3
+    value: 0
   - adorationBarEvent: 1
-    value: 3
+    value: 0
   - adorationBarEvent: 2
-    value: 3
+    value: 0
   - adorationBarEvent: 3
-    value: -3
+    value: 0
   - adorationBarEvent: 4
-    value: -0.5
+    value: 0
 --- !u!4 &1560070590 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 464626, guid: 8e29574f61c003a45a3cc9a571582336,
