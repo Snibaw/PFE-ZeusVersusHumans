@@ -48,7 +48,7 @@ void setup() {
   int buttonPin = 2;
 
   lcd.begin(16,2); // utilisation d'un écran 16 colonnes et 2 lignes
-  lcd.write("Ready to be use");
+  lcd.write("Ready to be used");
   lcd.createChar(0, WhiteCharacter);
   lcd.createChar(1, BlackCharacter);
   
