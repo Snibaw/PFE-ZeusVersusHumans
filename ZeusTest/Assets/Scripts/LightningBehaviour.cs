@@ -52,7 +52,7 @@ public class LightningBehaviour : MonoBehaviour
                     Debug.LogWarning("Object" + collider.gameObject.name + " has no ObjectToDestroy script");
                     continue;
                 }
-                collider.GetComponent<ObjectToDestroy>().TakeDamage(intensity*100);
+                collider.GetComponent<ObjectToDestroy>().TakeDamage(intensity*100, true);
                 needToBeDestroyed = true;
             }
         }
