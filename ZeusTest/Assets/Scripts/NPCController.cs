@@ -197,7 +197,7 @@ public class NPCController : MonoBehaviour
     {
         buildingToBuild.SetActive(true);
 
-        Destroy(aiBrain.bestAction.RequiredDestination.gameObject);
+        if(aiBrain.bestAction.RequiredDestination != null) Destroy(aiBrain.bestAction.RequiredDestination.gameObject);
         //Tell the context that a new house has been built
         if(buildingToBuild.GetComponent<Building>().BuildingType == BuildingType.house)
             context.AddDestinationTypeBuild(DestinationType.rest, buildingToBuild.transform);
