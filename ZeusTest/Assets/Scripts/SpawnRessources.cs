@@ -72,7 +72,8 @@ public class SpawnResources : MonoBehaviour
         {
             int index = Random.Range(0, _pointDistribution.nodes.Length);
             randomNode = _pointDistribution.nodes[index]; // Random node
-            if (randomNode.IsObstacle) continue; // If the node is an obstacle, we continue
+            if (randomNode.IsObstacle) continue;
+            if (randomNode.IsWater) continue;// If the node is an obstacle, we continue
             _pointDistribution.nodes[index].IsObstacle = true; // We set the node as an obstacle
             break;
         } 
@@ -94,9 +95,11 @@ public class SpawnResources : MonoBehaviour
             foreach (GraphNode neighbor in _pointDistribution.graph[centerNode])
             {
                 if(neighbor.IsObstacle) continue;
+                if (neighbor.IsWater) continue;
                 foreach (GraphNode neighbor2 in _pointDistribution.graph[neighbor])
                 {
                     if(neighbor2.IsObstacle) continue;
+                    if (neighbor2.IsWater) continue;
                     nodesAroundFree.Add(neighbor2);
                 }
             }
@@ -123,13 +126,16 @@ public class SpawnResources : MonoBehaviour
             foreach (GraphNode node in _pointDistribution.nodes)
             {
                 if (node.IsObstacle) continue;
+                if (node.IsWater) continue;
                 int spaceAround = 0;
                 foreach (GraphNode neighbor in _pointDistribution.graph[node]) // We check the neighbors
                 {
                     if (neighbor.IsObstacle) continue;
+                    if (neighbor.IsWater) continue;
                     foreach (GraphNode neighbor2 in _pointDistribution.graph[neighbor]) // We check the neighbors of the neighbors
                     {
                         if (neighbor2.IsObstacle) continue;
+                        if (neighbor2.IsWater) continue;
                         spaceAround += 1;
                     }
                 }

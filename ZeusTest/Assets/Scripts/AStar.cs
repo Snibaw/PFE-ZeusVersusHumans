@@ -40,6 +40,8 @@ public class AStar
             {
                 if (closedSet.Contains(neighbor) || neighbor.IsObstacle)
                     continue;
+                if (closedSet.Contains(neighbor) || (neighbor.IsWater && !canMoveOnWater))
+                    continue;
 
                 float tentativeGScore = gScore[current] + Vector3.Distance(current.Position, neighbor.Position);
 

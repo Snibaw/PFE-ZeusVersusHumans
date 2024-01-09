@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WolfController : MonoBehaviour
@@ -10,6 +8,8 @@ public class WolfController : MonoBehaviour
 
     private WolfPack _wolfPack;
 
+    private Transform _closestHumanToFollow;
+
     [SerializeField] private float _rayonMovement = 10;
 
     [SerializeField] private LayerMask _layerMask;
@@ -18,6 +18,8 @@ public class WolfController : MonoBehaviour
 
     private void Start()
     {
+        _closestHumanToFollow = null;
+
         mover = GetComponent<MoveController>();
 
         Random.InitState(System.DateTime.Now.Second);
@@ -40,16 +42,21 @@ public class WolfController : MonoBehaviour
 
         while (true)
         {
-
-            if(_wolfPack.humanToFollow == null)
+            if(_closestHumanToFollow != null)
             {
-                mover.MoveTo(wolfGuide.position + Random.insideUnitSphere * 2f, false);
-                yield return new WaitForSeconds(Random.Range(3, 8));
+                mover.MoveTo(_closestHumanToFollow.position + Random.insideUnitSphere * 0.5f, false);
+                yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
             }
-            else
+            else if(_wolfPack.humanToFollow != null)
             {
                 mover.MoveTo(_wolfPack.humanToFollow.position + Random.insideUnitSphere * 0.5f, false);
                 yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+            }
+            else
+            {
+                
+                mover.MoveTo(wolfGuide.position + Random.insideUnitSphere * 2f, false);
+                yield return new WaitForSeconds(Random.Range(3, 8));
             }
         }
     }
@@ -61,12 +68,28 @@ public class WolfController : MonoBehaviour
         Debug.Log("WolfDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
         if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
         {
-            Debug.Log("Detected: "+ hit.collider.tag);
-            Debug.Log("_wolfPack.humanToFollow: " + (_wolfPack.humanToFollow == null)); 
+            //Debug.Log("Detected: "+ hit.collider.tag);
+            //Debug.Log("_wolfPack.humanToFollow: " + (_wolfPack.humanToFollow == null)); 
             if (_wolfPack.humanToFollow == null)
             {
                 _wolfPack.humanToFollow = hit.collider.transform;
             }
+            else
+            {
+                if(Vector3.Distance(_wolfPack.humanToFollow.position, transform.position) + 0.1f > 
+                    Vector3.Distance(hit.collider.transform.position, transform.position))
+                {
+                    _closestHumanToFollow = hit.collider.transform;
+                }
+                else
+                {
+                    _closestHumanToFollow = null;
+                }
+            }
+        }
+        else
+        {
+            _closestHumanToFollow = null;
         }
     }
 
