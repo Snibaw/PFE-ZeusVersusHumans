@@ -16,6 +16,8 @@ public class SpawnResources : MonoBehaviour
 
     [SerializeField] private ResourceToSpawn[] ResourcesToSpawn;
     [SerializeField] private GameObject townPrefab;
+
+    [SerializeField] private GameObject babelPrefab;
     
     PointDistribution _pointDistribution;
 
@@ -35,12 +37,28 @@ public class SpawnResources : MonoBehaviour
         GraphNode centerNode = null;
         centerNode = FindRandomNodeWithMostSpaceAround();
         
+
+        if(centerNode == null) return;
+
+
+        centerNode.IsObstacle = true;
+        var babelSpawned = InstantiateResource(babelPrefab, centerNode);
+        _pointDistribution.SetAllInColliderToObstacle(babelSpawned.GetComponent<BoxCollider>());
+
+
+        centerNode = FindRandomNodeWithMostSpaceAround();
+        
+        
         if(centerNode != null)
         {
             centerNode.IsObstacle = true;
             var townSpawned = InstantiateResource(townPrefab, centerNode);
             _pointDistribution.SetAllInColliderToObstacle(townSpawned.GetComponent<BoxCollider>());
+
+            townSpawned.GetComponent<UpgradeManager>().AddBuildingBuilt(babelSpawned.GetComponent<Building>());
         }
+
+        
         
         
         foreach (ResourceToSpawn Resource in ResourcesToSpawn)

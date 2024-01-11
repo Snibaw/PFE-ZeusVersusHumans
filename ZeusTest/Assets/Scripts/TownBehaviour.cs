@@ -31,5 +31,6 @@ public class TownBehaviour : MonoBehaviour
         GraphNode spawnNode = PointDistribution.instance.FindClosestNodeFree(transform.position, false);
         GameObject human = Instantiate(HumanAI, spawnNode.Position, Quaternion.identity);
         human.transform.rotation = Quaternion.FromToRotation(Vector3.up, human.transform.position - Vector3.zero);
+        human.GetComponent<NPCController>().homeTown = gameObject.GetComponent<Building>();
     }
 }

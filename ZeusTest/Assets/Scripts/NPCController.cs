@@ -23,6 +23,7 @@ public class NPCController : MonoBehaviour
     public Building buildingToUpgrade {get; set; }
     public IAConstruction constructionToUpgrade {get; set; }
     public GameObject buildingToBuild { get; set; }
+    public Building homeTown { get; set; }
     private bool isSleeping = false;
 
     [SerializeField] private UI_Timer uiTimerScript;
@@ -146,7 +147,7 @@ public class NPCController : MonoBehaviour
             yield break;
         }
         //If exhausted, take more time to do action
-        float calculatedTime = time * (0.5f - (stats.energy / 200)); // energy between 0 and 100 => 0 to 0.5 => * 0.5 to 0
+        float calculatedTime = time * (0.5f - (stats.energy / 200)) / homeTown.level; // energy between 0 and 100 => 0 to 0.5 => * 0.5 to 0
         uiTimerScript.StartTimer(calculatedTime);
         yield return new WaitForSeconds(calculatedTime);
         
@@ -294,125 +295,5 @@ public class NPCController : MonoBehaviour
         }
     }
 
-
-    
-
-    /*
-    public Transform FindBuildPosition()
-    {
-        Vector3[] CheckDirections = new Vector3[9];
-        int index = 0;
-        for (int i =-1; i<2; i++)
-        {
-            for (int j =-1; j<2; j++)
-            {
-                CheckDirections[index] = new Vector3((float)i, (float)j, 0f);
-                index++;
-            }
-        }
-
-        Debug.Log("Size of construction to build : " + constructionToBuild.prefab.GetComponent<BoxCollider>().size);
-        
-        float SphereSize = constructionToBuild.prefab.GetComponent<BoxCollider>().size.x * 1.2f;
-
-
-        // Check if we can just build here first
-        if (checkResourcesInSphere(transform.position, SphereSize) == 0)
-        {
-            positionToBuild = transform.position;
-            return transform;
-        }
-
-        Vector3 BuildPosition;
-        GameObject Target = new GameObject();
-        Vector3 OriginVector = new Vector3(0f,0f, -1f);
-
-        // Then immediately around here
-        Vector3 Direction = new Vector3(0f, 1f, 0f); // Replace by transform.position when the planet is added.
-        for (int j = 0; j< CheckDirections.Length; j++)
-        {
-            BuildPosition = transform.position + Quaternion.FromToRotation(OriginVector, Direction) * CheckDirections[j]; 
-            if (checkResourcesInSphere(BuildPosition, SphereSize) == 0)
-            {
-                Target.transform.position = BuildPosition;
-                positionToBuild = BuildPosition;
-                return Target.transform;
-            
-            }
-        }
-
-
-        // If it's still no good, we look around the resources
-        GameObject[] Resources = GameObject.FindGameObjectsWithTag("Resources");
-        Array.Sort(Resources, 0, Resources.Length, new SortDistance(transform));
-        for(int i = 0; i < Resources.Length; i++)
-        {
-            Direction = new Vector3(0f, 1f, 0f); // Replace by Resources[i].transform.position when the planet is added.
-            for (int j = 0; j< CheckDirections.Length; j++)
-            {
-                BuildPosition = Resources[i].transform.position + (Quaternion.FromToRotation(OriginVector, Direction) * CheckDirections[j]).normalized * SphereSize * 1.5f; 
-                if (checkResourcesInSphere(BuildPosition, SphereSize) == 0)
-                {
-                    Target.transform.position = BuildPosition;
-                    positionToBuild = BuildPosition;
-                    return Target.transform;
-                }
-            }
-        }
-        Debug.Log("No Pos found!");
-        return Target.transform;
-    }
-    
-    public int checkResourcesInSphere(Vector3 SpherePos, float SphereSize)
-    {
-        int resourcesUnder = 0;
-        Collider[] unfiltered = Physics.OverlapSphere(SpherePos, SphereSize);
-        foreach (Collider collider in unfiltered)
-        {
-            //Debug.Log("Found at " + SpherePos + " : " + collider.gameObject.tag);
-            if (collider.gameObject.tag == "Resources")
-            {
-                resourcesUnder++;
-            }
-            if (collider.gameObject.tag == "Building")
-            {
-                Debug.Log("Building Found!");
-                return 9999;
-            }
-        }
-        return resourcesUnder;
-    }
-
-
-    class SortDistance : IComparer<GameObject>
-    {
-        static IComparer<GameObject> comparer;
-        
-        private Transform charPos;
-        
-        public SortDistance(Transform charP)
-        {
-            charPos = charP;
-            comparer = this;
-        }
-
-        
-
-        public float Distance(GameObject a, Transform charac)
-        {
-            return (a.transform.position - charac.position).sqrMagnitude;
-        }
-
-        public int Compare(GameObject a, GameObject b)
-        {
-            return Comparer<float>.Default.Compare(Distance(a, charPos), Distance(b, charPos));
-        }
-
-        public static IComparer<GameObject> Comparer
-        {
-            get { return comparer; }
-        }
-    }
-    */
 }
 

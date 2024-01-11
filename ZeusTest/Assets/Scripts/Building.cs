@@ -7,7 +7,8 @@ public enum BuildingType
     village,
     mine,
     sawmill,
-    house
+    house,
+    babel
 }
 
 public class Building : MonoBehaviour
@@ -17,12 +18,12 @@ public class Building : MonoBehaviour
     [SerializeField] private Material Roof3;
     [SerializeField] private Material Stone;
     [SerializeField] private Material Metal;
-    [SerializeField] private GameObject level2;
+    [SerializeField] protected GameObject level2;
     [SerializeField] private GameObject level3;
     [SerializeField] private GameObject changingMaterial;
     [SerializeField] private GameObject roof;
     public int level = 0;
-    public void levelUp()
+    public virtual void levelUp()
     {
         level++;
 
