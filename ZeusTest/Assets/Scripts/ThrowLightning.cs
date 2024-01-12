@@ -69,6 +69,7 @@ public class ThrowLightning : MonoBehaviour
         _numberOfLightning--;
         lightningUI[_numberOfLightning].SetActive(false);
 
+        AudioManager.instance.PlaySoundEffect(SoundEffects.LightningThrow);
     }
 
     private void FindFinalPointOnPlanet(Vector3 direction, float magnitude)

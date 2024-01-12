@@ -36,11 +36,12 @@ public class LightningBehaviour : MonoBehaviour
         transform.localScale = Vector3.one * intensity*2;
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other)
+    {
         //Create a circle around the lightning depending on the intensity
         //If the circle collides with an object with the CanBeDestroyed Layer, access the script and do damage
-        bool needToBeDestroyed = false;
-        if(other.CompareTag("Ground") || other.CompareTag("Water")) needToBeDestroyed = true;
+
+        bool needToBeDestroyed = (other.CompareTag("Ground") || other.CompareTag("Water"));
         
         Collider[] colliders = Physics.OverlapSphere(transform.position, intensity);
         foreach(Collider collider in colliders)
@@ -60,6 +61,7 @@ public class LightningBehaviour : MonoBehaviour
 
         if (needToBeDestroyed)
         {
+            AudioManager.instance.PlaySoundEffect(SoundEffects.LightningImpact, intensity);
             Destroy(curve.gameObject);
             Destroy(gameObject);
         }
