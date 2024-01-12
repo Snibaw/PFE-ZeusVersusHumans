@@ -227,6 +227,7 @@ public class NPCController : MonoBehaviour
     }
     private void ExecuteUpgrade()
     {
+        if (buildingToUpgrade = null) {constructionToUpgrade = null; return;}
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
