@@ -2931,6 +2931,15 @@ MonoBehaviour:
   HumanAI: {fileID: 7229285560104876441, guid: 19afcaa946af50642b78e4a2173ca531, type: 3}
   timeBtwHumanSpawn: 30
   townContext: {fileID: 5594762623879093672}
+  canBuildLightningRod: 0
+  canUseBoat: 0
+  canMeditate: 0
+  canRepelWolves: 0
+  adorationCheckpoints:
+  - 15
+  - 25
+  - 75
+  - 85
   canSpanwHuman: 1
 --- !u!114 &7670254101678347645
 MonoBehaviour:

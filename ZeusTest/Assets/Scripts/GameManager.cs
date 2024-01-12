@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text damageText;
     [SerializeField] public GameObject planet;
     private float startTime;
+    public bool CanMakeBabel = false;
 
     public Context context;
     public GameObject NBResources;

@@ -194,6 +194,7 @@ public class NPCController : MonoBehaviour
                 break;
             case "Upgrade":
                 ExecuteUpgrade();
+                CheckBabel();
                 break;
         }
         aiBrain.finishedExecutingBestAction = true;
@@ -233,6 +234,13 @@ public class NPCController : MonoBehaviour
         constructionToUpgrade = null;
         buildingToUpgrade = null;
     }
+
+    private void CheckBabel()
+    {
+        if (upgradeManager.CheckIfComplete()) GameManager.instance.CanMakeBabel = true;
+    }
+
+
     public float GetPossibleBuildScore()
     {
         float score = buildManager.HowManyConstructionCanBeBuilt(this, Inventory);

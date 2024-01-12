@@ -18,7 +18,7 @@ public class SpawnResources : MonoBehaviour
     [SerializeField] private GameObject townPrefab;
 
     [SerializeField] private GameObject babelPrefab;
-    
+    [SerializeField] private AdorationBar adorationBar;
     PointDistribution _pointDistribution;
 
     List<GraphNode> nodesWithMostSpaceAround = new List<GraphNode>();
@@ -56,6 +56,7 @@ public class SpawnResources : MonoBehaviour
             _pointDistribution.SetAllInColliderToObstacle(townSpawned.GetComponent<BoxCollider>());
 
             townSpawned.GetComponent<UpgradeManager>().AddBuildingBuilt(babelSpawned.GetComponent<Building>());
+            adorationBar.town = townSpawned.GetComponent<TownBehaviour>();
         }
 
         

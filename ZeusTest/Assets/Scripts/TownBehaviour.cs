@@ -8,6 +8,13 @@ public class TownBehaviour : MonoBehaviour
     [SerializeField] private float timeBtwHumanSpawn = 5f;
     [SerializeField] private Context townContext;
     
+    [SerializeField] private bool canBuildLightningRod = false;
+    [SerializeField] private bool canUseBoat = false;
+    [SerializeField] private bool canMeditate = false;
+    [SerializeField] private bool canRepelWolves = false;
+    [SerializeField] private List<float> adorationCheckpoints;
+
+
     public bool canSpanwHuman = true;
     // Start is called before the first frame update
     IEnumerator Start()
@@ -32,5 +39,30 @@ public class TownBehaviour : MonoBehaviour
         GameObject human = Instantiate(HumanAI, spawnNode.Position, Quaternion.identity);
         human.transform.rotation = Quaternion.FromToRotation(Vector3.up, human.transform.position - Vector3.zero);
         human.GetComponent<NPCController>().homeTown = gameObject.GetComponent<Building>();
+    }
+
+    public void AdorationBonuses(float adoration)
+    {
+        if (adoration <= 0 || adoration >= 100)
+            {
+                GameManager.instance.CanMakeBabel = true;
+            }
+        if (adoration <= adorationCheckpoints[0])
+            {
+                canRepelWolves = true;
+            }
+        if (adoration <= adorationCheckpoints[1])
+            {
+                canMeditate = true;
+            }
+        if (adoration >= adorationCheckpoints[2])
+            {
+                canUseBoat = true;
+            }
+        if (adoration >= adorationCheckpoints[3])
+            {
+                canBuildLightningRod = true;
+            }
+        
     }
 }

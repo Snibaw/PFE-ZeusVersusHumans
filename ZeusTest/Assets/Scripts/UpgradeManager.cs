@@ -66,6 +66,7 @@ public class UpgradeManager : MonoBehaviour
 
     private bool CanUpgrade(Building building)
     {
+        if (building.BuildingType == BuildingType.babel && !GameManager.instance.CanMakeBabel) return false;
         return building.level < constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)].maxLevel;
     }
 
@@ -86,5 +87,16 @@ public class UpgradeManager : MonoBehaviour
             }
         }
         return cheapestBuilding;
+    }
+
+    public bool CheckIfComplete()
+    {
+        foreach(Building building in possibleUpgrades)
+        {
+            if (building.BuildingType == BuildingType.babel) continue;
+            if (building.level < constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)].maxLevel) return false;
+            return true;
+        }
+        return true;
     }
 }
