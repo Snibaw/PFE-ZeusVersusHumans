@@ -9,6 +9,7 @@ public class ObjectToDestroy : MonoBehaviour
 
 	void Start()
 {
+    healthBar.SetMaxHealth(life);
 }	
     
     public void TakeDamage(float damage, bool impactAdorationBarValue = false)
@@ -18,6 +19,11 @@ public class ObjectToDestroy : MonoBehaviour
         #endif
 
         life -= damage;
+
+        if (life > 0)
+        {
+            healthBar.DamageRessource(damage);
+        }
 
         if(life <= 0)
         {
