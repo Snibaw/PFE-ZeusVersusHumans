@@ -21,6 +21,7 @@ public class AdorationBarEvent
 }
 public class AdorationBar : MonoBehaviour
 {
+    private GameObject adorationBarUI;
     public static AdorationBar instance = null;
     [SerializeField] private AdorationBarEvent[] adorationBarEvent;
     public TownBehaviour town;
@@ -38,6 +39,7 @@ public class AdorationBar : MonoBehaviour
         slider = GetComponent<Slider>();
         adorationValue = slider.maxValue / 2;
         slider.value = adorationValue;
+        adorationBarUI = transform.GetChild(0).gameObject;
         
         InvokeRepeating("PassiveIncrease", 1, 1f);
     }
@@ -60,5 +62,9 @@ public class AdorationBar : MonoBehaviour
                 
             }
         }
+    }
+    public void SetVisible(bool visible)
+    {
+        adorationBarUI.SetActive(visible);
     }
 }

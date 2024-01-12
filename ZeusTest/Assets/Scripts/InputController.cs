@@ -41,6 +41,7 @@ public class InputController : MonoBehaviour
                 if (hit.collider.gameObject.GetComponent<Building>().BuildingType == BuildingType.village)
                 {
                     canvasUI.SetActive(true);
+                    AdorationBar.instance.SetVisible(true);
                     canvasUI.GetComponent<UI_Town>().SetResourcesNb();
                 }
             }
@@ -64,6 +65,7 @@ public class InputController : MonoBehaviour
                     if (canvasUI != null && canvasUI.activeInHierarchy)
                     {
                         canvasUI.SetActive(false); //Deactivate UI when click elsewhere
+                        AdorationBar.instance.SetVisible(false);
                     }
                     else
                     {

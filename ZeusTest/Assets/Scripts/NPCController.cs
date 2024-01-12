@@ -158,8 +158,12 @@ public class NPCController : MonoBehaviour
                 if (aiBrain.bestAction.RequiredDestination != null) {
                     resource = aiBrain.bestAction.RequiredDestination.GetComponent<Resource>();
                     //Change Action in Timer / Thought bubble
-                    SetAction(resource.ResourceType);
-                    thoughtsScript.ActivateThoughts(false);
+                    if (resource != null)
+                    {
+                        SetAction(resource.ResourceType);
+                        thoughtsScript.ActivateThoughts(false);
+                    }
+                    
                 }
                 
                 if (resource != null && resource.canBeHarvested)
@@ -202,6 +206,7 @@ public class NPCController : MonoBehaviour
 
     private void ExecuteBuild()
     {
+        if (buildingToBuild == null) return;
         buildingToBuild.SetActive(true);
 
         if(aiBrain.bestAction.RequiredDestination != null) Destroy(aiBrain.bestAction.RequiredDestination.gameObject);
