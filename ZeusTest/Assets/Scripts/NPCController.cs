@@ -265,6 +265,7 @@ public class NPCController : MonoBehaviour
     }
     public Transform FindUpgradePosition()
     {
+        if (buildingToUpgrade == null) {constructionToUpgrade = null; return transform;}
         return buildingToUpgrade.transform;
     }
 

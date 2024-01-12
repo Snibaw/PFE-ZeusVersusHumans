@@ -27,10 +27,12 @@ public class UpgradeManager : MonoBehaviour
     public int HowManyBuildingCanBeUpgraded(NPCController _npcController, StorageInventory inventory = null)
     {
         if(inventory == null) inventory = storageInventory;
-
+        
         int returnValue = 0;
-        foreach (Building building in possibleUpgrades)
+        for (int i = 0; i< possibleUpgrades.Count; i++)
         {
+            Building building = possibleUpgrades[i];
+            if (building == null) {possibleUpgrades.RemoveAt(i); i--;continue;}
             if (!CanUpgrade(building)) continue;
             
             if (FindUpgradePercentage(building, inventory) == 1)
