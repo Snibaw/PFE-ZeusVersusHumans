@@ -23,7 +23,7 @@ public class SpawnResources : MonoBehaviour
 
     List<GraphNode> nodesWithMostSpaceAround = new List<GraphNode>();
 
-    private List<GraphNode> _spawnedTownAndBabel = new List<GraphNode>();
+    private List<GraphNode> _constructionToAvoidWhenSpawnTown = new List<GraphNode>();
 
 
     private void Awake() 
@@ -46,7 +46,7 @@ public class SpawnResources : MonoBehaviour
         var babelSpawned = InstantiateResource(babelPrefab, centerNode);
         _pointDistribution.SetAllInColliderToObstacle(babelSpawned.GetComponent<BoxCollider>());
         
-        _spawnedTownAndBabel.Add(centerNode);
+        // _constructionToAvoidWhenSpawnTown.Add(centerNode);
         
         SpawnTowns(babelSpawned);
         
@@ -85,7 +85,7 @@ public class SpawnResources : MonoBehaviour
 
                 townSpawned.GetComponent<UpgradeManager>().AddBuildingBuilt(babelSpawned.GetComponent<Building>());
                 AdorationBar.instance.town = townSpawned.GetComponent<TownBehaviour>();
-                _spawnedTownAndBabel.Add(centerNode);
+                _constructionToAvoidWhenSpawnTown.Add(centerNode);
             }
         }
     }
@@ -201,7 +201,7 @@ public class SpawnResources : MonoBehaviour
         foreach (GraphNode node in nodes)
         {
             float minDistance = Mathf.Infinity;
-            foreach (GraphNode constructNodes in _spawnedTownAndBabel) 
+            foreach (GraphNode constructNodes in _constructionToAvoidWhenSpawnTown) 
             {
                 float distance = Vector3.Distance(node.Position, constructNodes.Position);
                 if (distance < minDistance)
@@ -215,7 +215,6 @@ public class SpawnResources : MonoBehaviour
                 furthestNode = node;
             }
         }
-        Debug.Log("Min distance = "+furthestDistance+" for node "+furthestNode.index+" and position "+furthestNode.Position);
         return furthestNode;
     }
     private GameObject InstantiateResource(GameObject prefab, GraphNode node)

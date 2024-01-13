@@ -38,11 +38,12 @@ public class InputController : MonoBehaviour
         {
             if( hit.collider.gameObject.CompareTag("Building"))
             {
-                if (hit.collider.gameObject.GetComponent<Building>().BuildingType == BuildingType.village)
+                Building building = hit.collider.gameObject.GetComponent<Building>();
+                if (building.BuildingType == BuildingType.village)
                 {
                     canvasUI.SetActive(true);
                     AdorationBar.instance.SetVisible(true);
-                    canvasUI.GetComponent<UI_Town>().SetResourcesNb();
+                    canvasUI.GetComponent<UI_Town>().SetResourcesNb(building.context);
                 }
             }
         }

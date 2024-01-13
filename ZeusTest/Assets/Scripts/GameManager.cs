@@ -12,8 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject planet;
     private float startTime;
     public bool CanMakeBabel = false;
-
-    public Context context;
+    
     public GameObject NBResources;
 
     public List<Vector3> AllPointsOnSphere = new List<Vector3>();

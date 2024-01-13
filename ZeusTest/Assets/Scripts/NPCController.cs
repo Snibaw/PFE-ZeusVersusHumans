@@ -41,7 +41,6 @@ public class NPCController : MonoBehaviour
         aiBrain = GetComponent<AIBrain>();
         Inventory = GetComponent<NPCInventory>();
         stats = GetComponent<NPCStats>();
-        context = GameManager.instance.context;
         buildManager = context.storage.gameObject.GetComponent<BuildManager>();
         upgradeManager = context.storage.gameObject.GetComponent<UpgradeManager>();
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
@@ -211,8 +210,12 @@ public class NPCController : MonoBehaviour
 
         if(aiBrain.bestAction.RequiredDestination != null) Destroy(aiBrain.bestAction.RequiredDestination.gameObject);
         //Tell the context that a new house has been built
-        if(buildingToBuild.GetComponent<Building>().BuildingType == BuildingType.house)
+        if (buildingToBuild.GetComponent<Building>().BuildingType == BuildingType.house)
+        {
             context.AddDestinationTypeBuild(DestinationType.rest, buildingToBuild.transform);
+            buildingToBuild.GetComponent<Building>().context = context;
+        }
+            
         //Tell the build manager that a new construction has been built
         buildManager.AddConstructionBuilt(buildingToBuild.GetComponent<Building>().BuildingType);
         //Tell the upgrade manager that a new construction has been built
@@ -227,7 +230,7 @@ public class NPCController : MonoBehaviour
     }
     private void ExecuteUpgrade()
     {
-        if (buildingToUpgrade = null) {constructionToUpgrade = null; return;}
+        if (buildingToUpgrade == null) {constructionToUpgrade = null; return;}
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {

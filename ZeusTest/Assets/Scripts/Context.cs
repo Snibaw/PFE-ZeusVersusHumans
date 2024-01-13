@@ -14,9 +14,7 @@ public class Context : MonoBehaviour
     public static Context instance;
 
     private IEnumerator Start()
-    {
-        GameManager.instance.context = this;
-        
+    { 
         // Wait for the resources to be spawned
         yield return new WaitForSeconds(0.5f);
         List<Transform> restDestinations = new List<Transform>() { TownBehaviour.transform };

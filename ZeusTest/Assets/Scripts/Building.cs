@@ -13,6 +13,7 @@ public enum BuildingType
 
 public class Building : MonoBehaviour
 {
+    public Context context;
     [SerializeField] private BuildingType buildingType;
     [SerializeField] private Material Roof2;
     [SerializeField] private Material Roof3;

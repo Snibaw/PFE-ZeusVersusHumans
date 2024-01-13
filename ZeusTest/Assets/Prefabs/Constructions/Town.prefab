@@ -2780,6 +2780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b559be03b77f4c74b806c9d9d25d3905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  context: {fileID: 5594762623879093672}
   buildingType: 0
   Roof2: {fileID: 2100000, guid: 16c22f55746af124ea183ec4225541c7, type: 2}
   Roof3: {fileID: 2100000, guid: 62e7c2a6b51155647a87794a88d7b81b, type: 2}

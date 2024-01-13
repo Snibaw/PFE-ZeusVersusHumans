@@ -42,7 +42,7 @@ public class ObjectToDestroy : MonoBehaviour
                 if(impactAdorationBarValue) AdorationBar.instance.ChangeAdorationBarValue(AdorationBarEvents.DestroyBuilding);
                 if (building.BuildingType == BuildingType.house)
                 {
-                    GameManager.instance.context.RemoveObjectFromDestination(transform, DestinationType.rest);
+                    building.context.RemoveObjectFromDestination(transform, DestinationType.rest);
                 }
                 
                 
