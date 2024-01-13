@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Metal
   m_EditorClassIdentifier: 
   prefab: {fileID: 6870033667784628146, guid: ab6dfb1c20969b045b958b0cf41d0d9a, type: 3}
-  numberToSpawn: 10
+  numberToSpawn: 20
   spawnOnGroup: 0
   numberOfGroupToSpawn: 0

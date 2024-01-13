@@ -14559,6 +14559,11 @@ PrefabInstance:
       propertyPath: planetCollider
       value: 
       objectReference: {fileID: 483916112}
+    - target: {fileID: 2091848405090338958, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: numberOfTownToSpawn
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2293405192462524866, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_Mesh

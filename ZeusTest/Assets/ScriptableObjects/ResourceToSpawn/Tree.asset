@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Tree
   m_EditorClassIdentifier: 
   prefab: {fileID: 724517773581637827, guid: b766ca9889a9e1f49957df4e0b16285e, type: 3}
-  numberToSpawn: 3
+  numberToSpawn: 6
   spawnOnGroup: 1
   numberOfGroupToSpawn: 8

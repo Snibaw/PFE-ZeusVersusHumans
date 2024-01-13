@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: 
   prefab: {fileID: 2243194033383726268, guid: 34c3e4b6122d12f47ba434506fef17ca, type: 3}
-  numberToSpawn: 20
+  numberToSpawn: 40
   spawnOnGroup: 0
   numberOfGroupToSpawn: 0
