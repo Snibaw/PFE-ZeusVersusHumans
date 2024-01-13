@@ -16,12 +16,14 @@ public class SpawnResources : MonoBehaviour
 
     [SerializeField] private ResourceToSpawn[] ResourcesToSpawn;
     [SerializeField] private GameObject townPrefab;
+    [SerializeField] private int numberOfTownToSpawn;
 
     [SerializeField] private GameObject babelPrefab;
     PointDistribution _pointDistribution;
 
     List<GraphNode> nodesWithMostSpaceAround = new List<GraphNode>();
 
+    private List<GraphNode> _spawnedTownAndBabel = new List<GraphNode>();
 
 
     private void Awake() 
@@ -43,23 +45,10 @@ public class SpawnResources : MonoBehaviour
         centerNode.IsObstacle = true;
         var babelSpawned = InstantiateResource(babelPrefab, centerNode);
         _pointDistribution.SetAllInColliderToObstacle(babelSpawned.GetComponent<BoxCollider>());
-
-
-        centerNode = FindRandomNodeWithMostSpaceAround();
         
+        _spawnedTownAndBabel.Add(centerNode);
         
-        if(centerNode != null)
-        {
-            centerNode.IsObstacle = true;
-            var townSpawned = InstantiateResource(townPrefab, centerNode);
-            _pointDistribution.SetAllInColliderToObstacle(townSpawned.GetComponent<BoxCollider>());
-
-            townSpawned.GetComponent<UpgradeManager>().AddBuildingBuilt(babelSpawned.GetComponent<Building>());
-            AdorationBar.instance.town = townSpawned.GetComponent<TownBehaviour>();
-        }
-
-        
-        
+        SpawnTowns(babelSpawned);
         
         foreach (ResourceToSpawn Resource in ResourcesToSpawn)
         {
@@ -80,6 +69,25 @@ public class SpawnResources : MonoBehaviour
             }
         }
         
+    }
+
+    private void SpawnTowns(GameObject babelSpawned)
+    {
+        for(int i = 0; i < numberOfTownToSpawn; i++)
+        {
+            GraphNode centerNode = null;
+            centerNode = FindRandomNodeWithMostSpaceAround(true);
+            if(centerNode != null)
+            { //Spawn town the furthest from the other towns, then add town to the list of spawned towns
+                centerNode.IsObstacle = true;
+                var townSpawned = InstantiateResource(townPrefab, centerNode);
+                _pointDistribution.SetAllInColliderToObstacle(townSpawned.GetComponent<BoxCollider>());
+
+                townSpawned.GetComponent<UpgradeManager>().AddBuildingBuilt(babelSpawned.GetComponent<Building>());
+                AdorationBar.instance.town = townSpawned.GetComponent<TownBehaviour>();
+                _spawnedTownAndBabel.Add(centerNode);
+            }
+        }
     }
     private void SpawnSingleResource(GameObject prefab)
     {
@@ -135,7 +143,7 @@ public class SpawnResources : MonoBehaviour
         }
     }
 
-    private GraphNode FindRandomNodeWithMostSpaceAround()
+    private GraphNode FindRandomNodeWithMostSpaceAround(bool AvoidListOfNodes = false)
     {
         // Find the node with the most space around in the graph
         int maxSpaceAround = 0;
@@ -171,11 +179,44 @@ public class SpawnResources : MonoBehaviour
             }
         }
         // Return a random node with the most space around
-        int index = Random.Range(0, nodesWithMostSpaceAround.Count);
-        GraphNode nodeToReturn = nodesWithMostSpaceAround[index];
-        nodesWithMostSpaceAround.RemoveAt(index);
-        
+        GraphNode nodeToReturn = null;
+        if (!AvoidListOfNodes)
+        {
+            int index = Random.Range(0, nodesWithMostSpaceAround.Count);
+            nodeToReturn = nodesWithMostSpaceAround[index];
+            nodesWithMostSpaceAround.RemoveAt(index);
+        }
+        else
+        {
+            nodeToReturn = FindFurthestNodeFromList(nodesWithMostSpaceAround);
+            nodesWithMostSpaceAround.Remove(nodeToReturn);
+        }
         return nodeToReturn;
+    }
+    private GraphNode FindFurthestNodeFromList(List<GraphNode> nodes)
+    {
+        // We want the furthest node from the already constructed buildings. We just find the node where the nearest building is the furthest.
+        GraphNode furthestNode = null;
+        float furthestDistance = 0;
+        foreach (GraphNode node in nodes)
+        {
+            float minDistance = Mathf.Infinity;
+            foreach (GraphNode constructNodes in _spawnedTownAndBabel) 
+            {
+                float distance = Vector3.Distance(node.Position, constructNodes.Position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                }
+            }
+            if (minDistance > furthestDistance)
+            {
+                furthestDistance = minDistance;
+                furthestNode = node;
+            }
+        }
+        Debug.Log("Min distance = "+furthestDistance+" for node "+furthestNode.index+" and position "+furthestNode.Position);
+        return furthestNode;
     }
     private GameObject InstantiateResource(GameObject prefab, GraphNode node)
     {
