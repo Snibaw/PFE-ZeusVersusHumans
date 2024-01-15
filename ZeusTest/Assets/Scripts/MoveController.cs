@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public class MoveController : MonoBehaviour
 {
-    //private NavMeshAgent _navMeshAgent;
     protected NPCStats stats;
     [SerializeField] protected float startSpeed;
     protected float exhaustedSpeed;
@@ -19,14 +18,14 @@ public class MoveController : MonoBehaviour
 
     private Vector3 _positionLastFrame;
     [SerializeField] private GameObject _boat;
-
-    // public Transform destination;
-    // Start is called before the first frame update
     protected void Start()
     {
 
         _followPath = null;
-        stats = GetComponent<NPCStats>();
+        //stats = GetComponent<NPCStats>();
+
+        if(!TryGetComponent<NPCStats>(out stats))stats = null;
+
         exhaustedSpeed = startSpeed / 2;
         currentSpeed = startSpeed;
         _positionLastFrame = transform.position;
@@ -39,7 +38,7 @@ public class MoveController : MonoBehaviour
 
     public void MoveTo(Vector3 position, bool canMoveOnWater)
     {
-        if(stats.energy <= 0) return;
+        if(stats != null) if(stats.energy <= 0) return;
         if (isMoving) return;
 
         isMoving = true;

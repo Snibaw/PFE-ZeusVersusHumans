@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.00073307287, g: 0.004035685, b: 0.019824302, a: 1}
+  m_IndirectSpecularColor: {r: 0.00022299244, g: 0.0012276358, b: 0.0060304785, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -530,84 +530,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e29574f61c003a45a3cc9a571582336, type: 3}
---- !u!1001 &78932714
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 715159204516059284, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -5.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756140997148197662, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8778244535860413332, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: _rayonMovement
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8850156359502939879, guid: ba3cf866430766d4da857dece0b88f2b,
-        type: 3}
-      propertyPath: m_Name
-      value: WolfPack
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ba3cf866430766d4da857dece0b88f2b, type: 3}
 --- !u!4 &79900568 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 464626, guid: 8e29574f61c003a45a3cc9a571582336,
@@ -9908,6 +9830,7 @@ MonoBehaviour:
     value: 0
   - adorationBarEvent: 4
     value: 0
+  town: {fileID: 0}
 --- !u!4 &1560070590 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 464626, guid: 8e29574f61c003a45a3cc9a571582336,
@@ -13718,6 +13641,12 @@ PrefabInstance:
       propertyPath: planetCollider
       value: 
       objectReference: {fileID: 483916112}
+    - target: {fileID: 2091848405090338958, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
+        type: 3}
+      propertyPath: _wolfPackPrefab
+      value: 
+      objectReference: {fileID: 8850156359502939879, guid: ba3cf866430766d4da857dece0b88f2b,
+        type: 3}
     - target: {fileID: 2293405192462524866, guid: 3b00647dd829ead408ea0e12b6d4c3f5,
         type: 3}
       propertyPath: m_Mesh
@@ -25760,4 +25689,3 @@ SceneRoots:
   - {fileID: 1749893936}
   - {fileID: 1238788785}
   - {fileID: 1729309586}
-  - {fileID: 78932714}

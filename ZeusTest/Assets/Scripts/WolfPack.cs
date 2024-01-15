@@ -13,7 +13,10 @@ public class WolfPack : MonoBehaviour
     public Transform humanToFollow;
 
     [SerializeField] private float _rayonMovement = 30;
+    [SerializeField] private float _rayonDistanceFromOtherWolfPack = 100;
     private int _numberOfWolf;
+
+    public int wolfsSkin;
 
     private void Awake()
     {
@@ -24,7 +27,7 @@ public class WolfPack : MonoBehaviour
     {
         Random.InitState(System.DateTime.Now.Second);
         _wolfs = new List<GameObject>();
-        SetNumberOfWolf(1);
+        SetNumberOfWolf(Random.Range(2,4));
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
 
         StartCoroutine(WolfPackMovement());
@@ -34,13 +37,13 @@ public class WolfPack : MonoBehaviour
 
     public void SetNumberOfWolf(int numberOfWolf)
     {
-        //Debug.Log("Nb Wolf Before:"+ _wolfs.Count);
         _numberOfWolf = numberOfWolf;
         int diff = _wolfs.Count - _numberOfWolf;
         if (diff > 0) 
         {
             for (int i = 0; i < diff; i++)
             {
+                Destroy(_wolfs[0]);
                 _wolfs.RemoveAt(0);
             }
         }
@@ -50,10 +53,10 @@ public class WolfPack : MonoBehaviour
             {
                 GameObject wolf = Instantiate(_prefabWolf, transform.position, Quaternion.identity, _parentWolf);
                 wolf.GetComponent<WolfController>().wolfGuide = transform;
+                wolf.GetComponent<WolfController>().ChooseWolfColor(wolfsSkin);
                 _wolfs.Add(wolf);
             }
         }
-        //Debug.Log("Nb Wolf After:" + _wolfs.Count);
     }
 
     private IEnumerator WolfPackMovement()
@@ -68,11 +71,15 @@ public class WolfPack : MonoBehaviour
             {
                 if(delay <= 0)
                 {
-                    transform.position = _pointDistribution.FindTheClosestGraphNode(transform.position + Random.insideUnitSphere * _rayonMovement).Position;
-                    delay = Random.Range(15, 45);
+                    Vector3 wantedPosition = _pointDistribution.FindTheClosestGraphNode(transform.position + Random.insideUnitSphere * _rayonMovement).Position;
+                    if (DistanceFromOtherWolfPacks(wantedPosition) > _rayonDistanceFromOtherWolfPack)
+                    {
+                        transform.position = wantedPosition;
+                        delay = Random.Range(15, 45);
+                    }
+                        
+                    
                 }
-
-                //Debug.Log("Guide: "+ transform.position);
                 yield return new WaitForEndOfFrame();
             }
             else
@@ -82,6 +89,34 @@ public class WolfPack : MonoBehaviour
             }
             
         }
+    }
+
+    private float DistanceFromOtherWolfPacks(Vector3 wantedPosition)
+    {
+        float distanceMin = Mathf.Infinity;
+
+        foreach (WolfPack wolfPack in GameManager.instance.WolfPacks)
+        {
+            float distance = Vector3.Distance(wolfPack.transform.position, wantedPosition);
+            if(wolfPack != this && distanceMin > distance)
+            {
+                distanceMin = distance;
+            }
+        }
+
+        return distanceMin;
+
+
+    }
+
+    private void LateUpdate()
+    {
+        if (_wolfs.Count == 0) Destroy(transform.parent.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.WolfPacks.Remove(this);
     }
 
 
@@ -116,6 +151,11 @@ public class WolfPackInterface : Editor
         if (GUILayout.Button("Set Number of Wolf: 10"))
         {
             wolfPack.SetNumberOfWolf(10);
+        }
+
+        if (GUILayout.Button("Set Number of Wolf: 200"))
+        {
+            wolfPack.SetNumberOfWolf(200);
         }
     }
 }

@@ -19,6 +19,7 @@ public class SpawnResources : MonoBehaviour
     [SerializeField] private int numberOfTownToSpawn;
 
     [SerializeField] private GameObject babelPrefab;
+    [SerializeField] private GameObject _wolfPackPrefab;
     PointDistribution _pointDistribution;
 
     List<GraphNode> nodesWithMostSpaceAround = new List<GraphNode>();
@@ -32,6 +33,13 @@ public class SpawnResources : MonoBehaviour
         planetRadius = planetCollider.bounds.extents.x;
         planetCenter = planetCollider.bounds.center;
     }
+
+    private void Start()
+    {
+        StartCoroutine(SpawnSingleResourceEveryCycleOfTimeWithAMaximumOfElement(_wolfPackPrefab,60,3));    
+    }
+
+
     public void InitSpawnResourcesOnPlanet()
     {
         //First spawn the bigger object (town)
@@ -89,9 +97,10 @@ public class SpawnResources : MonoBehaviour
             }
         }
     }
-    private void SpawnSingleResource(GameObject prefab)
+    private GameObject SpawnSingleResource(GameObject prefab)
     {
         GraphNode randomNode = null;
+        GameObject resource = null;
         // Vector3 spawnPoint;
         // SearchAPositionToSpawn
         for(int i = 0; i < maxIterationToFindAPosition ; i++)
@@ -105,9 +114,11 @@ public class SpawnResources : MonoBehaviour
         } 
         if(randomNode != null)
         {
-            InstantiateResource(prefab, randomNode);
+            resource = InstantiateResource(prefab, randomNode);
         }
+        return resource;
     }
+
     private void SpawnMultipleResources(ResourceToSpawn Resource)
     {
         GraphNode centerNode = null;
@@ -228,6 +239,30 @@ public class SpawnResources : MonoBehaviour
     {
         objSpawned.transform.rotation = Quaternion.FromToRotation(Vector3.up, objSpawned.transform.position - planetCenter); // Set the rotation
         objSpawned.transform.parent = folderParentOfResources.transform; // Set the parent
+    }
+
+
+    IEnumerator SpawnSingleResourceEveryCycleOfTimeWithAMaximumOfElement(GameObject prefab,  float timeCycle, int maxElement)
+    {
+
+        while (true)
+        {
+
+            if(GameManager.instance.WolfPacks.Count < maxElement)
+            {
+                prefab.GetComponentInChildren<WolfPack>().wolfsSkin = GameManager.instance.WolfPacks.Count;
+                
+
+                GameManager.instance.WolfPacks.Add(SpawnSingleResource(prefab).GetComponentInChildren<WolfPack>());
+            }
+            
+
+
+
+            yield return new WaitForSeconds(timeCycle);
+        }
+
+        
     }
 
 }

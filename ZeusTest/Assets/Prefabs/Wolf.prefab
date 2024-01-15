@@ -201,7 +201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd9e926e5e29f7848bb943bf4b7ecd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chooseWolfColor: 0
   _skinWolf:
   - {fileID: 5901630442179655951}
   - {fileID: 8430619229192123215}

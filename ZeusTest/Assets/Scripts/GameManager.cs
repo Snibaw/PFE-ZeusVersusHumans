@@ -22,7 +22,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string loseMessageWhenAdorationBarIsZero = "0";
     [SerializeField] private string loseMessageWhenAdorationBarIsFull = "1";
 
+    [Header("CountRessources")]
+    public List<WolfPack> WolfPacks;
+
     private void Awake() {
+
+        WolfPacks = new List<WolfPack>();
         Application.targetFrameRate = 60;
         
         if(SceneManager.GetActiveScene().name == "MainScene")
