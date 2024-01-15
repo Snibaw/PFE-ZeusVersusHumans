@@ -2815,6 +2815,7 @@ MonoBehaviour:
   - 25
   - 75
   - 85
+  townColor: {r: 0, g: 0, b: 0, a: 0}
   canSpanwHuman: 1
 --- !u!114 &7670254101678347645
 MonoBehaviour:

@@ -13,7 +13,7 @@ public class TownBehaviour : MonoBehaviour
     [SerializeField] private bool canMeditate = false;
     [SerializeField] private bool canRepelWolves = false;
     [SerializeField] private List<float> adorationCheckpoints;
-
+    public Color townColor;
 
     public bool canSpanwHuman = true;
     // Start is called before the first frame update
@@ -45,6 +45,9 @@ public class TownBehaviour : MonoBehaviour
             human.GetComponent<NPCController>().context = townContext;
         }
         
+        //Change human color depending on the town color
+        human.GetComponent<HumanModelModificator>().ChangeHatColor(townColor);
+
     }
 
     public void AdorationBonuses(float adoration)

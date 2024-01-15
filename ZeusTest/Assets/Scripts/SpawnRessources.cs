@@ -17,6 +17,7 @@ public class SpawnResources : MonoBehaviour
     [SerializeField] private ResourceToSpawn[] ResourcesToSpawn;
     [SerializeField] private GameObject townPrefab;
     [SerializeField] private int numberOfTownToSpawn;
+    [SerializeField] private Color[] townColors;
 
     [SerializeField] private GameObject babelPrefab;
     [SerializeField] private GameObject _wolfPackPrefab;
@@ -93,6 +94,7 @@ public class SpawnResources : MonoBehaviour
 
                 townSpawned.GetComponent<UpgradeManager>().AddBuildingBuilt(babelSpawned.GetComponent<Building>());
                 AdorationBar.instance.town = townSpawned.GetComponent<TownBehaviour>();
+                townSpawned.GetComponent<TownBehaviour>().townColor = townColors[i];
                 _constructionToAvoidWhenSpawnTown.Add(centerNode);
             }
         }
