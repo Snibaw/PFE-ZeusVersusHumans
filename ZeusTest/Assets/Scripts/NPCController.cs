@@ -206,6 +206,7 @@ public class NPCController : MonoBehaviour
     private void ExecuteBuild()
     {
         if (buildingToBuild == null) return;
+        buildingToBuild.GetComponent<Building>().changeToCivColor(homeTown.gameObject.GetComponent<TownBehaviour>().townColor);
         buildingToBuild.SetActive(true);
 
         if(aiBrain.bestAction.RequiredDestination != null) Destroy(aiBrain.bestAction.RequiredDestination.gameObject);
