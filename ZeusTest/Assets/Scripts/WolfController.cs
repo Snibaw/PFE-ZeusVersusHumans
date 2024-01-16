@@ -6,6 +6,8 @@ public class WolfController : MonoBehaviour
     public MoveController mover { get; set; }
     public Transform wolfGuide { get; set; }
 
+    private Animator _wolfAnimator;
+
     [SerializeField] private GameObject[] _skinWolf;
 
     private WolfPack _wolfPack;
@@ -29,6 +31,7 @@ public class WolfController : MonoBehaviour
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
 
         StartCoroutine(FollowAroundWolfPack());
+        StartCoroutine(AnimationMovement());
 
         _wolfPack = wolfGuide.GetComponent<WolfPack>();
 
@@ -38,8 +41,12 @@ public class WolfController : MonoBehaviour
     {
         for (int i = 0; i < _skinWolf.Length; i++)
         {
-            if ((choice % _skinWolf.Length) == i) _skinWolf[i].SetActive(true);
-            else _skinWolf[i].SetActive(false);
+            if ((choice % _skinWolf.Length) == i) 
+            {
+                _skinWolf[i].SetActive(true);
+                _wolfAnimator = _skinWolf[i].GetComponent<Animator>();
+            }
+            else Destroy(_skinWolf[i]);
         }
     }
 
@@ -77,7 +84,7 @@ public class WolfController : MonoBehaviour
     {
         
         RaycastHit hit;
-        Debug.Log("WolfDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
+        //Debug.Log("WolfDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
         if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
         {
             //Debug.Log("Detected: "+ hit.collider.tag);
@@ -102,6 +109,21 @@ public class WolfController : MonoBehaviour
         else
         {
             _closestHumanToFollow = null;
+        }
+    }
+
+
+    private IEnumerator AnimationMovement()
+    {
+        Vector3 lastPosition = transform.position;
+        while (true)
+        {
+            yield return new WaitForEndOfFrame();
+
+            if (lastPosition == transform.position) _wolfAnimator.SetBool("Run Forward", false);
+            else _wolfAnimator.SetBool("Run Forward", true);
+
+            lastPosition = transform.position;
         }
     }
 
