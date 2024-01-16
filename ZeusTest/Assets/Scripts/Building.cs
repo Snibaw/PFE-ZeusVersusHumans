@@ -8,7 +8,8 @@ public enum BuildingType
     mine,
     sawmill,
     house,
-    babel
+    babel,
+    lightningRod
 }
 
 public class Building : MonoBehaviour
@@ -41,6 +42,8 @@ public class Building : MonoBehaviour
             if (changingMaterial != null) ChangeMaterial(changingMaterial, Metal);
             break;
         }
+
+        if (buildingType == BuildingType.lightningRod) transform.localScale = new Vector3(1, Mathf.Min(0.5f + level/2, 2), 1);
     }
     public BuildingType BuildingType
     {

@@ -2755,6 +2755,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8eb128c759201aa40bba021098c07ad0, type: 2}
   - {fileID: 11400000, guid: 487a6867f5974dc4f97278c50d8d1fde, type: 2}
   - {fileID: 11400000, guid: e221a230f1363e24792cbd57347a197c, type: 2}
+  - {fileID: 11400000, guid: db95452b16ec6404395b415075ac475b, type: 2}
 --- !u!114 &1256132855981416632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2831,13 +2832,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleUpgrades: []
-  buildingToConstruction: 0000000001000000020000000300000004000000
+  buildingToConstruction: 000000000100000002000000030000000400000005000000
   constructionValue:
   - {fileID: 11400000, guid: e221a230f1363e24792cbd57347a197c, type: 2}
   - {fileID: 11400000, guid: 8eb128c759201aa40bba021098c07ad0, type: 2}
   - {fileID: 11400000, guid: 487a6867f5974dc4f97278c50d8d1fde, type: 2}
   - {fileID: 11400000, guid: 99e525e90f0f7ae4ab8f360bdfed8527, type: 2}
   - {fileID: 11400000, guid: 1545ef66af9a9e84f9a2ae83c8a1214f, type: 2}
+  - {fileID: 11400000, guid: db95452b16ec6404395b415075ac475b, type: 2}
 --- !u!1 &4810573527893410994
 GameObject:
   m_ObjectHideFlags: 0

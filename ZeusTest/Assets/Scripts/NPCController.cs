@@ -68,6 +68,7 @@ public class NPCController : MonoBehaviour
         switch (currentState)
         {
             case State.decide:
+                _canMoveOnWater = homeTown.gameObject.GetComponent<TownBehaviour>().canUseBoat;
                 aiBrain.DecideBestAction();
                 MinDistanceModifier = constructionToBuild == null ? 1f : 0.5f;
                 if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance * MinDistanceModifier)
