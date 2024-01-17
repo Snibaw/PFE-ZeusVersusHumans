@@ -39,6 +39,7 @@ public class BuildManager : MonoBehaviour
         int returnValue = 0;
         foreach (IAConstruction construction in possibleConstructions)
         {
+            if (!CanBuild(construction, _npcController)) continue;
             if (!CanBuildMore(construction)) continue;
             
             if (FindBuildPercentage(construction, inventory) == 1)
@@ -75,6 +76,13 @@ public class BuildManager : MonoBehaviour
     {
         BuildingType buildTypeSearch = construction.prefab.GetComponent<Building>().BuildingType;
         return numberOfConstructionBuilt[buildTypeSearch] < construction.numberMaxToSpawn;
+    }
+
+    private bool CanBuild(IAConstruction construction, NPCController _npcController)
+    {
+        BuildingType buildTypeSearch = construction.prefab.GetComponent<Building>().BuildingType;
+        if (buildTypeSearch == BuildingType.lightningRod && !_npcController.homeTown.gameObject.GetComponent<TownBehaviour>().canBuildLightningRod) return false;
+        return true;
     }
 
     public IAConstruction FindTheCheapestConstructionToBuild(StorageInventory townInventory, StorageInventory npcInventory)

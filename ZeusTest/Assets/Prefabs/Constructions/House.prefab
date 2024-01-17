@@ -416,6 +416,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1254582652857133830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4421696860260253645}
+  m_Layer: 0
+  m_Name: CivColor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4421696860260253645
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254582652857133830}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1113373476433181886}
+  m_Father: {fileID: 4241149576249611726}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1342781094289684327
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,8 +1339,8 @@ Transform:
   - {fileID: 7019875860057581588}
   - {fileID: 6976892867175850228}
   - {fileID: 8736449772773807633}
+  - {fileID: 4421696860260253645}
   - {fileID: 8009728033173701060}
-  - {fileID: 1113373476433181886}
   - {fileID: 6764825814194892396}
   - {fileID: 6502678647494928046}
   m_Father: {fileID: 4443893124428290371}
@@ -1803,12 +1835,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4536238974634286209}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.01127632, y: 0.864777, z: -0.08011502}
-  m_LocalScale: {x: 54.112083, y: 85.86246, z: 66.034874}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.011276319, y: 0.864777, z: -0.08011501}
+  m_LocalScale: {x: 54.112076, y: 85.86246, z: 66.034874}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4241149576249611726}
+  m_Father: {fileID: 4421696860260253645}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1551141532361859850
 MeshFilter:
@@ -3687,6 +3719,7 @@ MonoBehaviour:
   level3: {fileID: 0}
   changingMaterial: {fileID: 6561871949702380026}
   roof: {fileID: 5473897747728949481}
+  civColorPart: {fileID: 1254582652857133830}
   level: 1
 --- !u!1 &7937278631967433316
 GameObject:

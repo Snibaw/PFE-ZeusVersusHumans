@@ -8,10 +8,10 @@ public class TownBehaviour : MonoBehaviour
     [SerializeField] private float timeBtwHumanSpawn = 5f;
     [SerializeField] private Context townContext;
     
-    [SerializeField] private bool canBuildLightningRod = false;
-    [SerializeField] private bool canUseBoat = false;
-    [SerializeField] private bool canMeditate = false;
-    [SerializeField] private bool canRepelWolves = false;
+    public bool canBuildLightningRod = false;
+    public bool canUseBoat = false;
+    public bool canMeditate = false;
+    public bool canRepelWolves = false;
     [SerializeField] private List<float> adorationCheckpoints;
     public Color townColor;
 

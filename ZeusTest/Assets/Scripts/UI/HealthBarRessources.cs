@@ -69,17 +69,13 @@ public class HealthBarRessources : MonoBehaviour
     
     private void ChangeValueOfSlider()
     {
-        //healthBarSlider.value = currentHealth;
-        //StartCoroutine(SlideCoroutine(currentHealth, healthBarSlider));
         StartCoroutine(ChangeSlidersCoroutine(currentHealth));
     }
 
     private IEnumerator ChangeSlidersCoroutine(float valueToChange)
     {
-        Debug.Log("start cor");
-        StartCoroutine(SlideCoroutine(valueToChange, healthBarSlider));
+        healthBarSlider.value = valueToChange;
         yield return new WaitForSeconds(2f);
-        Debug.Log("finished wait");
         StartCoroutine(SlideCoroutine(valueToChange, delayedSlider));
     }
     

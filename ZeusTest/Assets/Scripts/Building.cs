@@ -8,7 +8,8 @@ public enum BuildingType
     mine,
     sawmill,
     house,
-    babel
+    babel,
+    lightningRod
 }
 
 public class Building : MonoBehaviour
@@ -23,6 +24,7 @@ public class Building : MonoBehaviour
     [SerializeField] private GameObject level3;
     [SerializeField] private GameObject changingMaterial;
     [SerializeField] private GameObject roof;
+    [SerializeField] private GameObject civColorPart;
     public int level = 0;
     public virtual void levelUp()
     {
@@ -40,6 +42,8 @@ public class Building : MonoBehaviour
             if (changingMaterial != null) ChangeMaterial(changingMaterial, Metal);
             break;
         }
+
+        if (buildingType == BuildingType.lightningRod) transform.localScale = new Vector3(1, Mathf.Min(0.5f + level/2, 2), 1);
     }
     public BuildingType BuildingType
     {
@@ -59,5 +63,18 @@ public class Building : MonoBehaviour
             foreach (var i in children) {
             i.material = mat;
             }
+    }
+
+    void ChangeColor( GameObject target, Color col) {
+        Renderer[] children;
+        children = target.GetComponentsInChildren<Renderer>();
+            foreach (var i in children) {
+            i.material.SetColor("_Color", col);
+            }
+    }
+
+    public void changeToCivColor( Color col) 
+    {
+        ChangeColor(civColorPart, col);
     }
 }

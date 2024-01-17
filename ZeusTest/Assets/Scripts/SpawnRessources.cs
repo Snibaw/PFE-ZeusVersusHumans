@@ -95,6 +95,7 @@ public class SpawnResources : MonoBehaviour
                 townSpawned.GetComponent<UpgradeManager>().AddBuildingBuilt(babelSpawned.GetComponent<Building>());
                 AdorationBar.instance.town = townSpawned.GetComponent<TownBehaviour>();
                 townSpawned.GetComponent<TownBehaviour>().townColor = townColors[i];
+                townSpawned.GetComponent<Building>().changeToCivColor(townColors[i]);
                 _constructionToAvoidWhenSpawnTown.Add(centerNode);
             }
         }

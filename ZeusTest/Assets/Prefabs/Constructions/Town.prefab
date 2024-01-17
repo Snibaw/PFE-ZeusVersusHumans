@@ -1817,7 +1817,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7361935817947983108}
-  - {fileID: 5652975347199937680}
   - {fileID: 6172269171668661030}
   - {fileID: 3001301706463547942}
   - {fileID: 994184514291960730}
@@ -1826,6 +1825,7 @@ Transform:
   - {fileID: 6922863533191049067}
   - {fileID: 3773815033620876949}
   - {fileID: 7034353920177065504}
+  - {fileID: 4510205797648115819}
   - {fileID: 8977713982169406330}
   - {fileID: 1059544968285231314}
   - {fileID: 4658411058718174042}
@@ -2755,6 +2755,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8eb128c759201aa40bba021098c07ad0, type: 2}
   - {fileID: 11400000, guid: 487a6867f5974dc4f97278c50d8d1fde, type: 2}
   - {fileID: 11400000, guid: e221a230f1363e24792cbd57347a197c, type: 2}
+  - {fileID: 11400000, guid: db95452b16ec6404395b415075ac475b, type: 2}
 --- !u!114 &1256132855981416632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2790,6 +2791,7 @@ MonoBehaviour:
   level3: {fileID: 0}
   changingMaterial: {fileID: 5103645719215692502}
   roof: {fileID: 5002344510483273211}
+  civColorPart: {fileID: 5195681634080080702}
   level: 1
 --- !u!114 &5787211579326384670
 MonoBehaviour:
@@ -2830,13 +2832,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleUpgrades: []
-  buildingToConstruction: 0000000001000000020000000300000004000000
+  buildingToConstruction: 000000000100000002000000030000000400000005000000
   constructionValue:
   - {fileID: 11400000, guid: e221a230f1363e24792cbd57347a197c, type: 2}
   - {fileID: 11400000, guid: 8eb128c759201aa40bba021098c07ad0, type: 2}
   - {fileID: 11400000, guid: 487a6867f5974dc4f97278c50d8d1fde, type: 2}
   - {fileID: 11400000, guid: 99e525e90f0f7ae4ab8f360bdfed8527, type: 2}
   - {fileID: 11400000, guid: 1545ef66af9a9e84f9a2ae83c8a1214f, type: 2}
+  - {fileID: 11400000, guid: db95452b16ec6404395b415075ac475b, type: 2}
 --- !u!1 &4810573527893410994
 GameObject:
   m_ObjectHideFlags: 0
@@ -3496,6 +3499,38 @@ Transform:
   - {fileID: 9162216419108434062}
   m_Father: {fileID: 2865225227883333128}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5195681634080080702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4510205797648115819}
+  m_Layer: 0
+  m_Name: CivColor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4510205797648115819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195681634080080702}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5652975347199937680}
+  m_Father: {fileID: 2865225227883333128}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5338916930771471084
 GameObject:
   m_ObjectHideFlags: 0
@@ -3522,12 +3557,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5338916930771471084}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0.15675195, y: 0.64594007, z: -0.19002187}
   m_LocalScale: {x: 100, y: 57.848827, z: 0.9504609}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2865225227883333128}
+  m_Father: {fileID: 4510205797648115819}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6251703780186185255
 MeshFilter:
