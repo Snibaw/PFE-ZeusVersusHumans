@@ -703,6 +703,9 @@ MonoBehaviour:
   uiTimerScript: {fileID: 1312519491588432525}
   thoughtsScript: {fileID: 1297420550488659259}
   _canMoveOnWater: 0
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 256
   isExecuting: 0
 --- !u!114 &1312519491588432525
 MonoBehaviour:

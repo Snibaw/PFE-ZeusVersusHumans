@@ -30,8 +30,9 @@ public class NPCController : MonoBehaviour
     [SerializeField] private ThoughtsAndActionManager thoughtsScript;
     [SerializeField] private bool _canMoveOnWater;
     PointDistribution _pointDistribution;
+    [SerializeField] private LayerMask _layerMask;
 
-    
+
 
     public bool isExecuting;
     // Start is called before the first frame update
@@ -310,6 +311,20 @@ public class NPCController : MonoBehaviour
             case ResourceType.stone :
                 thoughtsScript.ChangeAction(ActionOfIA.Iron);
                 break;
+        }
+    }
+
+    private void HumanDetection()
+    {
+
+        RaycastHit hit;
+        Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
+
+        if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
+        {
+            Debug.Log("Detected: "+ hit.collider.tag);
+
+
         }
     }
 
