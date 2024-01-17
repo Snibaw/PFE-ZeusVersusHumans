@@ -1586,7 +1586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adorationBarEvent:
   - adorationBarEvent: 5
-    value: 0.5
+    value: -5
   - adorationBarEvent: 4
     value: -3
   - adorationBarEvent: 2
