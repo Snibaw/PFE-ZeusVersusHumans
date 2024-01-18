@@ -73,3 +73,7 @@ crashlytics-build.properties
 ZeusTest/Packages/manifest.json
 ZeusTest/Packages/packages-lock.json
 ZeusTest/.vsconfig
+ZeusTest/Assets/Import/Inguz Media Studio.meta
+ZeusTest/Assets/Import/Inguz Media Studio/The Beautiful Portals VFX.meta
+ZeusTest/Assets/Import/Inguz Media Studio/The Beautiful Portals VFX/URP unitypackage.meta
+ZeusTest/Assets/Import/Inguz Media Studio/The Beautiful Portals VFX/URP unitypackage/The Beautiful Portals - URP.unitypackage.meta
