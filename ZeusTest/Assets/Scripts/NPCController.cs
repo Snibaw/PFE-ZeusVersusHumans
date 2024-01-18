@@ -325,6 +325,10 @@ public class NPCController : MonoBehaviour
     {
         if (homeTown == null) return true;
         return !homeTown.GetComponent<TownBehaviour>().canRepelWolves;
+    }
+    
+        
+        
     private void HumanDetection()
     {
 
