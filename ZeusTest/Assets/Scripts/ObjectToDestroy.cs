@@ -27,6 +27,7 @@ public class ObjectToDestroy : MonoBehaviour
 
         if(life <= 0)
         {
+            healthBar.HideHealthBar();
             Resource resource = GetComponent<Resource>();
             Building building = GetComponent<Building>();
             if(resource != null) //If the object is a resource
