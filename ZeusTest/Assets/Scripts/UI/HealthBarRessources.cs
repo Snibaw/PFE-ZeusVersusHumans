@@ -12,7 +12,9 @@ public class HealthBarRessources : MonoBehaviour
 
     private Camera mainCam;
     private float currentHealth;
-    private float timeBeforeDeactivate;
+    private float _damage;
+    private float timerUntilHided = 0.5f;
+    private float currentTimer;
     
     void Start()
     {
@@ -21,6 +23,11 @@ public class HealthBarRessources : MonoBehaviour
         sliderGameObject.SetActive(false);
         mainCam = Camera.main;
         LookTowardsCamera();
+    }
+
+    public void HideHealthBar()
+    {
+        sliderGameObject.SetActive(false);
     }
 
     private void InitializeBar()
@@ -44,6 +51,7 @@ public class HealthBarRessources : MonoBehaviour
 
     public void DamageRessource(float damage)
     {
+        _damage = damage;
         if (currentHealth - damage <= 0)
         {
             currentHealth = 0;
@@ -55,17 +63,7 @@ public class HealthBarRessources : MonoBehaviour
         
         sliderGameObject.SetActive(true);
         ChangeValueOfSlider();
-        timeBeforeDeactivate = 4f;
     }
-
-    private IEnumerator ShowHealthBar(float time)
-    {
-        sliderGameObject.SetActive(true);
-        yield return new WaitForSeconds(time);
-        sliderGameObject.SetActive(false);
-    }
-
-    
     
     private void ChangeValueOfSlider()
     {
@@ -75,7 +73,7 @@ public class HealthBarRessources : MonoBehaviour
     private IEnumerator ChangeSlidersCoroutine(float valueToChange)
     {
         healthBarSlider.value = valueToChange;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(SlideCoroutine(valueToChange, delayedSlider));
     }
     
@@ -90,11 +88,11 @@ public class HealthBarRessources : MonoBehaviour
 
     private IEnumerator SlideCoroutine(float valueToReach, Slider slider)
     {
-        if (slider.value > valueToReach)
+        float increment = (slider.value - valueToReach) * Time.deltaTime / 1.5f;
+        while (slider.value > valueToReach)
         {
-            slider.value -= 15 * Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime);
-            StartCoroutine( SlideCoroutine(valueToReach, slider));
+            slider.value -= increment;
+            yield return new WaitForEndOfFrame();
         }
     }
     
@@ -103,14 +101,17 @@ public class HealthBarRessources : MonoBehaviour
     void Update()
     {
         LookTowardsCamera();
-
-        if (timeBeforeDeactivate > 0)
+        if (delayedSlider.value <= currentHealth && sliderGameObject.activeSelf)
         {
-            timeBeforeDeactivate -= Time.deltaTime;
+            currentTimer -= Time.deltaTime;
+            if (currentTimer <= 0)
+            {
+                HideHealthBar();
+            }
         }
         else
         {
-            sliderGameObject.SetActive(false);
+            currentTimer = timerUntilHided;
         }
     }
 }
