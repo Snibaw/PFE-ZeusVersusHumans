@@ -65,7 +65,7 @@ public class WolfPack : MonoBehaviour
         yield return new WaitForSeconds(1);
         while (true) 
         {
-            Debug.Log("Human To Follow:" + humanToFollow);
+            //Debug.Log("Human To Follow:" + humanToFollow);
             delay -= Time.deltaTime;
             if(humanToFollow == null)
             {

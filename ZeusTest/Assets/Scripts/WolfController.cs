@@ -133,5 +133,10 @@ public class WolfController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position - transform.forward * 1f, 1f);
     }
 
+    private void OnDestroy()
+    {
+        Debug.Log("Je suis un Loup et je suis Mort");
+    }
+
 
 }

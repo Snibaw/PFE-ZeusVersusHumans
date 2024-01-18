@@ -26,6 +26,8 @@ public class NPCController : MonoBehaviour
     public Building homeTown { get; set; }
     private bool isSleeping = false;
 
+    private WolfController _wolfTarget;
+
     [SerializeField] private UI_Timer uiTimerScript;
     [SerializeField] private ThoughtsAndActionManager thoughtsScript;
     [SerializeField] private bool _canMoveOnWater;
@@ -48,6 +50,8 @@ public class NPCController : MonoBehaviour
         isExecuting = false;
         constructionToBuild = null;
         _canMoveOnWater = false;
+
+        StartCoroutine(HumanDetection());
         
     }
 
@@ -329,18 +333,39 @@ public class NPCController : MonoBehaviour
     
         
         
-    private void HumanDetection()
+    IEnumerator HumanDetection()
     {
-
-        RaycastHit hit;
-        Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
-
-        if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
+        while (true)
         {
-            Debug.Log("Detected: "+ hit.collider.tag);
+            RaycastHit hit;
+            Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
+
+            if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
+            {
+                Debug.Log("Detected: " + hit.collider.tag);
+                hit.collider.gameObject.TryGetComponent<WolfController>(out _wolfTarget);
+                Attack();
 
 
+            }
+
+
+            yield return new WaitForEndOfFrame();
         }
+        
+    }
+
+    void Attack()
+    {
+        if (_wolfTarget == null) return;
+        _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(50);
+
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position - transform.forward * 1f, 1f);
     }
 
 }
