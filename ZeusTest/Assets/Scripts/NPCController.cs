@@ -340,7 +340,7 @@ public class NPCController : MonoBehaviour
             RaycastHit hit;
             Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
 
-            if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
+            if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask) && hit.collider.CompareTag("Wolf"))
             {
                 Debug.Log("Detected: " + hit.collider.tag);
                 hit.collider.gameObject.TryGetComponent<WolfController>(out _wolfTarget);

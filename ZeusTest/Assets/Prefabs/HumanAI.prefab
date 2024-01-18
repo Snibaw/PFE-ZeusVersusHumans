@@ -705,7 +705,7 @@ MonoBehaviour:
   _canMoveOnWater: 0
   _layerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 8
   isExecuting: 0
 --- !u!114 &1312519491588432525
 MonoBehaviour:
