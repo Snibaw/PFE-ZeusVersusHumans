@@ -46,7 +46,7 @@ public class InputController : MonoBehaviour
                     canvasUI.SetActive(true);
                     AdorationBar.instance.SetVisible(true,
                         building.gameObject.GetComponentInChildren<AdorationBarManager>());
-                    canvasUI.GetComponent<UI_Town>().SetResourcesNb(building.context);
+                    //canvasUI.GetComponent<UI_Town>().SetResourcesNb(building.context);
                 }
             }
 
