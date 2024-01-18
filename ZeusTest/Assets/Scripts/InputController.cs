@@ -7,10 +7,11 @@ public class InputController : MonoBehaviour
 {
     [SerializeField] private Tutorial _tutorial;
     [SerializeField] private CameraMovement cameraMovement;
-    private GameObject canvasUI;
+    [SerializeField] private GameObject canvasUI;
+
     private ThrowLightning throwLightning;
     private float x,y;
-
+    
     [SerializeField] private float timeBtwClickAndHold = 0.5f;
     [SerializeField] private float yBorderBtwRotationAndLightning = 0.25f;
     private bool isBelowYBorder = false;
@@ -23,7 +24,7 @@ public class InputController : MonoBehaviour
     void Start()
     {
         mainCam = Camera.main;
-        canvasUI = GameManager.instance.NBResources;
+        // canvasUI = GameManager.instance.NBResources;
         throwLightning = GetComponent<ThrowLightning>();
     }
     private void ManageTownUI(bool isPhone = false)
@@ -46,7 +47,7 @@ public class InputController : MonoBehaviour
                     canvasUI.SetActive(true);
                     AdorationBar.instance.SetVisible(true,
                         building.gameObject.GetComponentInChildren<AdorationBarManager>());
-                    //canvasUI.GetComponent<UI_Town>().SetResourcesNb(building.context);
+                    canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponentInChildren<Storage>());
                 }
             }
 
