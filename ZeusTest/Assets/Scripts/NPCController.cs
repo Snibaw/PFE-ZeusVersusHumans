@@ -286,7 +286,6 @@ public class NPCController : MonoBehaviour
         var positionToBuild = targetNode.Position;
         //Spawn the construction
         buildingToBuild = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
-        buildingToBuild.transform.LookAt(transform.position, positionToBuild.normalized);
         _pointDistribution.SetAllInColliderToObstacle(buildingToBuild.GetComponent<BoxCollider>());
         buildingToBuild.SetActive(false);
 
@@ -301,6 +300,7 @@ public class NPCController : MonoBehaviour
         GraphNode targetNode = _pointDistribution.FindClosestNodeFree(buildingToBuild.transform.position, _canMoveOnWater);
         GameObject Target = new GameObject();
         Target.transform.position = targetNode.Position;
+        buildingToBuild.transform.LookAt(targetNode.Position, buildingToBuild.transform.position.normalized);
         return  Target.transform;
     }
 
