@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class UI_Town : MonoBehaviour
 {
+    private Context _contextScript;
     [SerializeField] private List<ResourceAndTxt> resourceAndTxtList;
     
     [Serializable]
@@ -15,12 +16,27 @@ public class UI_Town : MonoBehaviour
         [SerializeField] public TMP_Text numberTxt;
     }
 
+    private void Update()
+    {
+        if (_contextScript != null)
+        {
+            UpdateResourcesUI();
+        }
+    }
+
     public void SetResourcesNb(Context contextScript)
+    {
+        _contextScript = contextScript;
+        UpdateResourcesUI();
+    }
+
+    private void UpdateResourcesUI()
     {
         foreach (var resourceAndTxt in resourceAndTxtList)
         {
-            int nbResource = contextScript.storage.GetNbResources(resourceAndTxt.type);
+            int nbResource = _contextScript.storage.GetNbResources(resourceAndTxt.type);
             resourceAndTxt.numberTxt.text = nbResource.ToString();
         }
     }
+    
 }

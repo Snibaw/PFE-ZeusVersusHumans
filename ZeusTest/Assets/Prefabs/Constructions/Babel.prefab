@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4443893124428290371}
   - component: {fileID: 2775493078811761152}
   - component: {fileID: 1562702779118022052}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Babel
   m_TagString: Building
   m_Icon: {fileID: 0}
@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9742a75788beca141bef002fba3e15aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  context: {fileID: 0}
   buildingType: 4
   Roof2: {fileID: 0}
   Roof3: {fileID: 0}
@@ -76,6 +77,7 @@ MonoBehaviour:
   level3: {fileID: 0}
   changingMaterial: {fileID: 0}
   roof: {fileID: 0}
+  civColorPart: {fileID: 0}
   level: 0
   maxLevel: 10
 --- !u!1001 &1326932564733778742
