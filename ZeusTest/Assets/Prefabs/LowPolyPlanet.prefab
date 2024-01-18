@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34fdd0c81d6dada498871f0f832e2542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetCollider: {fileID: 1023160662258584601}
+  planetCollider: {fileID: 2293405192462524866}
   maxIterationToFindAPosition: 100
   folderParentOfResources: {fileID: 1573106408389988748}
   ResourcesToSpawn:
@@ -229,7 +229,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a2f3d45f12025734281593831dc5c976, type: 2}
   townPrefab: {fileID: 4753602130079823826, guid: 5c4dee8c44d46324aaffc61ecd24a991,
     type: 3}
+  numberOfTownToSpawn: 0
+  townColors: []
   babelPrefab: {fileID: 7928200180542378709, guid: 596e652edc3f0b2418bac132d6847216,
+    type: 3}
+  _wolfPackPrefab: {fileID: 8850156359502939879, guid: ba3cf866430766d4da857dece0b88f2b,
     type: 3}
 --- !u!114 &4819868603943438810
 MonoBehaviour:
