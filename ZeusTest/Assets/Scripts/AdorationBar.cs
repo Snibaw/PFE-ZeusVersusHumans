@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
+using Vector3 = UnityEngine.Vector3;
 
 public enum AdorationBarEvents
 {
@@ -23,10 +25,10 @@ public class AdorationBar : MonoBehaviour
 {
     private GameObject adorationBarUI;
     public static AdorationBar instance = null;
-    [SerializeField] private AdorationBarEvent[] adorationBarEvent;
-    public TownBehaviour town;
-    private float adorationValue = 0;
+    public AdorationBarEvent[] adorationBarEvent;
+    private float _adorationValue = 0;
     private Slider slider;
+    private AdorationBarManager _adorationBarManager;
     
     private void Awake()
     {
@@ -37,34 +39,66 @@ public class AdorationBar : MonoBehaviour
     private void Start()
     {
         slider = GetComponent<Slider>();
-        adorationValue = slider.maxValue / 2;
-        slider.value = adorationValue;
         adorationBarUI = transform.GetChild(0).gameObject;
-        
-        InvokeRepeating("PassiveIncrease", 1, 1f);
     }
 
-    private void PassiveIncrease()
+    private void Update()
     {
-        ChangeAdorationBarValue(AdorationBarEvents.PassivelyIncreasePerSeconds);
+        if(adorationBarUI.activeSelf) UpdateSliderValue();
     }
-    
-    public void ChangeAdorationBarValue(AdorationBarEvents adorationBarEventType)
-    {
-        foreach (AdorationBarEvent adorationEvent in this.adorationBarEvent)
-        {
-            if (adorationEvent.adorationBarEvent == adorationBarEventType)
-            {
-                adorationValue = Mathf.Clamp(adorationValue + adorationEvent.value, 0, 100);
-                slider.value = adorationValue;
-                town.AdorationBonuses(adorationValue);
-                return;
-                
-            }
-        }
-    }
-    public void SetVisible(bool visible)
+
+
+    public void SetVisible(bool visible, AdorationBarManager adorationBarManager = null)
     {
         adorationBarUI.SetActive(visible);
+        if (visible)
+        {
+            _adorationBarManager = adorationBarManager;
+            UpdateSliderValue();
+        }
+    }
+    private void UpdateSliderValue()
+    {
+        if (_adorationBarManager == null) return;
+        _adorationValue = _adorationBarManager.adorationValue;
+        slider.value = _adorationValue;
+    }
+
+    public void FindAndChangeAdorationBarNPC(NPCController _npcController, AdorationBarEvents adorationBarEventType)
+    {
+        AdorationBarManager adorationBarManager = _npcController.homeTown.GetComponentInChildren<AdorationBarManager>();
+        if (adorationBarManager == null) return;
+        adorationBarManager.ChangeAdorationBarValue(adorationBarEventType);
+    }
+
+    public void FindAndChangeNearestAdorationBar(Vector3 objPosition, AdorationBarEvents adorationBarEventType)
+    {
+        //Find nearest Town
+        GameObject nearestTown = null;
+        float nearestDistance = Mathf.Infinity;
+        foreach (GameObject building in GameObject.FindGameObjectsWithTag("Building"))
+        {
+            if (building.GetComponent<Building>().BuildingType == BuildingType.village)
+            {
+                float _distance = Vector3.Distance(objPosition, building.transform.position);
+                if (nearestTown == null)
+                {
+                    nearestTown = building;
+                    nearestDistance = _distance;
+                }
+                else
+                {
+                    if(_distance < nearestDistance)
+                    {
+                        nearestTown = building;
+                        nearestDistance = _distance;
+                    }
+                }
+            }
+        }
+        if (nearestTown == null) return;
+        AdorationBarManager adorationBarManager = nearestTown.GetComponentInChildren<AdorationBarManager>();
+        if (adorationBarManager == null) return;
+        adorationBarManager.ChangeAdorationBarValue(adorationBarEventType);
     }
 }

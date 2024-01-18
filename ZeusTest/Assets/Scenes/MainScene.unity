@@ -1586,18 +1586,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adorationBarEvent:
   - adorationBarEvent: 5
-    value: -5
+    value: -0.5
   - adorationBarEvent: 4
     value: -3
   - adorationBarEvent: 2
     value: 3
   - adorationBarEvent: 0
-    value: -3
+    value: -2
   - adorationBarEvent: 3
-    value: -3
+    value: -5
   - adorationBarEvent: 1
-    value: 3
-  town: {fileID: 0}
+    value: 10
 --- !u!114 &201136618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9216,7 +9215,7 @@ PrefabInstance:
     - target: {fileID: 5468227707601585405, guid: 4e78565083bb6f64db159255170852c2,
         type: 3}
       propertyPath: gameSpeed
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5468227707601585405, guid: 4e78565083bb6f64db159255170852c2,
         type: 3}

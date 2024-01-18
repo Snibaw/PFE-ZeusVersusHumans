@@ -26,12 +26,13 @@ public class InputController : MonoBehaviour
         canvasUI = GameManager.instance.NBResources;
         throwLightning = GetComponent<ThrowLightning>();
     }
-    private void ActivateUI(bool isPhone = false)
+    private void ManageTownUI(bool isPhone = false)
     {
         Ray ray;
         if(isPhone) ray = mainCam.ScreenPointToRay(touch.position);
         else ray = mainCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        bool hitVillage = false;
 
         if(canvasUI == null) return;
         if (Physics.Raycast(ray, out hit, 100f))
@@ -41,12 +42,22 @@ public class InputController : MonoBehaviour
                 Building building = hit.collider.gameObject.GetComponent<Building>();
                 if (building.BuildingType == BuildingType.village)
                 {
+                    hitVillage = true;
                     canvasUI.SetActive(true);
-                    AdorationBar.instance.SetVisible(true);
+                    AdorationBar.instance.SetVisible(true,
+                        building.gameObject.GetComponentInChildren<AdorationBarManager>());
                     canvasUI.GetComponent<UI_Town>().SetResourcesNb(building.context);
                 }
             }
+
         }
+
+        if (hitVillage == false)
+        {
+            canvasUI.SetActive(false);
+            AdorationBar.instance.SetVisible(false);
+        }
+
     }
 
     // Update is called once per frame
@@ -63,15 +74,7 @@ public class InputController : MonoBehaviour
             {
                 case TouchPhase.Began: // If the player just touched the screen
                     timePressed = Time.time;
-                    if (canvasUI != null && canvasUI.activeInHierarchy)
-                    {
-                        canvasUI.SetActive(false); //Deactivate UI when click elsewhere
-                        AdorationBar.instance.SetVisible(false);
-                    }
-                    else
-                    {
-                        ActivateUI(true);
-                    }
+                    ManageTownUI(true);
 
                     if (touch.position.y < Screen.height * yBorderBtwRotationAndLightning)
                         isBelowYBorder = true;
