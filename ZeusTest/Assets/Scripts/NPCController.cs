@@ -283,6 +283,7 @@ public class NPCController : MonoBehaviour
     public Transform FindBuildPosition()
     {
         GraphNode targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, constructionToBuild.prefab.GetComponent<BoxCollider>().size.x * 1.2f);
+        // TODO Gérer le cas où il n'y a plus d'espace
         var positionToBuild = targetNode.Position;
         //Spawn the construction
         buildingToBuild = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
@@ -297,6 +298,7 @@ public class NPCController : MonoBehaviour
 
     public Transform FindBuildRequiredDestination()
     {
+        if (buildingToBuild == null) return transform;
         GraphNode targetNode = _pointDistribution.FindClosestNodeFree(buildingToBuild.transform.position, _canMoveOnWater);
         GameObject Target = new GameObject();
         Target.transform.position = targetNode.Position;
@@ -331,6 +333,10 @@ public class NPCController : MonoBehaviour
         return !homeTown.GetComponent<TownBehaviour>().canRepelWolves;
     }
     
+    public float GetAdoration()
+    {
+        return homeTown.GetComponent<TownBehaviour>().adorationValue;
+    }
         
         
     IEnumerator HumanDetection()

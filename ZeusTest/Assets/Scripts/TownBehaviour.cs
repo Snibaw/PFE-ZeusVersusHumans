@@ -14,7 +14,7 @@ public class TownBehaviour : MonoBehaviour
     public bool canRepelWolves = false;
     [SerializeField] private List<float> adorationCheckpoints;
     public Color townColor;
-
+    public float adorationValue = 50f;
     public bool canSpanwHuman = true;
     // Start is called before the first frame update
     IEnumerator Start()
@@ -52,25 +52,26 @@ public class TownBehaviour : MonoBehaviour
 
     public void AdorationBonuses(float adoration)
     {
+        adorationValue = adoration;
         if (adoration <= 0 || adoration >= 100)
             {
                 GameManager.instance.CanMakeBabel = true;
             }
         if (adoration <= adorationCheckpoints[0])
             {
-                canRepelWolves = true;
+                canBuildLightningRod = true;
             }
         if (adoration <= adorationCheckpoints[1])
             {
-                canMeditate = true;
+                canUseBoat = true;
             }
         if (adoration >= adorationCheckpoints[2])
             {
-                canUseBoat = true;
+                canMeditate = true;
             }
         if (adoration >= adorationCheckpoints[3])
             {
-                canBuildLightningRod = true;
+                canRepelWolves = true;
             }
         
     }

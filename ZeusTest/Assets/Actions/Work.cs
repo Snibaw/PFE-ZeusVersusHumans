@@ -20,7 +20,9 @@ public class Work : Action
         List<Transform> resources = _npcController.context.Destinations[DestinationType.resource];
         foreach (Transform resource in resources)
         {
-            Resource resourceComponent = resource.GetComponent<Resource>();
+            if (resource != null) 
+            {
+                Resource resourceComponent = resource.GetComponent<Resource>();
             if(resourceComponent.ResourceType != resourceNeeded || !resourceComponent.canBeHarvested || resourceComponent.isMarked) 
                 continue;
             
@@ -29,6 +31,7 @@ public class Work : Action
             {
                 nearestResource = resource;
                 distance = distanceFromResource;
+            }
             }
         }
         if(nearestResource == null) // we didn't find any resource to harvest

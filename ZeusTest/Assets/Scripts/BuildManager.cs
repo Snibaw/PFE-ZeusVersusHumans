@@ -10,7 +10,7 @@ public class BuildManager : MonoBehaviour
     public IAConstruction[] possibleConstructions;
     private StorageInventory storageInventory;
     private Dictionary<BuildingType, int> numberOfConstructionBuilt = new Dictionary<BuildingType, int>();
-    
+    [SerializeField] private float randomModifierStrength = 0.3f;
 
     private void Start()
     {
@@ -37,6 +37,8 @@ public class BuildManager : MonoBehaviour
         if(inventory == null) inventory = storageInventory;
 
         int returnValue = 0;
+        float score = 0f;
+        float maxScore = -1f;
         foreach (IAConstruction construction in possibleConstructions)
         {
             if (!CanBuild(construction, _npcController)) continue;
@@ -44,8 +46,14 @@ public class BuildManager : MonoBehaviour
             
             if (FindBuildPercentage(construction, inventory) == 1)
             {
+                score = construction.AdorationScoreConsideration(_npcController) * UnityEngine.Random.Range(1f- randomModifierStrength, 1f + randomModifierStrength) * 2f;
                 returnValue += 1;
-                _npcController.constructionToBuild = construction;
+                if ( score > maxScore)
+                {
+                    maxScore = score;
+                    _npcController.constructionToBuild = construction;
+                }
+                
             }
         }
         return returnValue;

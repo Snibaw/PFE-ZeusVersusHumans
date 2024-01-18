@@ -11,6 +11,8 @@ public class IAConstruction : ScriptableObject
     public List<int> stoneCost;
     public List<int> metalCost;
     public int maxLevel;
+    [SerializeField] private AnimationCurve adorationModifierCurve;
+
     public int GetResourceNeededOld(TypeOfResources resource)
     {
         switch(resource)
@@ -36,5 +38,11 @@ public class IAConstruction : ScriptableObject
             default:
                 return 0;
         }
+    }
+
+    public float AdorationScoreConsideration(NPCController _NPCController)
+    {
+        float score = adorationModifierCurve.Evaluate(Mathf.Clamp01(_NPCController.GetAdoration() / 100f));
+        return score;
     }
 }

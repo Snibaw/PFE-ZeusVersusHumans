@@ -18,3 +18,27 @@ MonoBehaviour:
   stoneCost: 000000000600000000000000
   metalCost: 000000000000000005000000
   maxLevel: 3
+  adorationModifierCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: -0.0021929825
+      outSlope: -0.0021929825
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0750122
+      value: 0.49764252
+      inSlope: -0.0021929825
+      outSlope: -0.0021929825
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

@@ -11,7 +11,7 @@ public class UpgradeManager : MonoBehaviour
     private StorageInventory storageInventory;
     public BuildingType[] buildingToConstruction;
     public IAConstruction[] constructionValue;
-
+    [SerializeField] private float randomModifierStrength = 0.3f;
     
 
     private void Start()
@@ -29,6 +29,8 @@ public class UpgradeManager : MonoBehaviour
         if(inventory == null) inventory = storageInventory;
         
         int returnValue = 0;
+        float score = 0f;
+        float maxScore = -1f;
         for (int i = 0; i< possibleUpgrades.Count; i++)
         {
             Building building = possibleUpgrades[i];
@@ -37,9 +39,15 @@ public class UpgradeManager : MonoBehaviour
             
             if (FindUpgradePercentage(building, inventory) == 1)
             {
+                var construction = constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)];
+                score = construction.AdorationScoreConsideration(_npcController) * UnityEngine.Random.Range(1f- randomModifierStrength, 1f + randomModifierStrength) * 2f;
                 returnValue += 1;
-                _npcController.buildingToUpgrade = building;
-                _npcController.constructionToUpgrade = constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)];
+                if ( score > maxScore)
+                {
+                    maxScore = score;
+                    _npcController.buildingToUpgrade = building;
+                    _npcController.constructionToUpgrade = construction;
+                }
             }
         }
         return returnValue;
