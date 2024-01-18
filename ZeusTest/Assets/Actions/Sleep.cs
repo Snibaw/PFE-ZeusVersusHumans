@@ -7,11 +7,11 @@ public class Sleep : Action
 {
     public override void Execute(NPCController _npcController) // dependency injection
     {
-        _npcController.DoAction("Sleep", timeToExecute); 
+        _npcController.DoAction("Sleep", _npcController.canMeditate() ? timeToExecute / 2.0f : timeToExecute); 
     }
 
     public override void SetRequiredDestination(NPCController _npcController)
     {
-        RequiredDestination = _npcController.context.FindClosestRestPosition(_npcController.transform.position);
+        RequiredDestination = _npcController.canMeditate() ? _npcController.transform : _npcController.context.FindClosestRestPosition(_npcController.transform.position);
     }
 }

@@ -91,14 +91,14 @@ public class WolfController : MonoBehaviour
             //Debug.Log("_wolfPack.humanToFollow: " + (_wolfPack.humanToFollow == null)); 
             if (_wolfPack.humanToFollow == null)
             {
-                _wolfPack.humanToFollow = hit.collider.transform;
+                if (hit.collider.transform.parent.parent.gameObject.GetComponent<NPCController>().canBeAttacked()) _wolfPack.humanToFollow = hit.collider.transform;
             }
             else
             {
                 if(Vector3.Distance(_wolfPack.humanToFollow.position, transform.position) + 0.1f > 
                     Vector3.Distance(hit.collider.transform.position, transform.position))
                 {
-                    _closestHumanToFollow = hit.collider.transform;
+                    if (hit.collider.transform.parent.parent.GetComponent<NPCController>().canBeAttacked()) _closestHumanToFollow = hit.collider.transform;
                 }
                 else
                 {

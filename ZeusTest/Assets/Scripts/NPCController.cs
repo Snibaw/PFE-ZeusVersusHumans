@@ -316,6 +316,15 @@ public class NPCController : MonoBehaviour
         }
     }
 
+    public bool canMeditate()
+    {
+        return homeTown.GetComponent<TownBehaviour>().canMeditate;
+    }
+
+    public bool canBeAttacked()
+    {
+        if (homeTown == null) return true;
+        return !homeTown.GetComponent<TownBehaviour>().canRepelWolves;
     private void HumanDetection()
     {
 

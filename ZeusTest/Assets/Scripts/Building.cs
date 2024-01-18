@@ -43,7 +43,7 @@ public class Building : MonoBehaviour
             break;
         }
 
-        if (buildingType == BuildingType.lightningRod) transform.localScale = new Vector3(1, Mathf.Min(0.5f + level/2, 2), 1);
+        if (buildingType == BuildingType.lightningRod) transform.localScale = new Vector3(1, Mathf.Min(0.5f + level/2.0f, 2), 1);
     }
     public BuildingType BuildingType
     {
