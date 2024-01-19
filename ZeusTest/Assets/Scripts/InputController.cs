@@ -92,6 +92,9 @@ public class InputController : MonoBehaviour
                     {
                         x = touch.position.x;
                         y = touch.position.y;
+                        Vector3 lightningDirection = new Vector3(x-xWhenPressed, y-yWhenPressed, 0);
+                        Debug.Log("lightningDirection" + lightningDirection);
+                        throwLightning.FindFinalPointOnPlanet(lightningDirection, lightningDirection.magnitude);
                     }
                     else
                     {

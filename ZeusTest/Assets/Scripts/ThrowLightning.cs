@@ -14,6 +14,8 @@ public class ThrowLightning : MonoBehaviour
     private float planetRadius;
     private Camera mainCam;
     private QuadraticCurve curve;
+    [SerializeField] private GameObject targetPrefab;
+    private GameObject _target;
     
     [Header("Throw Lightning Cooldown")]
     [SerializeField] private float cooldownBtwLightning = 3f;
@@ -57,8 +59,12 @@ public class ThrowLightning : MonoBehaviour
         if (_numberOfLightning <= 0) return;
         
         Debug.Log("Throwing lightning with intensity = "+time +" and direction = "+direction);
-        GameObject aimCurve = Instantiate(AimCurve, new Vector3(0,0,0), Quaternion.identity);
-        curve = aimCurve.GetComponent<QuadraticCurve>();
+        if (ReferenceEquals(curve, null))
+        {
+            GameObject aimCurve = Instantiate(AimCurve, new Vector3(0,0,0), Quaternion.identity);
+            curve = aimCurve.GetComponent<QuadraticCurve>();
+        }
+
         FindFinalPointOnPlanet(direction, magnitude);
 
 
@@ -70,13 +76,22 @@ public class ThrowLightning : MonoBehaviour
         lightningUI[_numberOfLightning].SetActive(false);
 
         AudioManager.instance.PlaySoundEffect(SoundEffects.LightningThrow);
+
+        Destroy(_target);
+        _target = null;
+        curve = null;
     }
 
-    private void FindFinalPointOnPlanet(Vector3 direction, float magnitude)
+    public void FindFinalPointOnPlanet(Vector3 direction, float magnitude)
     {
+        if (ReferenceEquals(curve, null))
+        {
+            GameObject aimCurve = Instantiate(AimCurve, new Vector3(0,0,0), Quaternion.identity);
+            curve = aimCurve.GetComponent<QuadraticCurve>();
+        }
          //Make the direction relative to the rotation of the camera
          direction =  Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * direction;
-        
+         
          Vector3 changeSpawnOffset = new Vector3(spawnOffset.x * UnityEngine.Random.Range(-1, 1), spawnOffset.y, spawnOffset.z);
          Vector3 rotatedSpawnOffset = mainCam.transform.rotation * changeSpawnOffset;
          curve.A.position = mainCam.transform.position + rotatedSpawnOffset;
@@ -84,9 +99,31 @@ public class ThrowLightning : MonoBehaviour
          Vector3 finalPosition = direction.normalized * planetRadius * (magnitude / magnitudeMax) * 3;
          finalPosition -= Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * new Vector3(0, planetRadius, 0);
          curve.B.position = finalPosition;
+         //Create a raycast from camera to curve.B.position
+         RaycastHit hit;
+         if (Physics.Raycast(mainCam.transform.position, curve.B.position - mainCam.transform.position, out hit, Mathf.Infinity))
+         {
+             curve.B.position = hit.point;
+             curve.B.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+         }
          //Change control so its a curve
          curve.Control.position = curve.A.position + (curve.B.position - curve.A.position) / 2 + Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * new Vector3(direction.x / 2, planetRadius / 2, 0);
+         
+         MoveTarget();
 
+    }
+
+    private void MoveTarget()
+    {
+        if (ReferenceEquals(_target, null))
+        {
+            _target = Instantiate(targetPrefab, curve.B.position, curve.B.rotation);
+        }
+        else
+        {
+            _target.transform.position = curve.B.position;
+            _target.transform.rotation = curve.B.rotation;
+        }
     }
 }
 
