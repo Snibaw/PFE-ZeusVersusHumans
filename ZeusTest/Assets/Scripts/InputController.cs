@@ -80,6 +80,7 @@ public class InputController : MonoBehaviour
                     if (touch.position.y < Screen.height * yBorderBtwRotationAndLightning)
                         isBelowYBorder = true;
                         
+                        
                     else
                         isBelowYBorder = false;
                     

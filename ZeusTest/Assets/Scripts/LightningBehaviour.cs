@@ -61,7 +61,8 @@ public class LightningBehaviour : MonoBehaviour
 
         if (needToBeDestroyed)
         {
-            AudioManager.instance.PlaySoundEffect(SoundEffects.LightningImpact, intensity);
+            Vibrator.Vibrate((long)(300 * intensity));
+            AudioManager.instance.PlaySoundEffect(SoundEffects.LightningImpact, Mathf.Clamp01(intensity));
             Destroy(curve.gameObject);
             Destroy(gameObject);
         }

@@ -74,11 +74,13 @@ public class ThrowLightning : MonoBehaviour
         _numberOfLightning--;
         lightningUI[_numberOfLightning].SetActive(false);
 
-        AudioManager.instance.PlaySoundEffect(SoundEffects.LightningThrow);
+        AudioManager.instance.PlaySoundEffect(SoundEffects.LightningThrow, Mathf.Clamp01(0.5f*intensity));
 
         Destroy(_target);
         _target = null;
         curve = null;
+
+        Vibrator.Vibrate((long)(50 * intensity));
     }
 
     public void FindFinalPointOnPlanet(Vector3 direction, float magnitude, float intensity)
@@ -127,6 +129,7 @@ public class ThrowLightning : MonoBehaviour
             _target.transform.rotation = curve.B.rotation;
         }
         _target.transform.localScale = new Vector3(intensity, 0.1f, intensity);
+        
     }
 }
 
