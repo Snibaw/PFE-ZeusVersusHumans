@@ -54,22 +54,21 @@ public class ThrowLightning : MonoBehaviour
         
     }
 
-    public void Throw(Vector3 direction, float magnitude, float time) // Magnitude = distance traveled in direction. 1/time = power of the bolt
+    public void Throw(Vector3 direction, float magnitude, float intensity) // Magnitude = distance traveled in direction. 1/time = power of the bolt
     {
         if (_numberOfLightning <= 0) return;
         
-        Debug.Log("Throwing lightning with intensity = "+time +" and direction = "+direction);
         if (ReferenceEquals(curve, null))
         {
             GameObject aimCurve = Instantiate(AimCurve, new Vector3(0,0,0), Quaternion.identity);
             curve = aimCurve.GetComponent<QuadraticCurve>();
         }
 
-        FindFinalPointOnPlanet(direction, magnitude);
+        FindFinalPointOnPlanet(direction, magnitude, intensity);
 
 
         GameObject lightning = Instantiate(lightningPrefab, mainCam.transform.position, Quaternion.identity);
-        lightning.GetComponent<LightningBehaviour>().InitValues(curve, time);
+        lightning.GetComponent<LightningBehaviour>().InitValues(curve, intensity);
         Destroy(lightning, 10f);
         //Cooldown
         _numberOfLightning--;
@@ -82,8 +81,10 @@ public class ThrowLightning : MonoBehaviour
         curve = null;
     }
 
-    public void FindFinalPointOnPlanet(Vector3 direction, float magnitude)
+    public void FindFinalPointOnPlanet(Vector3 direction, float magnitude, float intensity)
     {
+        if (_numberOfLightning <= 0) return;
+        
         if (ReferenceEquals(curve, null))
         {
             GameObject aimCurve = Instantiate(AimCurve, new Vector3(0,0,0), Quaternion.identity);
@@ -109,12 +110,13 @@ public class ThrowLightning : MonoBehaviour
          //Change control so its a curve
          curve.Control.position = curve.A.position + (curve.B.position - curve.A.position) / 2 + Quaternion.Euler(mainCam.transform.rotation.eulerAngles) * new Vector3(direction.x / 2, planetRadius / 2, 0);
          
-         MoveTarget();
+         MoveTarget(intensity);
 
     }
 
-    private void MoveTarget()
+    private void MoveTarget(float intensity)
     {
+
         if (ReferenceEquals(_target, null))
         {
             _target = Instantiate(targetPrefab, curve.B.position, curve.B.rotation);
@@ -124,6 +126,7 @@ public class ThrowLightning : MonoBehaviour
             _target.transform.position = curve.B.position;
             _target.transform.rotation = curve.B.rotation;
         }
+        _target.transform.localScale = new Vector3(intensity, 0.1f, intensity);
     }
 }
 

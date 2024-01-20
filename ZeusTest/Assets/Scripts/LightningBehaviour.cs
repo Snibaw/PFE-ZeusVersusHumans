@@ -32,8 +32,8 @@ public class LightningBehaviour : MonoBehaviour
     public void InitValues(QuadraticCurve _curve, float _intensity)
     {
         curve = _curve;
-        intensity = Mathf.Clamp01(_intensity);
-        transform.localScale = Vector3.one * intensity*2;
+        intensity = _intensity;
+        transform.localScale = intensity * 3f * Vector3.one;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -43,7 +43,7 @@ public class LightningBehaviour : MonoBehaviour
 
         bool needToBeDestroyed = (other.CompareTag("Ground") || other.CompareTag("Water"));
         
-        Collider[] colliders = Physics.OverlapSphere(transform.position, intensity);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 2*intensity);
         foreach(Collider collider in colliders)
         {
             if(collider.gameObject.layer == LayerMask.NameToLayer("CanBeDestroyed"))
@@ -53,7 +53,7 @@ public class LightningBehaviour : MonoBehaviour
                     Debug.LogWarning("Object" + collider.gameObject.name + " has no ObjectToDestroy script");
                     continue;
                 }
-                collider.GetComponent<ObjectToDestroy>().TakeDamage(intensity*100, true);
+                collider.GetComponent<ObjectToDestroy>().TakeDamage(Mathf.Clamp01(intensity)*100, true);
                 needToBeDestroyed = true;
             }
         }
