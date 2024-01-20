@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class InputController : MonoBehaviour
@@ -64,11 +65,10 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //* This is for Android *//
 
         //Check if the player is touching the screen, then check if he is moving his finger (to rotate the planet) or not (to throw lightning)
-        if(Input.touchCount > 0)
+        if(Input.touchCount == 1)
         {
             touch = Input.GetTouch(0);
             switch(touch.phase)
@@ -142,11 +142,40 @@ public class InputController : MonoBehaviour
                     break;
             } 
         }
+        else if (Input.touchCount == 2)
+        {
+            //Zoom in and out
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
+            
+            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+            
+            float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
+            
+            float difference = currentMagnitude - prevMagnitude;
+            Zoom(difference * 0.1f);
+        }
 
         float CalculateIntensity(float time)
         {
             float preValue = time >= 1 ? 0 : Mathf.Pow(1 - time, 0.5f); // f(0) = 1 and f(x>=1) = 0
             return Mathf.Clamp(preValue, 0.25f, 1); // f(0) = 2 and f(x>=1) = 0.5f
+        }
+
+        void Zoom(float increment)
+        {
+            Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - increment, 35, 80);
+            if (Camera.main.fieldOfView <= 50)
+            {
+                GameManager.instance.ChangeShowHealthBars(true);
+            }
+            else
+            {
+                GameManager.instance.ChangeShowHealthBars(false);
+            }
+            Debug.Log("Camera.main.fieldOfView" + Camera.main.fieldOfView);
         }
     }
 }

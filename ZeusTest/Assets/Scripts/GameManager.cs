@@ -1,8 +1,9 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-    using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float gameSpeed = 1f;
     [SerializeField] private TMP_Text damageText;
     [SerializeField] public GameObject planet;
+    public static bool ShowHealthBar = false;
     private float startTime;
     public bool CanMakeBabel = false;
     
@@ -24,6 +26,9 @@ public class GameManager : MonoBehaviour
 
     [Header("CountRessources")]
     public List<WolfPack> WolfPacks;
+    
+    public delegate void ShowHealthBarsChangedEventHandler(bool show);
+    public static event ShowHealthBarsChangedEventHandler ShowHealthBarsChanged;
 
     private void Awake() {
 
@@ -77,6 +82,12 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    public void ChangeShowHealthBars(bool show)
+    {
+        ShowHealthBar = show;
+        if(ShowHealthBarsChanged != null) ShowHealthBarsChanged(show);
+    }
+    
 
 
 }

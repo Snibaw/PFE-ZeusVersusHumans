@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,19 +16,34 @@ public class HealthBarRessources : MonoBehaviour
     private float _damage;
     private float timerUntilHided = 0.5f;
     private float currentTimer;
+
+    private bool canStopShowingHealthBar = true;
     
     void Start()
     {
         InitializeBar();
+
+        GameManager.ShowHealthBarsChanged += OnShowHealthBarsChanged;
         
-        sliderGameObject.SetActive(false);
+        ShowHealthBar(false);
         mainCam = Camera.main;
         LookTowardsCamera();
     }
-
-    public void HideHealthBar()
+    
+    void OnShowHealthBarsChanged(bool show)
     {
-        sliderGameObject.SetActive(false);
+        canStopShowingHealthBar = !show;
+        ShowHealthBar(show);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.ShowHealthBarsChanged -= OnShowHealthBarsChanged;
+    }
+
+    public void ShowHealthBar(bool show)
+    {
+        sliderGameObject.SetActive(show);
     }
 
     private void InitializeBar()
@@ -61,7 +77,7 @@ public class HealthBarRessources : MonoBehaviour
             currentHealth -= damage;
         }
         
-        sliderGameObject.SetActive(true);
+        ShowHealthBar(true);
         ChangeValueOfSlider();
     }
     
@@ -104,9 +120,9 @@ public class HealthBarRessources : MonoBehaviour
         if (delayedSlider.value <= currentHealth && sliderGameObject.activeSelf)
         {
             currentTimer -= Time.deltaTime;
-            if (currentTimer <= 0)
+            if (currentTimer <= 0 && canStopShowingHealthBar)
             {
-                HideHealthBar();
+                ShowHealthBar(false);
             }
         }
         else
@@ -114,4 +130,5 @@ public class HealthBarRessources : MonoBehaviour
             currentTimer = timerUntilHided;
         }
     }
+    
 }

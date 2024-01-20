@@ -14,10 +14,6 @@ public class ObjectToDestroy : MonoBehaviour
     
     public void TakeDamage(float damage, bool impactAdorationBarValue = false)
     {
-        #if UNITY_EDITOR 
-            GameManager.instance.SetDamageText(damage, life); 
-        #endif
-
         life -= damage;
 
         if (life > 0 && healthBar != null)
@@ -27,7 +23,7 @@ public class ObjectToDestroy : MonoBehaviour
 
         if(life <= 0)
         {
-            healthBar.HideHealthBar();
+            healthBar.ShowHealthBar(false);
             Resource resource = GetComponent<Resource>();
             Building building = GetComponent<Building>();
             if(resource != null) //If the object is a resource
