@@ -96,8 +96,8 @@ public class HealthBarRessources : MonoBehaviour
 
     private void LookTowardsCamera()
     {
-        var rotation = mainCam.transform.rotation;
-        transform.LookAt(transform.position  + rotation * Vector3.forward);
+        transform.LookAt(transform.position + mainCam.transform.rotation * Vector3.forward,
+            mainCam.transform.rotation * Vector3.up);
     }
     
     
