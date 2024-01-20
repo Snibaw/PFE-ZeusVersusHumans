@@ -56,7 +56,7 @@ public class AIBrain : MonoBehaviour
 
     private void SetBestActionThought(Action act)
     {
-        Debug.Log("set action");
+        //Debug.Log("set action");
         
         var actionName = act.name;
         switch (actionName)

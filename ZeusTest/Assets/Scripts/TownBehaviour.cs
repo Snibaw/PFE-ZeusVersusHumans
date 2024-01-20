@@ -42,7 +42,7 @@ public class TownBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if ( nextConstruction==null && nextUpgrade==null) chooseNextAction();
     }
     void SpawnHuman()
     {
@@ -110,31 +110,44 @@ public class TownBehaviour : MonoBehaviour
         GameObject buildingToBuild = Instantiate(construction.prefab, pos, Quaternion.identity);
         _pointDistribution.SetAllInColliderToObstacle(buildingToBuild.GetComponent<BoxCollider>());
         buildingToBuild.SetActive(false);
+        //Tell the build manager that a new construction has been built
+        buildManager.AddConstructionBuilt(buildingToBuild.GetComponent<Building>().BuildingType);
         return buildingToBuild;
     }
 
-    public float NPCBuild(NPCController _npcController, NPCInventory inventory)
+    public float CanNPCBuild(NPCInventory inventory)
     {
         if (nextConstruction == null) return 0;
         float score = buildManager.FindBuildPercentage(nextIAConstruction, inventory);
         if (score >= 1){
-            _npcController.buildingToBuild = nextConstruction;
-            _npcController.constructionToBuild = nextIAConstruction;
-            chooseNextAction();
             return 1f;
         }
         return 0f;
     }
 
-    public float NPCUpgrade(NPCController _npcController)
+    public float CanNPCUpgrade()
     {
         if (nextUpgrade == null) return 0;
         float score = upgradeManager.FindUpgradePercentage(nextUpgrade);
         if (score >= 1){
-            _npcController.buildingToUpgrade = nextUpgrade;
-            chooseNextAction();
             return 1f;
         }
         return 0f;
+    }
+
+    public void SetNPCBuild(NPCController _npcController)
+    {
+        if (nextConstruction == null) return;
+        _npcController.buildingToBuild = nextConstruction;
+        _npcController.constructionToBuild = nextIAConstruction;
+        chooseNextAction();
+    }
+
+    public void SetNPCUpgrade(NPCController _npcController)
+    {
+        if (nextUpgrade == null) return;
+    
+        _npcController.buildingToUpgrade = nextUpgrade;
+        chooseNextAction();
     }
 }

@@ -21,7 +21,6 @@ public class NPCController : MonoBehaviour
     public State currentState { get; set; }
     public IAConstruction constructionToBuild { get; set; }
     public Building buildingToUpgrade {get; set; }
-    public IAConstruction constructionToUpgrade {get; set; }
     public GameObject buildingToBuild { get; set; }
     public TownBehaviour homeTown { get; set; }
     private bool isSleeping = false;
@@ -69,14 +68,12 @@ public class NPCController : MonoBehaviour
 
     public void FSMTick()
     {
-        float MinDistanceModifier = constructionToBuild == null ? 1f : 0.5f;
         switch (currentState)
         {
             case State.decide:
                 _canMoveOnWater = homeTown.canUseBoat;
                 aiBrain.DecideBestAction();
-                MinDistanceModifier = constructionToBuild == null ? 1f : 0.5f;
-                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance * MinDistanceModifier)
+                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance)
                 {
                     currentState = State.execute;
                 }
@@ -93,7 +90,7 @@ public class NPCController : MonoBehaviour
                     break;
                 }
                 
-                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance * MinDistanceModifier)
+                if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance)
                 {
                     mover.StopMoving();
                     currentState = State.execute;
@@ -129,7 +126,7 @@ public class NPCController : MonoBehaviour
     }
     public void DoAction(string action, float time)
     {
-        Debug.Log("Doing : " + action);
+        //Debug.Log("Doing : " + action);
         StartCoroutine(ExecuteAction(action, time));
     }
     public IEnumerator ExecuteAction(string action, float time)
@@ -223,8 +220,7 @@ public class NPCController : MonoBehaviour
             buildingToBuild.GetComponent<Building>().context = context;
         }
             
-        //Tell the build manager that a new construction has been built
-        buildManager.AddConstructionBuilt(buildingToBuild.GetComponent<Building>().BuildingType);
+        
         //Tell the upgrade manager that a new construction has been built
         upgradeManager.AddBuildingBuilt(buildingToBuild.GetComponent<Building>());
         //delete resources from the inventory
@@ -237,7 +233,8 @@ public class NPCController : MonoBehaviour
     }
     private void ExecuteUpgrade()
     {
-        if (buildingToUpgrade == null) {constructionToUpgrade = null; return;}
+        if (buildingToUpgrade == null)  return;
+        IAConstruction constructionToUpgrade = upgradeManager.BuildingToConstruction(buildingToUpgrade);
         //delete resources from the inventory
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
@@ -259,7 +256,7 @@ public class NPCController : MonoBehaviour
 
     public float GetPossibleBuildScore()
     {
-        float score =  homeTown.NPCBuild(this, Inventory); //buildManager.HowManyConstructionCanBeBuilt(this, Inventory);
+        float score =  homeTown.CanNPCBuild( Inventory); //buildManager.HowManyConstructionCanBeBuilt(this, Inventory);
         return Mathf.Clamp01(score);
     }
 
@@ -271,17 +268,19 @@ public class NPCController : MonoBehaviour
 
     public float GetPossibleUpgradeScore()
     {
-        float score = homeTown.NPCUpgrade(this);
+        float score = homeTown.CanNPCUpgrade();
         return Mathf.Clamp01(score);
     }
     public Transform FindUpgradePosition()
     {
-        if (buildingToUpgrade == null) {constructionToUpgrade = null; return transform;}
+        homeTown.SetNPCUpgrade(this);
+        if (buildingToUpgrade == null) return transform;
         return buildingToUpgrade.transform;
     }
 
     public Transform FindBuildRequiredDestination()
     {
+        homeTown.SetNPCBuild(this);
         if (buildingToBuild == null) return transform;
         GraphNode targetNode = _pointDistribution.FindClosestNodeFree(buildingToBuild.transform.position, _canMoveOnWater);
         GameObject Target = new GameObject();
@@ -328,11 +327,11 @@ public class NPCController : MonoBehaviour
         while (true)
         {
             RaycastHit hit;
-            Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
+            //Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
 
             if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask) && hit.collider.CompareTag("Wolf"))
             {
-                Debug.Log("Detected: " + hit.collider.tag);
+                //Debug.Log("Detected: " + hit.collider.tag);
                 hit.collider.gameObject.TryGetComponent<WolfController>(out _wolfTarget);
                 Attack();
 

@@ -24,6 +24,11 @@ public class UpgradeManager : MonoBehaviour
         possibleUpgrades.Add(building);
     }
 
+    public IAConstruction BuildingToConstruction(Building building)
+    {
+        return constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)];
+    }
+
     public int HowManyBuildingCanBeUpgraded(NPCController _npcController, StorageInventory inventory = null)
     {
         if(inventory == null) inventory = storageInventory;
@@ -37,9 +42,8 @@ public class UpgradeManager : MonoBehaviour
             
             if (FindUpgradePercentage(building, inventory) == 1)
             {
-                var construction = constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)];
+                var construction = BuildingToConstruction(building);
                 _npcController.buildingToUpgrade = building;
-                _npcController.constructionToUpgrade = construction;
 
             }
         }
@@ -54,7 +58,7 @@ public class UpgradeManager : MonoBehaviour
         if(inventory == null) inventory = storageInventory;
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
-            float resourceNeeded = constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)].GetResourceNeeded(r, building.level);
+            float resourceNeeded = BuildingToConstruction(building).GetResourceNeeded(r, building.level);
             
             if (resourceNeeded > 0)
             {
@@ -72,7 +76,7 @@ public class UpgradeManager : MonoBehaviour
     private bool CanUpgrade(Building building)
     {
         if (building.BuildingType == BuildingType.babel && !GameManager.instance.CanMakeBabel) return false;
-        return building.level < constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)].maxLevel;
+        return building.level < BuildingToConstruction(building).maxLevel;
     }
 
     public Building FindTheCheapestBuildingToUpgrade(StorageInventory townInventory, StorageInventory npcInventory)
@@ -99,7 +103,7 @@ public class UpgradeManager : MonoBehaviour
         foreach(Building building in possibleUpgrades)
         {
             if (building.BuildingType == BuildingType.babel) continue;
-            if (building.level < constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)].maxLevel) return false;
+            if (building.level < BuildingToConstruction(building).maxLevel) return false;
         }
         return true;
     }
@@ -113,7 +117,7 @@ public class UpgradeManager : MonoBehaviour
         {
             if (!CanUpgrade(building)) continue;
 
-            var construction = constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)];
+            var construction = BuildingToConstruction(building);
             
                 currentScore = construction.AdorationScoreConsideration(town) * UnityEngine.Random.Range(1f- randomModifierStrength, 1f + randomModifierStrength) * 
                     2f;
