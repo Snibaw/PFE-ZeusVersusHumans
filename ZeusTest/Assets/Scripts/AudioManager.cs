@@ -6,7 +6,8 @@ using UnityEngine;
 public enum SoundEffects
 {
     LightningImpact,
-    LightningThrow
+    LightningThrow,
+    Earthquake
 }
 public class AudioManager : MonoBehaviour
 {

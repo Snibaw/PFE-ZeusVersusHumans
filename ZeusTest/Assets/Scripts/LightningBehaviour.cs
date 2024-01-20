@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class LightningBehaviour : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class LightningBehaviour : MonoBehaviour
     [SerializeField] private float speedAugmentationOverTime = 0.01f;
     private float sampleTime = 0;
     private float intensity = 1;
+    private float magnitudeMultiplier = 3, roughness = 4, fadeInTime = 0.2f, fadeOutTime = 0.5f;
 
 
     private void Start()
@@ -62,6 +64,7 @@ public class LightningBehaviour : MonoBehaviour
         if (needToBeDestroyed)
         {
             Vibrator.Vibrate((long)(300 * intensity));
+            CameraShaker.Instance.ShakeOnce(intensity * magnitudeMultiplier, roughness, fadeInTime, fadeOutTime);
             AudioManager.instance.PlaySoundEffect(SoundEffects.LightningImpact, Mathf.Clamp01(intensity));
             Destroy(curve.gameObject);
             Destroy(gameObject);

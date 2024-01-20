@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = System.Random;
+using EZCameraShake;
 
 public class ThrowLightning : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ThrowLightning : MonoBehaviour
     [SerializeField] private GameObject lightningPrefab;
     [SerializeField] private MeshCollider planetCollider;
     [SerializeField] private GameObject AimCurve;
+    private float magnitudeMultiplier = 1, roughness = 1.5f, fadeInTime = 0.5f, fadeOutTime = 0.5f;
     private float planetRadius;
     private Camera mainCam;
     private QuadraticCurve curve;
@@ -81,6 +83,7 @@ public class ThrowLightning : MonoBehaviour
         curve = null;
 
         Vibrator.Vibrate((long)(50 * intensity));
+        CameraShaker.Instance.ShakeOnce(intensity * magnitudeMultiplier, roughness, fadeInTime, fadeOutTime);
     }
 
     public void FindFinalPointOnPlanet(Vector3 direction, float magnitude, float intensity)

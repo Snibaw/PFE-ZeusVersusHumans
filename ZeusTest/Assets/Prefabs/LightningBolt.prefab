@@ -51,7 +51,10 @@ MonoBehaviour:
   curve: {fileID: 0}
   speed: 0.7
   speedAugmentationOverTime: 0.02
-  maxSpeed: 3
+  magnitudeMultiplier: 3
+  roughness: 4
+  fadeInTime: 0.1
+  fadeOutTime: 0.5
 --- !u!54 &-2205202490226168448
 Rigidbody:
   m_ObjectHideFlags: 0
