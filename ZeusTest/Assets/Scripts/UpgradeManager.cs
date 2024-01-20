@@ -29,8 +29,6 @@ public class UpgradeManager : MonoBehaviour
         if(inventory == null) inventory = storageInventory;
         
         int returnValue = 0;
-        float score = 0f;
-        float maxScore = -1f;
         for (int i = 0; i< possibleUpgrades.Count; i++)
         {
             Building building = possibleUpgrades[i];
@@ -40,23 +38,20 @@ public class UpgradeManager : MonoBehaviour
             if (FindUpgradePercentage(building, inventory) == 1)
             {
                 var construction = constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)];
-                score = construction.AdorationScoreConsideration(_npcController) * UnityEngine.Random.Range(1f- randomModifierStrength, 1f + randomModifierStrength) * 2f;
-                returnValue += 1;
-                if ( score > maxScore)
-                {
-                    maxScore = score;
-                    _npcController.buildingToUpgrade = building;
-                    _npcController.constructionToUpgrade = construction;
-                }
+                _npcController.buildingToUpgrade = building;
+                _npcController.constructionToUpgrade = construction;
+
             }
         }
         return returnValue;
     }
 
-    private float FindUpgradePercentage(Building building, StorageInventory inventory, StorageInventory inventory2 = null)
+    public float FindUpgradePercentage(Building building, StorageInventory inventory = null, StorageInventory inventory2 = null)
     {
+        
         float percentage = 0f;
         int values = 0;
+        if(inventory == null) inventory = storageInventory;
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
             float resourceNeeded = constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)].GetResourceNeeded(r, building.level);
@@ -105,8 +100,31 @@ public class UpgradeManager : MonoBehaviour
         {
             if (building.BuildingType == BuildingType.babel) continue;
             if (building.level < constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)].maxLevel) return false;
-            return true;
         }
         return true;
+    }
+
+    public Building FindNextUpgrade(TownBehaviour town, out float score)
+    {
+        score = 0;
+        Building bestBuilding = null;
+        float currentScore = -1f;
+        foreach (Building building in possibleUpgrades)
+        {
+            if (!CanUpgrade(building)) continue;
+
+            var construction = constructionValue[Array.IndexOf(buildingToConstruction, building.BuildingType)];
+            
+                currentScore = construction.AdorationScoreConsideration(town) * UnityEngine.Random.Range(1f- randomModifierStrength, 1f + randomModifierStrength) * 
+                    2f;
+                if ( currentScore > score)
+                {
+                    score = currentScore;
+                    bestBuilding = building;
+                }
+                
+
+        }
+        return bestBuilding;
     }
 }

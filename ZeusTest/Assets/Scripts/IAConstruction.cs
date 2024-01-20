@@ -40,9 +40,9 @@ public class IAConstruction : ScriptableObject
         }
     }
 
-    public float AdorationScoreConsideration(NPCController _NPCController)
+    public float AdorationScoreConsideration(TownBehaviour town)
     {
-        float score = adorationModifierCurve.Evaluate(Mathf.Clamp01(_NPCController.GetAdoration() / 100f));
+        float score = adorationModifierCurve.Evaluate(Mathf.Clamp01(town.adorationValue / 100f));
         return score;
     }
 }

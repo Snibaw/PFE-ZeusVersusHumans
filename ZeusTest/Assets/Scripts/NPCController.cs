@@ -23,7 +23,7 @@ public class NPCController : MonoBehaviour
     public Building buildingToUpgrade {get; set; }
     public IAConstruction constructionToUpgrade {get; set; }
     public GameObject buildingToBuild { get; set; }
-    public Building homeTown { get; set; }
+    public TownBehaviour homeTown { get; set; }
     private bool isSleeping = false;
 
     private WolfController _wolfTarget;
@@ -73,7 +73,7 @@ public class NPCController : MonoBehaviour
         switch (currentState)
         {
             case State.decide:
-                _canMoveOnWater = homeTown.gameObject.GetComponent<TownBehaviour>().canUseBoat;
+                _canMoveOnWater = homeTown.canUseBoat;
                 aiBrain.DecideBestAction();
                 MinDistanceModifier = constructionToBuild == null ? 1f : 0.5f;
                 if (Vector3.Distance(aiBrain.bestAction.RequiredDestination.position, this.transform.position) < context.MinDistance * MinDistanceModifier)
@@ -152,7 +152,7 @@ public class NPCController : MonoBehaviour
             yield break;
         }
         //If exhausted, take more time to do action
-        float calculatedTime = time * (0.5f - (stats.energy / 200)) / homeTown.level; // energy between 0 and 100 => 0 to 0.5 => * 0.5 to 0
+        float calculatedTime = time * (0.5f - (stats.energy / 200)) / homeTown.GetComponent<Building>().level; // energy between 0 and 100 => 0 to 0.5 => * 0.5 to 0
         uiTimerScript.StartTimer(calculatedTime);
         yield return new WaitForSeconds(calculatedTime);
         
@@ -212,7 +212,7 @@ public class NPCController : MonoBehaviour
     private void ExecuteBuild()
     {
         if (buildingToBuild == null) return;
-        buildingToBuild.GetComponent<Building>().changeToCivColor(homeTown.gameObject.GetComponent<TownBehaviour>().townColor);
+        buildingToBuild.GetComponent<Building>().changeToCivColor(homeTown.townColor);
         buildingToBuild.SetActive(true);
 
         if(aiBrain.bestAction.RequiredDestination != null) Destroy(aiBrain.bestAction.RequiredDestination.gameObject);
@@ -259,7 +259,7 @@ public class NPCController : MonoBehaviour
 
     public float GetPossibleBuildScore()
     {
-        float score = buildManager.HowManyConstructionCanBeBuilt(this, Inventory);
+        float score =  homeTown.NPCBuild(this, Inventory); //buildManager.HowManyConstructionCanBeBuilt(this, Inventory);
         return Mathf.Clamp01(score);
     }
 
@@ -271,29 +271,13 @@ public class NPCController : MonoBehaviour
 
     public float GetPossibleUpgradeScore()
     {
-        float score = upgradeManager.HowManyBuildingCanBeUpgraded(this);
+        float score = homeTown.NPCUpgrade(this);
         return Mathf.Clamp01(score);
     }
     public Transform FindUpgradePosition()
     {
         if (buildingToUpgrade == null) {constructionToUpgrade = null; return transform;}
         return buildingToUpgrade.transform;
-    }
-
-    public Transform FindBuildPosition()
-    {
-        GraphNode targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, constructionToBuild.prefab.GetComponent<BoxCollider>().size.x * 1.2f);
-        // TODO Gérer le cas où il n'y a plus d'espace
-        var positionToBuild = targetNode.Position;
-        //Spawn the construction
-        buildingToBuild = Instantiate(constructionToBuild.prefab, positionToBuild, Quaternion.identity);
-        _pointDistribution.SetAllInColliderToObstacle(buildingToBuild.GetComponent<BoxCollider>());
-        buildingToBuild.SetActive(false);
-
-        GameObject Target = new GameObject();
-        Target.transform.position = targetNode.Position;
-        
-        return  Target.transform;
     }
 
     public Transform FindBuildRequiredDestination()
@@ -324,18 +308,18 @@ public class NPCController : MonoBehaviour
 
     public bool canMeditate()
     {
-        return homeTown.GetComponent<TownBehaviour>().canMeditate;
+        return homeTown.canMeditate;
     }
 
     public bool canBeAttacked()
     {
         if (homeTown == null) return true;
-        return !homeTown.GetComponent<TownBehaviour>().canRepelWolves;
+        return !homeTown.canRepelWolves;
     }
     
     public float GetAdoration()
     {
-        return homeTown.GetComponent<TownBehaviour>().adorationValue;
+        return homeTown.adorationValue;
     }
         
         

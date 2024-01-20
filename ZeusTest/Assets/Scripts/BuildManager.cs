@@ -37,32 +37,27 @@ public class BuildManager : MonoBehaviour
         if(inventory == null) inventory = storageInventory;
 
         int returnValue = 0;
-        float score = 0f;
-        float maxScore = -1f;
         foreach (IAConstruction construction in possibleConstructions)
         {
-            if (!CanBuild(construction, _npcController)) continue;
+            if (!CanBuild(construction, _npcController.homeTown)) continue;
             if (!CanBuildMore(construction)) continue;
             
             if (FindBuildPercentage(construction, inventory) == 1)
             {
-                score = construction.AdorationScoreConsideration(_npcController) * UnityEngine.Random.Range(1f- randomModifierStrength, 1f + randomModifierStrength) * 2f;
                 returnValue += 1;
-                if ( score > maxScore)
-                {
-                    maxScore = score;
-                    _npcController.constructionToBuild = construction;
-                }
+                _npcController.constructionToBuild = construction;
+
                 
             }
         }
         return returnValue;
     }
 
-    private float FindBuildPercentage(IAConstruction construction, StorageInventory inventory, StorageInventory inventory2 = null)
+    public float FindBuildPercentage(IAConstruction construction, StorageInventory inventory = null, StorageInventory inventory2 = null)
     {
         float percentage = 0f;
         int values = 0;
+        if(inventory == null) inventory = storageInventory;
         foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
             float resourceNeeded = construction.GetResourceNeeded(r, 0);
@@ -86,10 +81,10 @@ public class BuildManager : MonoBehaviour
         return numberOfConstructionBuilt[buildTypeSearch] < construction.numberMaxToSpawn;
     }
 
-    private bool CanBuild(IAConstruction construction, NPCController _npcController)
+    private bool CanBuild(IAConstruction construction, TownBehaviour town)
     {
         BuildingType buildTypeSearch = construction.prefab.GetComponent<Building>().BuildingType;
-        if (buildTypeSearch == BuildingType.lightningRod && !_npcController.homeTown.gameObject.GetComponent<TownBehaviour>().canBuildLightningRod) return false;
+        if (buildTypeSearch == BuildingType.lightningRod && !town.canBuildLightningRod) return false;
         return true;
     }
 
@@ -111,5 +106,28 @@ public class BuildManager : MonoBehaviour
             }
         }
         return cheapestConstruction;
+    }
+
+    public IAConstruction FindNextConstruction(TownBehaviour town, out float score)
+    {
+        score = 0;
+        IAConstruction bestConstruction = null;
+        float currentScore = -1f;
+        foreach (IAConstruction construction in possibleConstructions)
+        {
+            if (!CanBuild(construction, town)) continue;
+            if (!CanBuildMore(construction)) continue;
+            
+                currentScore = construction.AdorationScoreConsideration(town) * UnityEngine.Random.Range(1f- randomModifierStrength, 1f + randomModifierStrength) * 
+                    2f * (1f - numberOfConstructionBuilt[construction.prefab.GetComponent<Building>().BuildingType] * 0.1f);
+                if ( currentScore > score)
+                {
+                    score = currentScore;
+                    bestConstruction = construction;
+                }
+                
+
+        }
+        return bestConstruction;
     }
 }
