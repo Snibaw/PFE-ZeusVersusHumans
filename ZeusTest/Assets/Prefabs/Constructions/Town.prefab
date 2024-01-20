@@ -2695,7 +2695,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7904555570742332065}
   - {fileID: 2098366336712402291}
@@ -2742,6 +2742,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 487a6867f5974dc4f97278c50d8d1fde, type: 2}
   - {fileID: 11400000, guid: e221a230f1363e24792cbd57347a197c, type: 2}
   - {fileID: 11400000, guid: db95452b16ec6404395b415075ac475b, type: 2}
+  randomModifierStrength: 0.3
 --- !u!114 &1256132855981416632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2804,7 +2805,11 @@ MonoBehaviour:
   - 75
   - 85
   townColor: {r: 0, g: 0, b: 0, a: 0}
+  adorationValue: 50
   canSpanwHuman: 1
+  nextConstruction: {fileID: 0}
+  nextIAConstruction: {fileID: 0}
+  nextUpgrade: {fileID: 0}
 --- !u!114 &7670254101678347645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2826,6 +2831,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 99e525e90f0f7ae4ab8f360bdfed8527, type: 2}
   - {fileID: 11400000, guid: 1545ef66af9a9e84f9a2ae83c8a1214f, type: 2}
   - {fileID: 11400000, guid: db95452b16ec6404395b415075ac475b, type: 2}
+  randomModifierStrength: 0.3
 --- !u!1 &4810573527893410994
 GameObject:
   m_ObjectHideFlags: 0

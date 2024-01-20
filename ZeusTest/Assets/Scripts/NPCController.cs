@@ -126,7 +126,7 @@ public class NPCController : MonoBehaviour
     }
     public void DoAction(string action, float time)
     {
-        //Debug.Log("Doing : " + action);
+        Debug.Log("Doing : " + action);
         StartCoroutine(ExecuteAction(action, time));
     }
     public IEnumerator ExecuteAction(string action, float time)
@@ -257,6 +257,7 @@ public class NPCController : MonoBehaviour
     public float GetPossibleBuildScore()
     {
         float score =  homeTown.CanNPCBuild( Inventory); //buildManager.HowManyConstructionCanBeBuilt(this, Inventory);
+        //Debug.Log(score);
         return Mathf.Clamp01(score);
     }
 
@@ -327,11 +328,11 @@ public class NPCController : MonoBehaviour
         while (true)
         {
             RaycastHit hit;
-            //Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
+            Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
 
             if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask) && hit.collider.CompareTag("Wolf"))
             {
-                //Debug.Log("Detected: " + hit.collider.tag);
+                Debug.Log("Detected: " + hit.collider.tag);
                 hit.collider.gameObject.TryGetComponent<WolfController>(out _wolfTarget);
                 Attack();
 

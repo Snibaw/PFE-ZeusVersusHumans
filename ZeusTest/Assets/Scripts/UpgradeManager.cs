@@ -108,9 +108,9 @@ public class UpgradeManager : MonoBehaviour
         return true;
     }
 
-    public Building FindNextUpgrade(TownBehaviour town, out float score)
+    public Building FindNextUpgrade(TownBehaviour town)
     {
-        score = 0;
+        float score = 0;
         Building bestBuilding = null;
         float currentScore = -1f;
         foreach (Building building in possibleUpgrades)

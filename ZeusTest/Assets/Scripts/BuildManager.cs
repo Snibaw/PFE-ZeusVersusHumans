@@ -108,9 +108,9 @@ public class BuildManager : MonoBehaviour
         return cheapestConstruction;
     }
 
-    public IAConstruction FindNextConstruction(TownBehaviour town, out float score)
+    public IAConstruction FindNextConstruction(TownBehaviour town)
     {
-        score = 0;
+        float score = 0;
         IAConstruction bestConstruction = null;
         float currentScore = -1f;
         foreach (IAConstruction construction in possibleConstructions)

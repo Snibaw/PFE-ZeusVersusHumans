@@ -29,7 +29,8 @@ public class TownBehaviour : MonoBehaviour
         buildManager = townContext.storage.gameObject.GetComponent<BuildManager>();
         upgradeManager = townContext.storage.gameObject.GetComponent<UpgradeManager>();
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
-        chooseNextAction();
+        chooseNextConstruction();
+        chooseNextUpgrade();
         yield return new WaitForSeconds(1f);
         while (canSpanwHuman)
         {
@@ -42,7 +43,8 @@ public class TownBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ( nextConstruction==null && nextUpgrade==null) chooseNextAction();
+        //if ( nextConstruction==null) chooseNextConstruction();
+        if ( nextUpgrade==null) chooseNextUpgrade();
     }
     void SpawnHuman()
     {
@@ -87,21 +89,21 @@ public class TownBehaviour : MonoBehaviour
         
     }
 
-    public void chooseNextAction()
+    public void chooseNextConstruction()
     {
-        IAConstruction potentialConstruction = buildManager.FindNextConstruction(this, out float constructionScore);
-        Building potentialUpgrade = upgradeManager.FindNextUpgrade(this, out float upgradeScore);
-        GraphNode targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, potentialConstruction.prefab.GetComponent<BoxCollider>().size.x * 1.1f);
-        if ( constructionScore >= upgradeScore&&targetNode != null) 
+        IAConstruction potentialConstruction = buildManager.FindNextConstruction(this);
+        GraphNode targetNode = null;
+        if (potentialConstruction != null) targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, potentialConstruction.prefab.GetComponent<BoxCollider>().size.x * 1.2f);
+        if (targetNode != null) 
         {
             nextConstruction = InitializeNextConstruction(potentialConstruction, targetNode.Position);
             nextIAConstruction = potentialConstruction;
-            nextUpgrade = null;
-        } else {
-            nextConstruction = null;
-            nextIAConstruction = null;
-            nextUpgrade = potentialUpgrade;
         }
+    }
+
+    public void chooseNextUpgrade()
+    {
+        nextUpgrade = upgradeManager.FindNextUpgrade(this);
     }
 
     public GameObject InitializeNextConstruction(IAConstruction construction, Vector3 pos)
@@ -110,8 +112,11 @@ public class TownBehaviour : MonoBehaviour
         GameObject buildingToBuild = Instantiate(construction.prefab, pos, Quaternion.identity);
         _pointDistribution.SetAllInColliderToObstacle(buildingToBuild.GetComponent<BoxCollider>());
         buildingToBuild.SetActive(false);
+
+        
         //Tell the build manager that a new construction has been built
         buildManager.AddConstructionBuilt(buildingToBuild.GetComponent<Building>().BuildingType);
+        
         return buildingToBuild;
     }
 
@@ -119,7 +124,7 @@ public class TownBehaviour : MonoBehaviour
     {
         if (nextConstruction == null) return 0;
         float score = buildManager.FindBuildPercentage(nextIAConstruction, inventory);
-        if (score >= 1){
+        if (score >= 0.99){
             return 1f;
         }
         return 0f;
@@ -129,7 +134,7 @@ public class TownBehaviour : MonoBehaviour
     {
         if (nextUpgrade == null) return 0;
         float score = upgradeManager.FindUpgradePercentage(nextUpgrade);
-        if (score >= 1){
+        if (score >= 0.99){
             return 1f;
         }
         return 0f;
@@ -140,7 +145,7 @@ public class TownBehaviour : MonoBehaviour
         if (nextConstruction == null) return;
         _npcController.buildingToBuild = nextConstruction;
         _npcController.constructionToBuild = nextIAConstruction;
-        chooseNextAction();
+        chooseNextConstruction();
     }
 
     public void SetNPCUpgrade(NPCController _npcController)
@@ -148,6 +153,6 @@ public class TownBehaviour : MonoBehaviour
         if (nextUpgrade == null) return;
     
         _npcController.buildingToUpgrade = nextUpgrade;
-        chooseNextAction();
+        chooseNextUpgrade();
     }
 }

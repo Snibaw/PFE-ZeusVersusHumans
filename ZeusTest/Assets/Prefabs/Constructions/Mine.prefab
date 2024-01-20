@@ -1418,6 +1418,7 @@ GameObject:
   - component: {fileID: 2117260571585205483}
   - component: {fileID: 655288062332448453}
   - component: {fileID: -2591919945897852947}
+  - component: {fileID: 5511883452739175488}
   m_Layer: 3
   m_Name: Mine
   m_TagString: Building
@@ -1436,7 +1437,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4588455701460856701}
   - {fileID: 5991475499450963888}
@@ -1515,6 +1516,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceType: 1
   timeBetweenResources: 5
+--- !u!114 &5511883452739175488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928200180542378709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d9fd723bb2e0c44afb65fad03a3768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceType: 2
+  timeBetweenResources: 10
 --- !u!1 &8334662353920048831
 GameObject:
   m_ObjectHideFlags: 0
