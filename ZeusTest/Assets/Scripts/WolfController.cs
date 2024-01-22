@@ -129,13 +129,13 @@ public class WolfController : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position - transform.forward * 1f, 1f);
     }
 
     private void OnDestroy()
     {
-        Debug.Log("Je suis un Loup et je suis Mort");
+        Debug.Log("Detect: Je suis un Loup et je suis Mort");
     }
 
 

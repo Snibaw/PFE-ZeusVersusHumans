@@ -27,6 +27,10 @@ public class NPCController : MonoBehaviour
 
     private WolfController _wolfTarget;
 
+    private float _timeLastAttack;
+
+    [SerializeField] private float _cooldownAttack;
+
     [SerializeField] private UI_Timer uiTimerScript;
     [SerializeField] private ThoughtsAndActionManager thoughtsScript;
     [SerializeField] private bool _canMoveOnWater;
@@ -49,6 +53,8 @@ public class NPCController : MonoBehaviour
         isExecuting = false;
         constructionToBuild = null;
         _canMoveOnWater = false;
+
+        _timeLastAttack = -_cooldownAttack;
 
         StartCoroutine(HumanDetection());
         
@@ -333,7 +339,7 @@ public class NPCController : MonoBehaviour
             if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask) && hit.collider.CompareTag("Wolf"))
             {
                 Debug.Log("Detected: " + hit.collider.tag);
-                hit.collider.gameObject.TryGetComponent<WolfController>(out _wolfTarget);
+                hit.collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget);
                 Attack();
 
 
@@ -348,7 +354,10 @@ public class NPCController : MonoBehaviour
     void Attack()
     {
         if (_wolfTarget == null) return;
+        if (Time.time - _timeLastAttack < _cooldownAttack) return;
+        Debug.Log("Detect: Attack Wolf");
         _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(50);
+        _timeLastAttack = Time.time;
 
     }
 

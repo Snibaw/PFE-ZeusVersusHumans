@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class WolfPack : MonoBehaviour
@@ -124,39 +125,39 @@ public class WolfPack : MonoBehaviour
 
 
 
-//
-// [CustomEditor(typeof(WolfPack))]
-// public class WolfPackInterface : Editor
-// {
-//     public override void OnInspectorGUI()
-//     {
-//         DrawDefaultInspector();
-//         WolfPack wolfPack = (WolfPack)target;
-//         if (GUILayout.Button("Set Number of Wolf: 0"))
-//         {
-//             wolfPack.SetNumberOfWolf(0);
-//         }
-//
-//         if (GUILayout.Button("Set Number of Wolf: 1"))
-//         {
-//             wolfPack.SetNumberOfWolf(1);
-//         }
-//
-//         if (GUILayout.Button("Set Number of Wolf: 3"))
-//         {
-//             wolfPack.SetNumberOfWolf(3);
-//         }
-//
-//         if (GUILayout.Button("Set Number of Wolf: 10"))
-//         {
-//             wolfPack.SetNumberOfWolf(10);
-//         }
-//
-//         if (GUILayout.Button("Set Number of Wolf: 200"))
-//         {
-//             wolfPack.SetNumberOfWolf(200);
-//         }
-//     }
-// }
+
+ [CustomEditor(typeof(WolfPack))]
+ public class WolfPackInterface : Editor
+ {
+     public override void OnInspectorGUI()
+     {
+         DrawDefaultInspector();
+         WolfPack wolfPack = (WolfPack)target;
+         if (GUILayout.Button("Set Number of Wolf: 0"))
+         {
+             wolfPack.SetNumberOfWolf(0);
+         }
+
+         if (GUILayout.Button("Set Number of Wolf: 1"))
+         {
+             wolfPack.SetNumberOfWolf(1);
+         }
+
+         if (GUILayout.Button("Set Number of Wolf: 3"))
+         {
+             wolfPack.SetNumberOfWolf(3);
+         }
+
+         if (GUILayout.Button("Set Number of Wolf: 10"))
+         {
+             wolfPack.SetNumberOfWolf(10);
+         }
+
+         if (GUILayout.Button("Set Number of Wolf: 50"))
+         {
+             wolfPack.SetNumberOfWolf(50);
+         }
+     }
+ }
 
 
