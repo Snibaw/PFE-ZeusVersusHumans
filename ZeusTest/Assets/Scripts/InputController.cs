@@ -53,7 +53,7 @@ public class InputController : MonoBehaviour
 
         if (hitVillage == false)
         {
-            canvasUI.SetActive(false);
+            canvasUI.GetComponent<ResourcesSlider>().SetVisible(false);
             AdorationBar.instance.SetVisible(false);
         }
 
