@@ -220,7 +220,7 @@ public class NPCController : MonoBehaviour
             buildingToBuild.GetComponent<Building>().context = context;
         }
 
-        if (buildingToBuild.TryGetComponent<ProductionBuilding>(out var prod))
+        foreach( var prod in buildingToBuild.GetComponents<ProductionBuilding>())
         {
             prod.storage = homeTown.GetComponent<Storage>();
         }
