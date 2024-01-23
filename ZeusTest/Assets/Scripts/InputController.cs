@@ -6,6 +6,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private Tutorial _tutorial;
     [SerializeField] private CameraMovement cameraMovement;
     [SerializeField] private GameObject canvasUI;
+    [SerializeField] private RelationBtwCiv relationBtwCiv;
 
     private ThrowLightning throwLightning;
     private float x,y;
@@ -46,6 +47,7 @@ public class InputController : MonoBehaviour
                     AdorationBar.instance.SetVisible(true,
                         building.gameObject.GetComponentInChildren<AdorationBarManager>());
                     canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponentInChildren<Storage>());
+                    relationBtwCiv.SetVisible(true, building.gameObject);
                 }
             }
 
@@ -55,6 +57,7 @@ public class InputController : MonoBehaviour
         {
             canvasUI.GetComponent<ResourcesSlider>().SetVisible(false);
             AdorationBar.instance.SetVisible(false);
+            relationBtwCiv.SetVisible(false);
         }
 
     }

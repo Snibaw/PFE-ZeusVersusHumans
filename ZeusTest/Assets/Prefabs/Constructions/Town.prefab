@@ -2677,6 +2677,7 @@ GameObject:
   - component: {fileID: 2712402067291421153}
   - component: {fileID: 5787211579326384670}
   - component: {fileID: 7670254101678347645}
+  - component: {fileID: 3950380649794974960}
   m_Layer: 0
   m_Name: Town
   m_TagString: Building
@@ -2832,6 +2833,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1545ef66af9a9e84f9a2ae83c8a1214f, type: 2}
   - {fileID: 11400000, guid: db95452b16ec6404395b415075ac475b, type: 2}
   randomModifierStrength: 0.3
+--- !u!114 &3950380649794974960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753602130079823826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b8cc95af7d840140b11ac792b15f3b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4810573527893410994
 GameObject:
   m_ObjectHideFlags: 0
