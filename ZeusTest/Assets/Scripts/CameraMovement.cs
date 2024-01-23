@@ -16,8 +16,25 @@ public class CameraMovement : MonoBehaviour
     public void MoveToObject(GameObject obj)
     {
         Vector3 directionToObject = obj.transform.position - rotateAroundObject.position;
-        Vector3 newPosition = rotateAroundObject.position + directionToObject.normalized * distanceToKeep;
-        transform.position = newPosition;
-        transform.LookAt(obj.transform);
+        Vector3 targetPosition = rotateAroundObject.position + directionToObject.normalized * distanceToKeep;
+        StartCoroutine(MoveCameraSmoothly(targetPosition, 1.2f));
+    }
+
+    private IEnumerator MoveCameraSmoothly(Vector3 targetPosition, float moveTime)
+    {
+        float elapsedTime = 0f;
+        Vector3 initialPosition = transform.position;
+
+        while (elapsedTime < moveTime)
+        {
+            Vector3 currentPos = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / moveTime);
+            transform.position = rotateAroundObject.position + (currentPos - rotateAroundObject.position).normalized * 16f;
+            transform.LookAt(rotateAroundObject.position);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = targetPosition;
+        transform.LookAt(rotateAroundObject.position);
     }
 }
