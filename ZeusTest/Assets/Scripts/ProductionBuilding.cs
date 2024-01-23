@@ -9,6 +9,7 @@ public class ProductionBuilding : MonoBehaviour
     [SerializeField] ResourceType resourceType;
     [SerializeField] float timeBetweenResources;
     float timeSinceLastResource;
+    public Storage storage;
 
 
 
@@ -25,7 +26,7 @@ public class ProductionBuilding : MonoBehaviour
         timeSinceLastResource += Time.deltaTime;
         if (timeSinceLastResource > timeBetweenResources)
         {
-            Context.instance.storage.AddResource(resourceType, 1);
+            if (storage!= null) storage.AddResource(resourceType, 1);
             timeSinceLastResource = 0f;
         }
         

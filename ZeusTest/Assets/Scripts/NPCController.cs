@@ -219,6 +219,11 @@ public class NPCController : MonoBehaviour
             context.AddDestinationTypeBuild(DestinationType.rest, buildingToBuild.transform);
             buildingToBuild.GetComponent<Building>().context = context;
         }
+
+        if (buildingToBuild.TryGetComponent<ProductionBuilding>(out var prod))
+        {
+            prod.storage = homeTown.GetComponent<Storage>();
+        }
             
         
         //Tell the upgrade manager that a new construction has been built
