@@ -7,7 +7,8 @@ public enum State
 {
     decide,
     move,
-    execute
+    execute,
+    defend
 }
 public class NPCController : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class NPCController : MonoBehaviour
     public Building buildingToUpgrade {get; set; }
     public GameObject buildingToBuild { get; set; }
     public TownBehaviour homeTown { get; set; }
+
+    public ObjectToDestroy objectToDestroy { get; set; }
+
     private bool isSleeping = false;
 
     private WolfController _wolfTarget;
@@ -47,6 +51,7 @@ public class NPCController : MonoBehaviour
         aiBrain = GetComponent<AIBrain>();
         Inventory = GetComponent<NPCInventory>();
         stats = GetComponent<NPCStats>();
+        objectToDestroy = GetComponent<ObjectToDestroy>();
         buildManager = context.storage.gameObject.GetComponent<BuildManager>();
         upgradeManager = context.storage.gameObject.GetComponent<UpgradeManager>();
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
@@ -121,6 +126,28 @@ public class NPCController : MonoBehaviour
                         currentState = State.decide;
                         isExecuting = false;
                     }
+                }
+                break;
+
+            case State.defend:
+                Debug.Log("Human Defance");
+
+                if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f)
+                {
+                    Debug.Log("Human: Retreat");
+                    mover.MoveTo(homeTown.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                }
+                else
+                {
+                    Debug.Log("Human: Attack");
+                    mover.MoveTo(_wolfTarget.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                    Attack();
+                }
+
+
+                if (_wolfTarget == null)
+                {
+                    currentState = State.decide;
                 }
                 break;
             
@@ -339,8 +366,14 @@ public class NPCController : MonoBehaviour
             if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask) && hit.collider.CompareTag("Wolf"))
             {
                 Debug.Log("Detected: " + hit.collider.tag);
-                hit.collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget);
-                Attack();
+                
+                if(hit.collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
+                {
+                    currentState = State.defend;
+                    
+                    
+                }
+                
 
 
             }
@@ -353,10 +386,28 @@ public class NPCController : MonoBehaviour
 
     void Attack()
     {
+        
         if (_wolfTarget == null) return;
         if (Time.time - _timeLastAttack < _cooldownAttack) return;
+        
         Debug.Log("Detect: Attack Wolf");
-        _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(50);
+        int damage;
+        switch (homeTown.GetComponent<Building>().level)
+        {
+            case 1:
+                damage = 50;
+                break;
+            case 2: 
+                damage = 100; 
+                break;
+            case 3:
+                damage = 150;
+                break;
+            default:
+                damage = 50;
+                break;
+        }
+        _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
         _timeLastAttack = Time.time;
 
     }
