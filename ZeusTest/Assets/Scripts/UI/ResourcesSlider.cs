@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class ResourcesSlider : MonoBehaviour
 {
-    [SerializeField] private GameObject layout;
+    [SerializeField] private Animator bgAnimator;
     [SerializeField] private Slider woodSlider;
     [SerializeField] private Slider stoneSlider;
     [SerializeField] private Slider ironSlider;
+    private bool visibility = false;
+    
 
     private List<int> maxResourceValue = new List<int>() { 0, 0, 0 };
 
@@ -25,12 +27,21 @@ public class ResourcesSlider : MonoBehaviour
 
     public void SetVisible(bool isVisible, Storage _storage = null)
     {
-        layout.SetActive(isVisible);
+        visibility = isVisible;
+        if(isVisible) bgAnimator.gameObject.SetActive(true);
+        StartCoroutine(BGAnimationBeforeVisibility(isVisible));
         if (isVisible && _storage != null)
         {
             storageScript = _storage;
             UpdateSlidersValue();
         }
+    }
+    private IEnumerator BGAnimationBeforeVisibility(bool isVisible)
+    {
+        string triggerName = isVisible ? "Open" : "Close";
+        bgAnimator.SetTrigger(triggerName);
+        yield return new WaitForSeconds(0.4f);
+        bgAnimator.gameObject.SetActive(visibility);
     }
 
     public void UpdateSlidersValue()

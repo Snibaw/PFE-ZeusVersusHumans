@@ -20,6 +20,12 @@ public class WolfController : MonoBehaviour
 
     PointDistribution _pointDistribution;
 
+    private float _timeLastAttack;
+
+    [SerializeField] private float _cooldownAttack;
+
+    [SerializeField] private float _rangeAttack;
+
     private void Start()
     {
         _closestHumanToFollow = null;
@@ -53,6 +59,7 @@ public class WolfController : MonoBehaviour
     private void Update()
     {
         WolfDetection();
+        Attack();
     }
 
     private IEnumerator FollowAroundWolfPack()
@@ -125,6 +132,20 @@ public class WolfController : MonoBehaviour
 
             lastPosition = transform.position;
         }
+    }
+
+    void Attack()
+    {
+
+        if (_closestHumanToFollow == null) return;
+        if (Time.time - _timeLastAttack < _cooldownAttack) return;
+        if (Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack) return;
+
+        Debug.Log("Detect: Attack Human");
+
+        _closestHumanToFollow.GetComponent<ObjectToDestroy>().TakeDamage(30);
+        _timeLastAttack = Time.time;
+
     }
 
     void OnDrawGizmos()

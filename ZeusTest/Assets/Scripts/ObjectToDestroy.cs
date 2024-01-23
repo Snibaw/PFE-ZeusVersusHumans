@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class ObjectToDestroy : MonoBehaviour
 {
-    [SerializeField] private float life;
+    public float life;
+    public float maxLife;
     [SerializeField] private HealthBarRessources healthBar;
 
 	void Start()
     {
         if(healthBar != null) healthBar.SetMaxHealth(life);
+        maxLife = life;
     }	
     
     public void TakeDamage(float damage, bool impactAdorationBarValue = false)
