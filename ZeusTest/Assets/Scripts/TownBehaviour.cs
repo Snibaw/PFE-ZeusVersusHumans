@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TownBehaviour : MonoBehaviour
 {
+    public int townIndex;
     [SerializeField] private GameObject HumanAI;
     [SerializeField] private float timeBtwHumanSpawn = 5f;
     [SerializeField] private Context townContext;
@@ -23,6 +24,24 @@ public class TownBehaviour : MonoBehaviour
     public GameObject nextConstruction;
     public IAConstruction nextIAConstruction;
     public Building nextUpgrade;
+
+    public int townScore
+    {
+        set
+        {
+            _townScore = value;
+            TownDevelopmentSlider.instance.UpdateSliders(townIndex, value);
+        }
+        get
+        {
+            return _townScore;
+        }
+    }
+
+    private int _townScore;
+    
+    public List<int> townResourceScore = new List<int>() { 0, 0, 0 };
+    
     // Start is called before the first frame update
     IEnumerator Start()
     {

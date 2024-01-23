@@ -230,6 +230,8 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
+  _cooldownAttack: 1
+  _rangeAttack: 1
 --- !u!114 &2984830619238615538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 150
+  maxLife: 0
   healthBar: {fileID: 4091550324012908683}
 --- !u!1001 &619483620566770318
 PrefabInstance:

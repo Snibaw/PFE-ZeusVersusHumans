@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NPCInventory : StorageInventory
 {
+    private NPCController _npcController;
     [SerializeField] private int _maxCapacity;
     [SerializeField] private Billboard InventoryUI;
     private NPCStats _npcStats;
@@ -14,6 +15,7 @@ public class NPCInventory : StorageInventory
     // Start is called before the first frame update
     void Start()
     {
+        _npcController = GetComponent<NPCController>();
         _npcStats = GetComponent<NPCStats>();
         InitializeInventory();
         SetMaxCapacity(_maxCapacity);
@@ -43,6 +45,10 @@ public class NPCInventory : StorageInventory
 
     public override void AddResource(ResourceType r, int amount)
     {
+        //Update town score and resource score
+        _npcController.homeTown.townScore += amount;
+        _npcController.homeTown.townResourceScore[(int)r] += amount;
+        
         int amountInInventory = CheckInventoryCount();
         if (amountInInventory + amount > MaxCapacity)
         {
@@ -76,6 +82,9 @@ public class NPCInventory : StorageInventory
 
     public override void RemoveResource(ResourceType r, int amount)
     {
+        //Update town score and resource score
+        _npcController.homeTown.townResourceScore[(int)r] -= amount;
+        
         if (Inventory[r] - amount < 0)
         {
             Inventory[r] = 0;

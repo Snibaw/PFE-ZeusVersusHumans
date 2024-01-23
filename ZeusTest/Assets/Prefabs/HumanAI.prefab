@@ -700,6 +700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   context: {fileID: 0}
+  _cooldownAttack: 1
   uiTimerScript: {fileID: 1312519491588432525}
   thoughtsScript: {fileID: 1297420550488659259}
   _canMoveOnWater: 0

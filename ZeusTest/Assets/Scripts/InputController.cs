@@ -6,6 +6,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private Tutorial _tutorial;
     [SerializeField] private CameraMovement cameraMovement;
     [SerializeField] private GameObject canvasUI;
+    [SerializeField] private RelationBtwCiv relationBtwCiv;
 
     private ThrowLightning throwLightning;
     private float x,y;
@@ -45,7 +46,8 @@ public class InputController : MonoBehaviour
                     canvasUI.SetActive(true);
                     AdorationBar.instance.SetVisible(true,
                         building.gameObject.GetComponentInChildren<AdorationBarManager>());
-                    canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponentInChildren<Storage>());
+                    canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponent<TownBehaviour>().townIndex);
+                    relationBtwCiv.SetVisible(true, building.gameObject);
                 }
             }
 
@@ -53,8 +55,9 @@ public class InputController : MonoBehaviour
 
         if (hitVillage == false)
         {
-            canvasUI.SetActive(false);
+            canvasUI.GetComponent<ResourcesSlider>().SetVisible(false);
             AdorationBar.instance.SetVisible(false);
+            relationBtwCiv.SetVisible(false);
         }
 
     }

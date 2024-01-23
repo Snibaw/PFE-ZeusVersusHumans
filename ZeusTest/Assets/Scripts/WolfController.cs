@@ -20,6 +20,12 @@ public class WolfController : MonoBehaviour
 
     PointDistribution _pointDistribution;
 
+    private float _timeLastAttack;
+
+    [SerializeField] private float _cooldownAttack;
+
+    [SerializeField] private float _rangeAttack;
+
     private void Start()
     {
         _closestHumanToFollow = null;
@@ -53,6 +59,7 @@ public class WolfController : MonoBehaviour
     private void Update()
     {
         WolfDetection();
+        Attack();
     }
 
     private IEnumerator FollowAroundWolfPack()
@@ -127,15 +134,29 @@ public class WolfController : MonoBehaviour
         }
     }
 
+    void Attack()
+    {
+
+        if (_closestHumanToFollow == null) return;
+        if (Time.time - _timeLastAttack < _cooldownAttack) return;
+        if (Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack) return;
+
+        Debug.Log("Detect: Attack Human");
+
+        _closestHumanToFollow.GetComponent<ObjectToDestroy>().TakeDamage(30);
+        _timeLastAttack = Time.time;
+
+    }
+
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position - transform.forward * 1f, 1f);
     }
 
     private void OnDestroy()
     {
-        Debug.Log("Je suis un Loup et je suis Mort");
+        Debug.Log("Detect: Je suis un Loup et je suis Mort");
     }
 
 

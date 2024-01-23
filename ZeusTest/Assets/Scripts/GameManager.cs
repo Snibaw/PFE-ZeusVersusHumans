@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     [Header("CountRessources")]
     public List<WolfPack> WolfPacks;
     
+    public List<GameObject> Towns = new List<GameObject>();
+    
     public delegate void ShowHealthBarsChangedEventHandler(bool show);
     public static event ShowHealthBarsChangedEventHandler ShowHealthBarsChanged;
 
