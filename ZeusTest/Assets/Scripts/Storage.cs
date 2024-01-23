@@ -6,9 +6,11 @@ public class Storage : StorageInventory
 {
     [SerializeField] private int maxCapacityPerType;
     private BuildManager _buildManager;
+    private TownBehaviour _townBehaviour;
 
     private void Start()
     {
+        _townBehaviour = GetComponent<TownBehaviour>();
         _buildManager = GetComponent<BuildManager>();
         InitializeInventory();
         MaxCapacity = maxCapacityPerType * Inventory.Count;
@@ -40,6 +42,8 @@ public class Storage : StorageInventory
 
     public override void RemoveResource(ResourceType r, int amount)
     {
+        _townBehaviour.townResourceScore[(int)r] -= amount;
+        
         if (Inventory[r] - amount < 0)
         {
             Inventory[r] = 0;

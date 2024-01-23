@@ -6,33 +6,32 @@ using UnityEngine.UI;
 public class ResourcesSlider : MonoBehaviour
 {
     [SerializeField] private Animator bgAnimator;
-    [SerializeField] private Slider woodSlider;
-    [SerializeField] private Slider stoneSlider;
-    [SerializeField] private Slider ironSlider;
+    [SerializeField] private Slider[] _sliders;
     private bool visibility = false;
+    int currentTownIndex = -1;
     
 
     private List<int> maxResourceValue = new List<int>() { 0, 0, 0 };
 
-    [SerializeField] private int maxValue = 100;
-    private Storage storageScript;
-
     void Start()
     {
-        //Set up max value to 100
-        woodSlider.maxValue = maxValue;
-        stoneSlider.maxValue = maxValue;
-        ironSlider.maxValue = maxValue;
+        foreach (Slider slider in _sliders)
+        {
+            slider.value = 1;
+            slider.maxValue = 3;
+        }
+        
+        InvokeRepeating("UpdateSlidersValue", 0f, 1f);
     }
 
-    public void SetVisible(bool isVisible, Storage _storage = null)
+    public void SetVisible(bool isVisible, int townIndex = -1)
     {
         visibility = isVisible;
+        currentTownIndex = townIndex;
         if(isVisible) bgAnimator.gameObject.SetActive(true);
         StartCoroutine(BGAnimationBeforeVisibility(isVisible));
-        if (isVisible && _storage != null)
+        if (isVisible && currentTownIndex != -1)
         {
-            storageScript = _storage;
             UpdateSlidersValue();
         }
     }
@@ -46,47 +45,33 @@ public class ResourcesSlider : MonoBehaviour
 
     public void UpdateSlidersValue()
     {
-        //Set slider with their values
-        
-        woodSlider.value = storageScript.GetNbResources(ResourceType.wood);
-        stoneSlider.value = storageScript.GetNbResources(ResourceType.stone);
-        ironSlider.value = storageScript.GetNbResources(ResourceType.metal);
-
-        UpdateMaxResourceValue();
-        
-        woodSlider.maxValue = maxResourceValue[(int)ResourceType.wood] > maxValue ? maxResourceValue[(int)ResourceType.wood] : maxValue;
-        stoneSlider.maxValue = maxResourceValue[(int)ResourceType.stone] > maxValue ? maxResourceValue[(int)ResourceType.stone] : maxValue;
-        ironSlider.maxValue = maxResourceValue[(int)ResourceType.metal] > maxValue ? maxResourceValue[(int)ResourceType.metal] : maxValue;
-        
-        // foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
-        // {
-        //     Debug.Log("Resource " + storageScript.GetNbResources(r));
-        //     Debug.Log("Resource Max" + maxResourceValue[(int)r]);
-        // }
-    }
-
-    private void UpdateMaxResourceValue()
-    {
-        foreach (GameObject building in GameObject.FindGameObjectsWithTag("Building"))
+        Debug.Log("UpdateSlidersValue");
+        bool isThisTheTown = false;
+        //Reset maxResourceValue
+        foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
-            if (building.GetComponent<Building>().BuildingType == BuildingType.village)
+            maxResourceValue[(int)r] = 0;
+        }
+        //update maxResourceValue
+        foreach (GameObject town in GameManager.instance.Towns)
+        {
+            TownBehaviour townBehaviour = town.GetComponent<TownBehaviour>();
+            isThisTheTown = townBehaviour.townIndex == currentTownIndex;
+            
+            Storage storageScript = town.GetComponent<Storage>();
+            foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
             {
-                Storage currentStorage = building.GetComponent<Storage>();
-
-                foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
+                maxResourceValue[(int)r] += townBehaviour.townResourceScore[(int)r];
+                if ((isThisTheTown))
                 {
-                    UpdateMaxForOneResourceValue(currentStorage, r);
+                    _sliders[(int)r].value = townBehaviour.townResourceScore[(int)r];
                 }
             }
         }
-    }
-
-    private void UpdateMaxForOneResourceValue(Storage storageScript, ResourceType r)
-    {
-        int amountInStorage = storageScript.GetNbResources(r);
-        if(amountInStorage > maxResourceValue[(int)r])
+        //Update the slider max value
+        foreach (ResourceType r in ResourceType.GetValues(typeof(ResourceType)))
         {
-            maxResourceValue[(int)r] = amountInStorage;
+            _sliders[(int)r].maxValue = maxResourceValue[(int)r];
         }
     }
 }

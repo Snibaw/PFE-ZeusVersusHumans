@@ -40,6 +40,8 @@ public class TownBehaviour : MonoBehaviour
 
     private int _townScore;
     
+    public List<int> townResourceScore = new List<int>() { 0, 0, 0 };
+    
     // Start is called before the first frame update
     IEnumerator Start()
     {

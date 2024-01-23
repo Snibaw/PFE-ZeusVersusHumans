@@ -203,7 +203,6 @@ public class NPCController : MonoBehaviour
                 
                 if (resource != null && resource.canBeHarvested)
                 {
-                    homeTown.townScore = homeTown.townScore + 1;
                     Inventory.AddResource(resource.ResourceType, 1);
                     resource.HasBeenHarvested();
                 }

@@ -46,7 +46,7 @@ public class InputController : MonoBehaviour
                     canvasUI.SetActive(true);
                     AdorationBar.instance.SetVisible(true,
                         building.gameObject.GetComponentInChildren<AdorationBarManager>());
-                    canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponentInChildren<Storage>());
+                    canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponent<TownBehaviour>().townIndex);
                     relationBtwCiv.SetVisible(true, building.gameObject);
                 }
             }
