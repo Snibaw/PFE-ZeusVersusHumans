@@ -94,6 +94,7 @@ public class SpawnResources : MonoBehaviour
 
                 townSpawned.GetComponent<UpgradeManager>().AddBuildingBuilt(babelSpawned.GetComponent<Building>());
                 townSpawned.GetComponent<TownBehaviour>().townColor = townColors[i];
+                townSpawned.GetComponent<TownBehaviour>().townIndex = i;
                 townSpawned.GetComponent<Building>().changeToCivColor(townColors[i]);
                 _constructionToAvoidWhenSpawnTown.Add(centerNode);
 
