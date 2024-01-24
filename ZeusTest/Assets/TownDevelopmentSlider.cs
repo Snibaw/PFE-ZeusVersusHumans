@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class TownDevelopmentSlider : MonoBehaviour
 {
     public static TownDevelopmentSlider instance;
+    [SerializeField] private GameObject[] crownsImages;
     [SerializeField] private Image[] slidersImages;
     [SerializeField] private Image[] housesImages;
     [SerializeField] private Slider leftSlider;
@@ -31,6 +33,7 @@ public class TownDevelopmentSlider : MonoBehaviour
             Color color = GameManager.instance.Towns[i].GetComponent<TownBehaviour>().townColor;
             slidersImages[i].color = color;
             housesImages[i].color = color;
+            crownsImages[i].SetActive(false);
         }
     }
     public void UpdateSliders(int townIndex, int score)
@@ -41,6 +44,21 @@ public class TownDevelopmentSlider : MonoBehaviour
         float previousValue = (float)scores[0] / totalScore;
         leftSlider.value = previousValue;
         middleSlider.value = previousValue + (float)scores[1] / totalScore;
+
+        PutCrownOnBestTown();
+    }
+
+    private void PutCrownOnBestTown()
+    {
+        for(int i=0; i < crownsImages.Length; i++)
+        {
+            if (scores[i] == scores.Max())
+            {
+                crownsImages[i].SetActive(true);
+                continue;
+            }
+            crownsImages[i].SetActive(false);
+        }
     }
 
     public void MoveCameraToTown(int townIndex)
