@@ -2793,7 +2793,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b0ceb2cf9c20843912fbc4dcd11a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HumanAI: {fileID: 7229285560104876441, guid: 19afcaa946af50642b78e4a2173ca531, type: 3}
+  townIndex: 0
+  HumanAIprefabs: {fileID: 7229285560104876441, guid: 19afcaa946af50642b78e4a2173ca531,
+    type: 3}
   timeBtwHumanSpawn: 30
   townContext: {fileID: 5594762623879093672}
   canBuildLightningRod: 0
@@ -2811,6 +2813,8 @@ MonoBehaviour:
   nextConstruction: {fileID: 0}
   nextIAConstruction: {fileID: 0}
   nextUpgrade: {fileID: 0}
+  humanAI: []
+  townResourceScore: 000000000000000000000000
 --- !u!114 &7670254101678347645
 MonoBehaviour:
   m_ObjectHideFlags: 0

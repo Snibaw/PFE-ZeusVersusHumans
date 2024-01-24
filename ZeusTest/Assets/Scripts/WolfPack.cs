@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WolfPack : MonoBehaviour
 {
-    private List<GameObject> _wolfs;
+    public List<GameObject> _wolfs;
     [SerializeField] private GameObject _prefabWolf;
     [SerializeField] private Transform _parentWolf;
     PointDistribution _pointDistribution;
