@@ -10,7 +10,7 @@ public class WolfController : MonoBehaviour
 
     [SerializeField] private GameObject[] _skinWolf;
 
-    private WolfPack _wolfPack;
+    public WolfPack _wolfPack;
 
     private Transform _closestHumanToFollow;
 

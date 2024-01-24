@@ -5,7 +5,7 @@ using UnityEngine;
 public class TownBehaviour : MonoBehaviour
 {
     public int townIndex;
-    [SerializeField] private GameObject HumanAI;
+    [SerializeField] private GameObject HumanAIprefabs;
     [SerializeField] private float timeBtwHumanSpawn = 5f;
     [SerializeField] private Context townContext;
     PointDistribution _pointDistribution;
@@ -24,6 +24,9 @@ public class TownBehaviour : MonoBehaviour
     public GameObject nextConstruction;
     public IAConstruction nextIAConstruction;
     public Building nextUpgrade;
+
+    public List<NPCController> humanAI;
+    public WolfPack wolfPackToAttack = null;
 
     public int townScore
     {
@@ -50,6 +53,7 @@ public class TownBehaviour : MonoBehaviour
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
         chooseNextConstruction();
         chooseNextUpgrade();
+        humanAI = new List<NPCController>();
         yield return new WaitForSeconds(1f);
         while (canSpanwHuman)
         {
@@ -68,7 +72,7 @@ public class TownBehaviour : MonoBehaviour
     void SpawnHuman()
     {
         GraphNode spawnNode = PointDistribution.instance.FindClosestNodeFree(transform.position, false);
-        GameObject human = Instantiate(HumanAI, spawnNode.Position, Quaternion.identity);
+        GameObject human = Instantiate(HumanAIprefabs, spawnNode.Position, Quaternion.identity);
         human.transform.rotation = Quaternion.FromToRotation(Vector3.up, human.transform.position - Vector3.zero);
         NPCController npcController = human.GetComponent<NPCController>();
         if (npcController != null)
