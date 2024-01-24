@@ -13,6 +13,7 @@ public class TownDevelopmentSlider : MonoBehaviour
     [SerializeField] private Image[] housesImages;
     [SerializeField] private Slider leftSlider;
     [SerializeField] private Slider middleSlider;
+    [SerializeField] private GameObject[] crownImages; // 0 is  left, 1 middle, 2 right
     int totalScore = 3;
     List<int> scores = new List<int>() { 1, 1, 1 };
     

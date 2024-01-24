@@ -61,6 +61,8 @@ public class NPCController : MonoBehaviour
 
         _timeLastAttack = -_cooldownAttack;
 
+        homeTown.humanAI.Add(this);
+
         StartCoroutine(HumanDetection());
         
     }
@@ -131,21 +133,43 @@ public class NPCController : MonoBehaviour
 
             case State.defend:
                 Debug.Log("Human Defance");
-
-                if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f)
+                if(homeTown.wolfPackToAttack != null)
                 {
-                    Debug.Log("Human: Retreat");
-                    mover.MoveTo(homeTown.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                    if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
+                    {
+                        Debug.Log("Human: Retreat");
+                        mover.MoveTo(homeTown.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                    }
+                    else
+                    {
+                        Debug.Log("Human: Attack");
+                        if (Vector3.Distance(transform.position, homeTown.transform.position) < 1f)
+                        {
+                            homeTown.wolfPackToAttack = _wolfTarget._wolfPack;
+                        }
+                        mover.MoveTo(homeTown.wolfPackToAttack._wolfs[0].transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                        Attack();
+                    }
+                }
+                else if(_wolfTarget != null)
+                {
+                    if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
+                    {
+                        Debug.Log("Human: Retreat");
+                        mover.MoveTo(homeTown.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                    }
+                    else
+                    {
+                        Debug.Log("Human: Attack");
+                        if(Vector3.Distance(transform.position, homeTown.transform.position) < 1f)
+                        {
+                            homeTown.wolfPackToAttack = _wolfTarget._wolfPack;
+                        }
+                        mover.MoveTo(_wolfTarget.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                        Attack();
+                    }
                 }
                 else
-                {
-                    Debug.Log("Human: Attack");
-                    mover.MoveTo(_wolfTarget.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
-                    Attack();
-                }
-
-
-                if (_wolfTarget == null)
                 {
                     currentState = State.decide;
                 }
@@ -420,6 +444,11 @@ public class NPCController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position - transform.forward * 1f, 1f);
+    }
+
+    private void OnDestroy()
+    {
+        homeTown.humanAI.Remove(this);
     }
 
 }
