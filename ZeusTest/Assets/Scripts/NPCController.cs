@@ -40,6 +40,8 @@ public class NPCController : MonoBehaviour
     [SerializeField] private bool _canMoveOnWater;
     PointDistribution _pointDistribution;
     [SerializeField] private LayerMask _layerMask;
+    private TownRelation homeTownRelation;
+    private int townIndex;
 
 
 
@@ -61,6 +63,8 @@ public class NPCController : MonoBehaviour
 
         _timeLastAttack = -_cooldownAttack;
 
+        homeTownRelation = homeTown.GetComponent<TownRelation>();
+        townIndex = homeTown.townIndex;
         homeTown.humanAI.Add(this);
 
         StartCoroutine(HumanDetection());
@@ -389,21 +393,30 @@ public class NPCController : MonoBehaviour
         while (true)
         {
             RaycastHit hit;
-            Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
+            // Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
 
-            if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask) && hit.collider.CompareTag("Wolf"))
+            if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
             {
-                Debug.Log("Detected: " + hit.collider.tag);
-                
-                if(hit.collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
+                if (hit.collider.CompareTag("Wolf"))
                 {
-                    currentState = State.defend;
-                    
-                    
+                    if(hit.collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
+                    {
+                        currentState = State.defend;
+                    }
                 }
-                
 
-
+                if (hit.collider.CompareTag("canBeDestroyed"))
+                {
+                    NPCController npc = hit.collider.gameObject.GetComponent<NPCController>();
+                    if(npc != null)
+                    {
+                        
+                        if (npc.townIndex != townIndex)
+                        {
+                            homeTownRelation.UpdateRelation(npc.homeTown.townIndex, homeTown.adorationValue);
+                        }
+                    }
+                }
             }
 
 
