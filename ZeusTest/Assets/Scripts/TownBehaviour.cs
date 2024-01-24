@@ -19,7 +19,6 @@ public class TownBehaviour : MonoBehaviour
     public bool canRepelWolves = false;
     [SerializeField] private List<float> adorationCheckpoints;
     public Color townColor;
-    public float adorationValue = 50f;
     public bool canSpanwHuman = true;
     public GameObject nextConstruction;
     public IAConstruction nextIAConstruction;
@@ -27,6 +26,7 @@ public class TownBehaviour : MonoBehaviour
 
     public List<NPCController> humanAI;
     public WolfPack wolfPackToAttack = null;
+    private AdorationBarManager _adorationBarManager;
 
     public int townScore
     {
@@ -51,6 +51,7 @@ public class TownBehaviour : MonoBehaviour
         buildManager = townContext.storage.gameObject.GetComponent<BuildManager>();
         upgradeManager = townContext.storage.gameObject.GetComponent<UpgradeManager>();
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
+        _adorationBarManager = GetComponent<AdorationBarManager>();
         chooseNextConstruction();
         chooseNextUpgrade();
         humanAI = new List<NPCController>();
@@ -88,7 +89,7 @@ public class TownBehaviour : MonoBehaviour
 
     public void AdorationBonuses(float adoration)
     {
-        adorationValue = adoration;
+        _adorationBarManager.adorationValue = adoration;
         if (adoration <= 0 || adoration >= 100)
             {
                 GameManager.instance.CanMakeBabel = true;

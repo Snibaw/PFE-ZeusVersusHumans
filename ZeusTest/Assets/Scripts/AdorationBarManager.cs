@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AdorationBarManager : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class AdorationBarManager : MonoBehaviour
 
     private void Start()
     {
-        _townBehaviour = transform.parent.GetComponent<TownBehaviour>();
+        // adorationValue = Random.Range(0, 2) == 0 ? 40 : 100;
+        _townBehaviour = GetComponent<TownBehaviour>();
         InvokeRepeating("PassiveIncrease", 1, 1f);
     }
 

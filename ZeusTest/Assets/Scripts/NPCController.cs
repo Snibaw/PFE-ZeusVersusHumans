@@ -8,7 +8,8 @@ public enum State
     decide,
     move,
     execute,
-    defend
+    defendFromWolf,
+    AttackWolfHuman
 }
 public class NPCController : MonoBehaviour
 {
@@ -30,10 +31,13 @@ public class NPCController : MonoBehaviour
     private bool isSleeping = false;
 
     private WolfController _wolfTarget;
+    private NPCController _humanTarget;
 
-    private float _timeLastAttack;
+    private float _timeLastAttackWolf;
+    private float _timeLastAttackHuman;
 
-    [SerializeField] private float _cooldownAttack;
+    [SerializeField] private float _cooldownAttackWolf;
+    [SerializeField] private float _cooldownAttackHuman;
 
     [SerializeField] private UI_Timer uiTimerScript;
     [SerializeField] private ThoughtsAndActionManager thoughtsScript;
@@ -42,6 +46,7 @@ public class NPCController : MonoBehaviour
     [SerializeField] private LayerMask _layerMask;
     private TownRelation homeTownRelation;
     private int townIndex;
+    [HideInInspector] public AdorationBarManager adorationBarManager;
 
 
 
@@ -61,9 +66,10 @@ public class NPCController : MonoBehaviour
         constructionToBuild = null;
         _canMoveOnWater = false;
 
-        _timeLastAttack = -_cooldownAttack;
+        _timeLastAttackWolf = -_cooldownAttackWolf;
 
         homeTownRelation = homeTown.GetComponent<TownRelation>();
+        adorationBarManager = homeTown.GetComponent<AdorationBarManager>();
         townIndex = homeTown.townIndex;
         homeTown.humanAI.Add(this);
 
@@ -135,8 +141,7 @@ public class NPCController : MonoBehaviour
                 }
                 break;
 
-            case State.defend:
-                Debug.Log("Human Defance");
+            case State.defendFromWolf:
                 if(homeTown.wolfPackToAttack != null)
                 {
                     if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
@@ -146,13 +151,13 @@ public class NPCController : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Human: Attack");
+                        Debug.Log("Human: AttackWolf");
                         if (Vector3.Distance(transform.position, homeTown.transform.position) < 1f)
                         {
                             homeTown.wolfPackToAttack = _wolfTarget._wolfPack;
                         }
                         mover.MoveTo(homeTown.wolfPackToAttack._wolfs[0].transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
-                        Attack();
+                        AttackWolf();
                     }
                 }
                 else if(_wolfTarget != null)
@@ -164,13 +169,13 @@ public class NPCController : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Human: Attack");
+                        Debug.Log("Human: AttackWolf");
                         if(Vector3.Distance(transform.position, homeTown.transform.position) < 1f)
                         {
                             homeTown.wolfPackToAttack = _wolfTarget._wolfPack;
                         }
                         mover.MoveTo(_wolfTarget.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
-                        Attack();
+                        AttackWolf();
                     }
                 }
                 else
@@ -178,6 +183,25 @@ public class NPCController : MonoBehaviour
                     currentState = State.decide;
                 }
                 break;
+            case State.AttackWolfHuman:
+                if(_humanTarget != null)
+                {
+                    if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
+                    {
+                        mover.MoveTo(homeTown.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                    }
+                    else
+                    {
+                        mover.MoveTo(_humanTarget.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                        AttackHumans();
+                    }
+                }
+                else
+                {
+                    currentState = State.decide;
+                }
+                break;
+                
             
         }
     }
@@ -384,7 +408,7 @@ public class NPCController : MonoBehaviour
     
     public float GetAdoration()
     {
-        return homeTown.adorationValue;
+        return adorationBarManager.adorationValue;
     }
         
         
@@ -401,7 +425,7 @@ public class NPCController : MonoBehaviour
                 {
                     if(hit.collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
                     {
-                        currentState = State.defend;
+                        currentState = State.defendFromWolf;
                     }
                 }
 
@@ -410,10 +434,14 @@ public class NPCController : MonoBehaviour
                     NPCController npc = hit.collider.gameObject.GetComponent<NPCController>();
                     if(npc != null)
                     {
-                        
                         if (npc.townIndex != townIndex)
                         {
-                            homeTownRelation.UpdateRelation(npc.homeTown.townIndex, homeTown.adorationValue);
+                            float newValue = homeTownRelation.UpdateRelation(npc.homeTown.townIndex, npc.adorationBarManager.adorationValue);
+                            if (newValue < -10)
+                            {
+                                currentState = State.AttackWolfHuman;
+                                _humanTarget = npc;
+                            }
                         }
                     }
                 }
@@ -425,13 +453,31 @@ public class NPCController : MonoBehaviour
         
     }
 
-    void Attack()
+    void AttackWolf()
     {
         
         if (_wolfTarget == null) return;
-        if (Time.time - _timeLastAttack < _cooldownAttack) return;
+        if (Time.time - _timeLastAttackWolf < _cooldownAttackWolf) return;
         
-        Debug.Log("Detect: Attack Wolf");
+        Debug.Log("Detect: AttackWolf Wolf");
+        int damage = CalculateDamage();
+        _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
+        _timeLastAttackWolf = Time.time;
+
+    }
+    void AttackHumans()
+    {
+        if (_humanTarget == null) return;
+        if (Time.time - _timeLastAttackHuman < _cooldownAttackHuman) return;
+        
+        Debug.Log("Detect: AttackWolf Human");
+        int damage = CalculateDamage();
+        _humanTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
+        _timeLastAttackHuman = Time.time;
+        // Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_humanTarget.gameObject);
+    }
+    int CalculateDamage()
+    {
         int damage;
         switch (homeTown.GetComponent<Building>().level)
         {
@@ -448,10 +494,11 @@ public class NPCController : MonoBehaviour
                 damage = 50;
                 break;
         }
-        _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
-        _timeLastAttack = Time.time;
 
+        return damage;
     }
+
+
 
     void OnDrawGizmos()
     {

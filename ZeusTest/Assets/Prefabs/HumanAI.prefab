@@ -700,7 +700,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   context: {fileID: 0}
-  _cooldownAttack: 1
+  _cooldownAttackWolf: 1
+  _cooldownAttackHuman: 1
   uiTimerScript: {fileID: 1312519491588432525}
   thoughtsScript: {fileID: 1297420550488659259}
   _canMoveOnWater: 0
@@ -764,6 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 300
+  maxLife: 0
   healthBar: {fileID: 5438756844361614122}
 --- !u!114 &3507918166456029370
 MonoBehaviour:

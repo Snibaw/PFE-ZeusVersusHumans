@@ -21,6 +21,7 @@ public class TownRelation : MonoBehaviour
     }
     public List<OtherTownRelation> otherTowns = new List<OtherTownRelation>();
     private TownBehaviour _townBehaviour;
+    private AdorationBarManager _adorationBarManager;
     private float valueBeforeAngry = 20;
     
     IEnumerator Start()
@@ -28,6 +29,7 @@ public class TownRelation : MonoBehaviour
         //Wait for every town to be initialized
         yield return new WaitForSeconds(0.1f);
         _townBehaviour = GetComponent<TownBehaviour>();
+        _adorationBarManager = GetComponent<AdorationBarManager>();
         InitTownRelation();
         
     }
@@ -40,18 +42,20 @@ public class TownRelation : MonoBehaviour
             otherTowns.Add(new OtherTownRelation(i, GameManager.instance.Towns[i], 0, true));
         }
     }
-    public void UpdateRelation(int index, float value)
+    public float UpdateRelation(int index, float value)
     {
         if(index >= _townBehaviour.townIndex) // because the town itself is not in the list
         {
             index--;
         }
-        otherTowns[index].relationValue = CalculateRelationValue(value);
+        float relationValue = CalculateRelationValue(value);
+        otherTowns[index].relationValue = relationValue;
         otherTowns[index].unknown = false;
+        return relationValue;
     }
     private float CalculateRelationValue(float value) // Reminder : <-10 :(  |   -10 to 10 :/   |   >10 :)
     { 
-        return valueBeforeAngry - Mathf.Abs(_townBehaviour.adorationValue - value); 
+        return valueBeforeAngry - Mathf.Abs(_adorationBarManager.adorationValue - value); 
         // If both adoration value are the same, the relation value is 20
         // The more the adoration value is different, the more the relation value is low
     }
