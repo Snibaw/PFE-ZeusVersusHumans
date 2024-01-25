@@ -8,10 +8,12 @@ public enum State
     decide,
     move,
     execute,
-    defend
+    defendFromWolf,
+    AttackWolfHuman
 }
 public class NPCController : MonoBehaviour
 {
+    private Billboard billboard;
     public MoveController mover { get; set; }
     public AIBrain aiBrain { get; set; }
     public NPCInventory Inventory { get; set; }
@@ -29,17 +31,24 @@ public class NPCController : MonoBehaviour
 
     private bool isSleeping = false;
 
-    private WolfController _wolfTarget;
+    [SerializeField]private WolfController _wolfTarget;
+    private NPCController _humanTarget;
 
-    private float _timeLastAttack;
+    private float _timeLastAttackWolf;
+    private float _timeLastAttackHuman;
 
-    [SerializeField] private float _cooldownAttack;
+    [SerializeField] private float _cooldownAttackWolf;
+    [SerializeField] private float _cooldownAttackHuman;
 
     [SerializeField] private UI_Timer uiTimerScript;
     [SerializeField] private ThoughtsAndActionManager thoughtsScript;
     [SerializeField] private bool _canMoveOnWater;
     PointDistribution _pointDistribution;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private float _rangeAttack;
+    private TownRelation homeTownRelation;
+    private int townIndex;
+    [HideInInspector] public AdorationBarManager adorationBarManager;
 
 
 
@@ -55,12 +64,16 @@ public class NPCController : MonoBehaviour
         buildManager = context.storage.gameObject.GetComponent<BuildManager>();
         upgradeManager = context.storage.gameObject.GetComponent<UpgradeManager>();
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
+        billboard = GetComponentInChildren<Billboard>();
         isExecuting = false;
         constructionToBuild = null;
         _canMoveOnWater = false;
 
-        _timeLastAttack = -_cooldownAttack;
+        _timeLastAttackWolf = -_cooldownAttackWolf;
 
+        homeTownRelation = homeTown.GetComponent<TownRelation>();
+        adorationBarManager = homeTown.GetComponent<AdorationBarManager>();
+        townIndex = homeTown.townIndex;
         homeTown.humanAI.Add(this);
 
         StartCoroutine(HumanDetection());
@@ -81,6 +94,7 @@ public class NPCController : MonoBehaviour
 
     public void FSMTick()
     {
+        billboard.UpdateStateText(currentState.ToString());
         switch (currentState)
         {
             case State.decide:
@@ -131,42 +145,54 @@ public class NPCController : MonoBehaviour
                 }
                 break;
 
-            case State.defend:
-                Debug.Log("Human Defance");
+            case State.defendFromWolf:
+                //Debug.Log("Human defendFromWolf: homeTown.wolfPackToAttack= " + homeTown.wolfPackToAttack + " | _wolfTarget=" + _wolfTarget);
                 if(homeTown.wolfPackToAttack != null)
                 {
                     if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
                     {
-                        Debug.Log("Human: Retreat");
+                        //Debug.Log("Human: Retreat");
                         mover.MoveTo(homeTown.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                    }
+                    else if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) < 1f)
+                    {
+                        //Debug.Log("Human: Sleep");
+                        StartCoroutine(ExecuteAction("Sleep",0.5f));
                     }
                     else
                     {
-                        Debug.Log("Human: Attack");
+                        //Debug.Log("Human: AttackWolf");
                         if (Vector3.Distance(transform.position, homeTown.transform.position) < 1f)
                         {
                             homeTown.wolfPackToAttack = _wolfTarget._wolfPack;
                         }
-                        mover.MoveTo(homeTown.wolfPackToAttack._wolfs[0].transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
-                        Attack();
+
+                        GameObject wolf = homeTown.wolfPackToAttack._wolfs[0];
+                        if(wolf != null) mover.MoveTo(wolf.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                        AttackWolf();
                     }
                 }
                 else if(_wolfTarget != null)
                 {
                     if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
                     {
-                        Debug.Log("Human: Retreat");
+                        //Debug.Log("Human: Retreat");
                         mover.MoveTo(homeTown.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                    }
+                    else if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) < 1f)
+                    {
+                        //Debug.Log("Human: Sleep");
+                        StartCoroutine(ExecuteAction("Sleep", 0.5f));
                     }
                     else
                     {
-                        Debug.Log("Human: Attack");
+                        //Debug.Log("Human: AttackWolf");
                         if(Vector3.Distance(transform.position, homeTown.transform.position) < 1f)
                         {
                             homeTown.wolfPackToAttack = _wolfTarget._wolfPack;
                         }
                         mover.MoveTo(_wolfTarget.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
-                        Attack();
+                        AttackWolf();
                     }
                 }
                 else
@@ -174,6 +200,25 @@ public class NPCController : MonoBehaviour
                     currentState = State.decide;
                 }
                 break;
+            case State.AttackWolfHuman:
+                if(_humanTarget != null)
+                {
+                    if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
+                    {
+                        mover.MoveTo(homeTown.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                    }
+                    else
+                    {
+                        mover.MoveTo(_humanTarget.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+                        AttackHumans();
+                    }
+                }
+                else
+                {
+                    currentState = State.decide;
+                }
+                break;
+                
             
         }
     }
@@ -183,12 +228,16 @@ public class NPCController : MonoBehaviour
     }
     public void DoAction(string action, float time)
     {
-        Debug.Log("Doing : " + action);
+        //Debug.Log("Doing : " + action);
         StartCoroutine(ExecuteAction(action, time));
     }
     public IEnumerator ExecuteAction(string action, float time)
     {
-       
+        if (aiBrain.bestAction == null)
+        {
+            currentState = State.decide;
+            yield break;
+        }
         thoughtsScript.ActivateThoughts(false);
         //Some exceptions are managed here
         
@@ -209,6 +258,12 @@ public class NPCController : MonoBehaviour
         float calculatedTime = time * (0.5f - (stats.energy / 200)) / homeTown.GetComponent<Building>().level; // energy between 0 and 100 => 0 to 0.5 => * 0.5 to 0
         uiTimerScript.StartTimer(calculatedTime);
         yield return new WaitForSeconds(calculatedTime);
+        
+        if (aiBrain.bestAction == null)
+        {
+            currentState = State.decide;
+            yield break;
+        }
         
         switch (action)
         {
@@ -264,7 +319,7 @@ public class NPCController : MonoBehaviour
 
     private void ExecuteBuild()
     {
-        if (buildingToBuild == null) return;
+        if (buildingToBuild == null) {Debug.Log("No Building To Build"); return;}
         buildingToBuild.GetComponent<Building>().changeToCivColor(homeTown.townColor);
         buildingToBuild.SetActive(true);
 
@@ -380,45 +435,84 @@ public class NPCController : MonoBehaviour
     
     public float GetAdoration()
     {
-        return homeTown.adorationValue;
+        return adorationBarManager.adorationValue;
     }
-        
-        
+    
     IEnumerator HumanDetection()
     {
         while (true)
         {
-            RaycastHit hit;
-            Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
-
-            if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask) && hit.collider.CompareTag("Wolf"))
+            Collider[] colliders = Physics.OverlapSphere(transform.position - transform.forward * 0.5f, 2.5f, _layerMask);
+            bool isTheirAWolf = false;
+            bool isTheirAHuman = false;
+            foreach (Collider collider in colliders)
             {
-                Debug.Log("Detected: " + hit.collider.tag);
-                
-                if(hit.collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
+                if(collider.CompareTag("Wolf"))
                 {
-                    currentState = State.defend;
-                    
-                    
+                    if (collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
+                    {
+                        isTheirAWolf = true;
+                        //Reset AiBrain
+                        isExecuting = false;
+                        aiBrain.bestAction = null;
+                        aiBrain.finishedExecutingBestAction = true;
+                        currentState = State.defendFromWolf;
+                    }
                 }
-                
-
-
+                if(collider.CompareTag("canBeDestroyed"))
+                {
+                    NPCController npc = collider.gameObject.GetComponent<NPCController>();
+                    if(npc != null)
+                    {
+                        if (npc.townIndex != townIndex)
+                        {
+                            float newValue = homeTownRelation.UpdateRelation(npc.homeTown.townIndex, npc.adorationBarManager.adorationValue);
+                            if (newValue < -10)
+                            {
+                                isTheirAHuman = true;
+                                currentState = State.AttackWolfHuman;
+                                _humanTarget = npc;
+                            }
+                        }
+                    }
+                }
             }
+            if(currentState == State.defendFromWolf && !isTheirAWolf) currentState = State.decide;
+            if(currentState == State.AttackWolfHuman && !isTheirAHuman) currentState = State.decide;
 
-
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.3f);
         }
         
     }
 
-    void Attack()
+    void AttackWolf()
     {
         
         if (_wolfTarget == null) return;
-        if (Time.time - _timeLastAttack < _cooldownAttack) return;
+        if (Time.time - _timeLastAttackWolf < _cooldownAttackWolf) return;
+        if (Vector3.Distance(_wolfTarget.transform.position, transform.position) > _rangeAttack) return;
         
-        Debug.Log("Detect: Attack Wolf");
+
+        //Debug.Log("Detect: AttackWolf Wolf");
+        int damage = CalculateDamage();
+        _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
+        _timeLastAttackWolf = Time.time;
+        //Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_wolfTarget.gameObject);
+    }
+    void AttackHumans()
+    {
+        if (_humanTarget == null) return;
+        if (Time.time - _timeLastAttackHuman < _cooldownAttackHuman) return;
+        if (Vector3.Distance(_humanTarget.transform.position, transform.position) > _rangeAttack) return;
+
+        //Debug.Log("Detect: AttackWolf Human");
+        int damage = CalculateDamage();
+        _humanTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
+        _timeLastAttackHuman = Time.time;
+        // Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_humanTarget.gameObject);
+    }
+    int CalculateDamage()
+    {
         int damage;
         switch (homeTown.GetComponent<Building>().level)
         {
@@ -435,10 +529,11 @@ public class NPCController : MonoBehaviour
                 damage = 50;
                 break;
         }
-        _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
-        _timeLastAttack = Time.time;
 
+        return damage;
     }
+
+
 
     void OnDrawGizmos()
     {
@@ -448,6 +543,7 @@ public class NPCController : MonoBehaviour
 
     private void OnDestroy()
     {
+        Debug.Log("Human Tué");
         homeTown.humanAI.Remove(this);
     }
 

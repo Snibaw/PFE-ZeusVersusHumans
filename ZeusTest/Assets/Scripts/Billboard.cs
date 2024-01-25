@@ -5,7 +5,8 @@ using TMPro;
 
 public class Billboard : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI statsText;
+    [SerializeField] private TextMeshProUGUI statsText; 
+    [SerializeField] private TextMeshProUGUI stateText;
     [SerializeField] private TextMeshProUGUI bestActionText;
     [SerializeField] private TextMeshProUGUI inventoryText;
     private Transform mainCameraTransform;
@@ -34,5 +35,9 @@ public class Billboard : MonoBehaviour
     public void UpdateInventoryText(int wood, int stone, int metal)
     {
         inventoryText.text = $"Wood: {wood}\nStone: {stone}\nMetal: {metal}";
+    }
+    public void UpdateStateText(string state)
+    {
+        stateText.text = state;
     }
 }

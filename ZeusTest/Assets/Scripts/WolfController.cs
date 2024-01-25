@@ -90,22 +90,21 @@ public class WolfController : MonoBehaviour
     private void WolfDetection()
     {
         
-        RaycastHit hit;
-        //Debug.Log("WolfDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
-        if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
+        Collider[] colliders = Physics.OverlapSphere(transform.position - transform.forward * 0.5f, 2.5f, _layerMask);
+        foreach (Collider collider in colliders)
         {
             //Debug.Log("Detected: "+ hit.collider.tag);
             //Debug.Log("_wolfPack.humanToFollow: " + (_wolfPack.humanToFollow == null)); 
             if (_wolfPack.humanToFollow == null)
             {
-                if (hit.collider.transform.parent.parent.gameObject.GetComponent<NPCController>().canBeAttacked()) _wolfPack.humanToFollow = hit.collider.transform;
+                if (collider.transform.parent.parent.gameObject.GetComponent<NPCController>().canBeAttacked()) _wolfPack.humanToFollow = collider.transform;
             }
             else
             {
                 if(Vector3.Distance(_wolfPack.humanToFollow.position, transform.position) + 0.1f > 
-                    Vector3.Distance(hit.collider.transform.position, transform.position))
+                    Vector3.Distance(collider.transform.position, transform.position))
                 {
-                    if (hit.collider.transform.parent.parent.GetComponent<NPCController>().canBeAttacked()) _closestHumanToFollow = hit.collider.transform;
+                    if (collider.transform.parent.parent.GetComponent<NPCController>().canBeAttacked()) _closestHumanToFollow = collider.transform;
                 }
                 else
                 {
@@ -113,10 +112,7 @@ public class WolfController : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            _closestHumanToFollow = null;
-        }
+        if(colliders.Length == 0) _closestHumanToFollow = null;
     }
 
 
@@ -136,14 +132,15 @@ public class WolfController : MonoBehaviour
 
     void Attack()
     {
-
+        //Debug.Log("Wolf Attack: _closestHumanToFollow= "+ _closestHumanToFollow + " | Time.time - _timeLastAttack < _cooldownAttack= "+ (Time.time - _timeLastAttack < _cooldownAttack)+ " | Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack= "+(Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack));
         if (_closestHumanToFollow == null) return;
         if (Time.time - _timeLastAttack < _cooldownAttack) return;
         if (Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack) return;
 
-        Debug.Log("Detect: Attack Human");
+        //Debug.Log("Wolf: Attack Human");
+        Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_closestHumanToFollow.gameObject);
 
-        _closestHumanToFollow.GetComponent<ObjectToDestroy>().TakeDamage(30);
+        _closestHumanToFollow.parent.parent.GetComponent<ObjectToDestroy>().TakeDamage(295);
         _timeLastAttack = Time.time;
 
     }

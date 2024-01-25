@@ -42,7 +42,8 @@ public class IAConstruction : ScriptableObject
 
     public float AdorationScoreConsideration(TownBehaviour town)
     {
-        float score = adorationModifierCurve.Evaluate(Mathf.Clamp01(town.adorationValue / 100f));
+        AdorationBarManager adorationBarManager = town.GetComponent<AdorationBarManager>();
+        float score = adorationModifierCurve.Evaluate(Mathf.Clamp01(adorationBarManager.adorationValue / 100f));
         return score;
     }
 }

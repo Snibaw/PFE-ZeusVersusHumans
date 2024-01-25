@@ -19,7 +19,6 @@ public class TownBehaviour : MonoBehaviour
     public bool canRepelWolves = false;
     [SerializeField] private List<float> adorationCheckpoints;
     public Color townColor;
-    public float adorationValue = 50f;
     public bool canSpanwHuman = true;
     public GameObject nextConstruction;
     public IAConstruction nextIAConstruction;
@@ -27,6 +26,7 @@ public class TownBehaviour : MonoBehaviour
 
     public List<NPCController> humanAI;
     public WolfPack wolfPackToAttack = null;
+    private AdorationBarManager _adorationBarManager;
 
     public int townScore
     {
@@ -51,6 +51,7 @@ public class TownBehaviour : MonoBehaviour
         buildManager = townContext.storage.gameObject.GetComponent<BuildManager>();
         upgradeManager = townContext.storage.gameObject.GetComponent<UpgradeManager>();
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
+        _adorationBarManager = GetComponent<AdorationBarManager>();
         chooseNextConstruction();
         chooseNextUpgrade();
         humanAI = new List<NPCController>();
@@ -88,7 +89,7 @@ public class TownBehaviour : MonoBehaviour
 
     public void AdorationBonuses(float adoration)
     {
-        adorationValue = adoration;
+        _adorationBarManager.adorationValue = adoration;
         if (adoration <= 0 || adoration >= 100)
             {
                 GameManager.instance.CanMakeBabel = true;
@@ -116,12 +117,12 @@ public class TownBehaviour : MonoBehaviour
     {
         IAConstruction potentialConstruction = buildManager.FindNextConstruction(this);
         GraphNode targetNode = null;
-        if (potentialConstruction != null) targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, potentialConstruction.prefab.GetComponent<BoxCollider>().size.x * 1.2f);
+        if (potentialConstruction != null) targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, potentialConstruction.prefab.GetComponent<BoxCollider>().size.x * 0.8f);
         if (targetNode != null) 
         {
             nextConstruction = InitializeNextConstruction(potentialConstruction, targetNode.Position);
             nextIAConstruction = potentialConstruction;
-        }
+        } else Debug.Log("No Place Left !!!");
     }
 
     public void chooseNextUpgrade()
@@ -165,9 +166,10 @@ public class TownBehaviour : MonoBehaviour
 
     public void SetNPCBuild(NPCController _npcController)
     {
-        if (nextConstruction == null) return;
         _npcController.buildingToBuild = nextConstruction;
         _npcController.constructionToBuild = nextIAConstruction;
+        nextConstruction = null;
+        nextIAConstruction = null;
         chooseNextConstruction();
     }
 
@@ -176,6 +178,7 @@ public class TownBehaviour : MonoBehaviour
         if (nextUpgrade == null) return;
     
         _npcController.buildingToUpgrade = nextUpgrade;
+        nextUpgrade = null;
         chooseNextUpgrade();
     }
 }

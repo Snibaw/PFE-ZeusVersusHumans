@@ -2678,6 +2678,7 @@ GameObject:
   - component: {fileID: 5787211579326384670}
   - component: {fileID: 7670254101678347645}
   - component: {fileID: 3950380649794974960}
+  - component: {fileID: 7255697357133804314}
   m_Layer: 0
   m_Name: Town
   m_TagString: Building
@@ -2698,7 +2699,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 7904555570742332065}
   - {fileID: 2098366336712402291}
   - {fileID: 169128929408805562}
   - {fileID: 2865225227883333128}
@@ -2808,12 +2808,12 @@ MonoBehaviour:
   - 75
   - 85
   townColor: {r: 0, g: 0, b: 0, a: 0}
-  adorationValue: 50
   canSpanwHuman: 1
   nextConstruction: {fileID: 0}
   nextIAConstruction: {fileID: 0}
   nextUpgrade: {fileID: 0}
   humanAI: []
+  wolfPackToAttack: {fileID: 0}
   townResourceScore: 000000000000000000000000
 --- !u!114 &7670254101678347645
 MonoBehaviour:
@@ -2849,6 +2849,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8cc95af7d840140b11ac792b15f3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7255697357133804314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753602130079823826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 724cbf9d1fb314e458c1b002bf5ffdbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  adorationValue: 50
 --- !u!1 &4810573527893410994
 GameObject:
   m_ObjectHideFlags: 0
@@ -4532,51 +4545,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &8171482862844473454
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7904555570742332065}
-  - component: {fileID: 385042423919808136}
-  m_Layer: 3
-  m_Name: AdorationBarManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7904555570742332065
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8171482862844473454}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 451003298756266876}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &385042423919808136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8171482862844473454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 724cbf9d1fb314e458c1b002bf5ffdbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  adorationValue: 50
 --- !u!1 &8375982933090809313
 GameObject:
   m_ObjectHideFlags: 0

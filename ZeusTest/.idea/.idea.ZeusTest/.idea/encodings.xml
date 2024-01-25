@@ -2,5 +2,6 @@
 <project version="4">
   <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
     <file url="file://$PROJECT_DIR$/Assets/Scripts/InputController.cs" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/NPCController.cs" charset="windows-1252" />
   </component>
 </project>

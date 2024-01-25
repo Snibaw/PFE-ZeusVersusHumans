@@ -226,12 +226,13 @@ MonoBehaviour:
   - {fileID: 5901630442179655951}
   - {fileID: 8430619229192123215}
   - {fileID: 620708253551341356}
+  _wolfPack: {fileID: 0}
   _rayonMovement: 10
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
-  _cooldownAttack: 1
-  _rangeAttack: 1
+  _cooldownAttack: 100
+  _rangeAttack: 3
 --- !u!114 &2984830619238615538
 MonoBehaviour:
   m_ObjectHideFlags: 0

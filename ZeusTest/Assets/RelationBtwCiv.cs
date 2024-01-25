@@ -38,7 +38,6 @@ public class RelationBtwCiv : MonoBehaviour
 
     private void SetFeelingImage(int index, float relationValue, bool isUnknown = true)
     {
-        Debug.Log("RELATION " + relationValue + " isUnknown " + isUnknown);
         if(isUnknown)
         {
             feelingsImages[index].sprite = feelings[0].Feeling;
