@@ -13,6 +13,7 @@ public enum State
 }
 public class NPCController : MonoBehaviour
 {
+    private Billboard billboard;
     public MoveController mover { get; set; }
     public AIBrain aiBrain { get; set; }
     public NPCInventory Inventory { get; set; }
@@ -63,6 +64,7 @@ public class NPCController : MonoBehaviour
         buildManager = context.storage.gameObject.GetComponent<BuildManager>();
         upgradeManager = context.storage.gameObject.GetComponent<UpgradeManager>();
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
+        billboard = GetComponentInChildren<Billboard>();
         isExecuting = false;
         constructionToBuild = null;
         _canMoveOnWater = false;
@@ -92,6 +94,7 @@ public class NPCController : MonoBehaviour
 
     public void FSMTick()
     {
+        billboard.UpdateStateText(currentState.ToString());
         switch (currentState)
         {
             case State.decide:
@@ -471,6 +474,7 @@ public class NPCController : MonoBehaviour
         if (_wolfTarget == null) return;
         if (Time.time - _timeLastAttackWolf < _cooldownAttackWolf) return;
         if (Vector3.Distance(_wolfTarget.transform.position, transform.position) > _rangeAttack) return;
+        
 
         //Debug.Log("Detect: AttackWolf Wolf");
         int damage = CalculateDamage();
