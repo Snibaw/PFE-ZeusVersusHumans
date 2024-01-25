@@ -42,7 +42,7 @@ public class ObjectToDestroy : MonoBehaviour
                 {
                     //Find the adorationBarManager of the town corresponding to the building
                     AdorationBarManager adorationBarManager = building.context.gameObject.transform.parent
-                        .GetComponentInChildren<AdorationBarManager>();
+                        .GetComponent<AdorationBarManager>();
                     adorationBarManager.ChangeAdorationBarValue(AdorationBarEvents.DestroyBuilding);
                 }
                 if (building.BuildingType == BuildingType.house)
