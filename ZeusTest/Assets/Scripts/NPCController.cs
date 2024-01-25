@@ -31,7 +31,7 @@ public class NPCController : MonoBehaviour
 
     private bool isSleeping = false;
 
-    private WolfController _wolfTarget;
+    [SerializeField]private WolfController _wolfTarget;
     private NPCController _humanTarget;
 
     private float _timeLastAttackWolf;
@@ -431,12 +431,15 @@ public class NPCController : MonoBehaviour
         while (true)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position - transform.forward * 0.5f, 2.5f, _layerMask);
+            bool isTheirAWolf = false;
+            bool isTheirAHuman = false;
             foreach (Collider collider in colliders)
             {
                 if(collider.CompareTag("Wolf"))
                 {
                     if (collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
                     {
+                        isTheirAWolf = true;
                         currentState = State.defendFromWolf;
                     }
                 }
@@ -450,6 +453,7 @@ public class NPCController : MonoBehaviour
                             float newValue = homeTownRelation.UpdateRelation(npc.homeTown.townIndex, npc.adorationBarManager.adorationValue);
                             if (newValue < -10)
                             {
+                                isTheirAHuman = true;
                                 currentState = State.AttackWolfHuman;
                                 _humanTarget = npc;
                             }
@@ -457,7 +461,8 @@ public class NPCController : MonoBehaviour
                     }
                 }
             }
-
+            if(currentState == State.defendFromWolf && !isTheirAWolf) currentState = State.decide;
+            if(currentState == State.AttackWolfHuman && !isTheirAHuman) currentState = State.decide;
 
             yield return new WaitForSeconds(0.3f);
         }
