@@ -136,14 +136,15 @@ public class WolfController : MonoBehaviour
 
     void Attack()
     {
-
+        //Debug.Log("Wolf Attack: _closestHumanToFollow= "+ _closestHumanToFollow + " | Time.time - _timeLastAttack < _cooldownAttack= "+ (Time.time - _timeLastAttack < _cooldownAttack)+ " | Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack= "+(Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack));
         if (_closestHumanToFollow == null) return;
         if (Time.time - _timeLastAttack < _cooldownAttack) return;
         if (Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack) return;
 
-        Debug.Log("Detect: Attack Human");
+        //Debug.Log("Wolf: Attack Human");
+        Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_closestHumanToFollow.gameObject);
 
-        _closestHumanToFollow.GetComponent<ObjectToDestroy>().TakeDamage(30);
+        _closestHumanToFollow.parent.parent.GetComponent<ObjectToDestroy>().TakeDamage(295);
         _timeLastAttack = Time.time;
 
     }

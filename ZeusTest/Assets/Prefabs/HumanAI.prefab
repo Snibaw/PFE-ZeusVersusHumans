@@ -708,6 +708,8 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 8
+  _rangeAttack: 1
+  adorationBarManager: {fileID: 0}
   isExecuting: 0
 --- !u!114 &1312519491588432525
 MonoBehaviour:
