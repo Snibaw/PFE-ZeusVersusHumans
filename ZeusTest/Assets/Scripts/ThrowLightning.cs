@@ -129,7 +129,8 @@ public class ThrowLightning : MonoBehaviour
         else
         {
             _target.transform.position = curve.B.position;
-            _target.transform.rotation = curve.B.rotation;
+            //_target.transform.rotation = curve.B.rotation;
+            _target.transform.rotation = new Quaternion(curve.B.rotation.x - 90, curve.B.rotation.y, curve.B.rotation.z, curve.B.rotation.w);
         }
         _target.transform.localScale = new Vector3(intensity, 0.1f, intensity);
         
