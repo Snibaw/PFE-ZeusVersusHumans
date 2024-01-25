@@ -425,28 +425,24 @@ public class NPCController : MonoBehaviour
     {
         return adorationBarManager.adorationValue;
     }
-        
-        
+    
     IEnumerator HumanDetection()
     {
         while (true)
         {
-            RaycastHit hit;
-            // Debug.Log("HumanDetection: " + Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask));
-
-            if (Physics.SphereCast(transform.position, 1f, -transform.forward, out hit, 1f, _layerMask))
+            Collider[] colliders = Physics.OverlapSphere(transform.position - transform.forward * 0.5f, 2.5f, _layerMask);
+            foreach (Collider collider in colliders)
             {
-                if (hit.collider.CompareTag("Wolf"))
+                if(collider.CompareTag("Wolf"))
                 {
-                    if(hit.collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
+                    if (collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
                     {
                         currentState = State.defendFromWolf;
                     }
                 }
-
-                if (hit.collider.CompareTag("canBeDestroyed"))
+                if(collider.CompareTag("canBeDestroyed"))
                 {
-                    NPCController npc = hit.collider.gameObject.GetComponent<NPCController>();
+                    NPCController npc = collider.gameObject.GetComponent<NPCController>();
                     if(npc != null)
                     {
                         if (npc.townIndex != townIndex)
@@ -463,7 +459,7 @@ public class NPCController : MonoBehaviour
             }
 
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.3f);
         }
         
     }
