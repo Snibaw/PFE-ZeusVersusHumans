@@ -166,7 +166,9 @@ public class NPCController : MonoBehaviour
                         {
                             homeTown.wolfPackToAttack = _wolfTarget._wolfPack;
                         }
-                        mover.MoveTo(homeTown.wolfPackToAttack._wolfs[0].transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
+
+                        GameObject wolf = homeTown.wolfPackToAttack._wolfs[0];
+                        if(wolf != null) mover.MoveTo(wolf.transform.position + UnityEngine.Random.insideUnitSphere * 0.5f, false);
                         AttackWolf();
                     }
                 }
@@ -231,7 +233,11 @@ public class NPCController : MonoBehaviour
     }
     public IEnumerator ExecuteAction(string action, float time)
     {
-       
+        if (aiBrain.bestAction == null)
+        {
+            currentState = State.decide;
+            yield break;
+        }
         thoughtsScript.ActivateThoughts(false);
         //Some exceptions are managed here
         
@@ -252,6 +258,12 @@ public class NPCController : MonoBehaviour
         float calculatedTime = time * (0.5f - (stats.energy / 200)) / homeTown.GetComponent<Building>().level; // energy between 0 and 100 => 0 to 0.5 => * 0.5 to 0
         uiTimerScript.StartTimer(calculatedTime);
         yield return new WaitForSeconds(calculatedTime);
+        
+        if (aiBrain.bestAction == null)
+        {
+            currentState = State.decide;
+            yield break;
+        }
         
         switch (action)
         {
@@ -440,6 +452,10 @@ public class NPCController : MonoBehaviour
                     if (collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
                     {
                         isTheirAWolf = true;
+                        //Reset AiBrain
+                        isExecuting = false;
+                        aiBrain.bestAction = null;
+                        aiBrain.finishedExecutingBestAction = true;
                         currentState = State.defendFromWolf;
                     }
                 }
