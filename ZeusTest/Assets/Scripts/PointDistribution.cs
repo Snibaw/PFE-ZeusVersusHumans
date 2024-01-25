@@ -99,8 +99,9 @@ public class PointDistribution : MonoBehaviour
          {
              foreach (GameObject sphere in GameObject.FindGameObjectsWithTag("Sphere"))
              {
-                if(nodes[uspheres.IndexOf(sphere)].IsObstacle)
-                     sphere.GetComponent<Renderer>().material.color = Color.blue;
+                if(nodes[uspheres.IndexOf(sphere)].IsWater) sphere.GetComponent<Renderer>().material.color = Color.blue;
+                else if(nodes[uspheres.IndexOf(sphere)].IsObstacle)
+                     sphere.GetComponent<Renderer>().material.color = Color.red;
                 else sphere.GetComponent<Renderer>().material.color = Color.white;
              }
          }
@@ -120,6 +121,7 @@ public class PointDistribution : MonoBehaviour
         AStar aStar = new AStar();
 
         List<Vector3> path = aStar.FindPath(graph, startNode, endNode, canMoveOnWater);
+        if (path == null) path = aStar.FindPath(graph, startNode, endNode, canMoveOnWater, true);
         if (path == null) return null;
         
         for (int i = 0; i < path.Count - 1; i++)
@@ -232,11 +234,11 @@ public class PointDistribution : MonoBehaviour
         
         foreach(var node in graph.Keys)
         {
-            if(node.IsObstacle) continue;
+            if(node.IsObstacle||node.IsWater) continue;
             bool neighborIsObstacle = false;
             for (int i = 0; i < nodes.Length; i++)
             {
-                if (nodes[i].IsObstacle && Vector3.Distance(nodes[i].Position, node.Position) < radius)
+                if ((nodes[i].IsObstacle||nodes[i].IsWater) && Vector3.Distance(nodes[i].Position, node.Position) < radius)
                 {
                     neighborIsObstacle = true;
                     break;

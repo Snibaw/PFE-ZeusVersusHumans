@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AStar
 {
-    public List<Vector3> FindPath(Dictionary<GraphNode, List<GraphNode>> graph, GraphNode startNode, GraphNode goalNode, bool canMoveOnWater)
+    public List<Vector3> FindPath(Dictionary<GraphNode, List<GraphNode>> graph, GraphNode startNode, GraphNode goalNode, bool canMoveOnWater, bool canMoveThroughObstacle = false)
     {
         PriorityQueue<GraphNode> openSet = new PriorityQueue<GraphNode>();
         HashSet<GraphNode> closedSet = new HashSet<GraphNode>();
@@ -38,7 +38,7 @@ public class AStar
 
             foreach (GraphNode neighbor in graph[current])
             {
-                if (closedSet.Contains(neighbor) || neighbor.IsObstacle)
+                if (closedSet.Contains(neighbor) || (neighbor.IsObstacle && !canMoveThroughObstacle))
                     continue;
                 if (closedSet.Contains(neighbor) || (neighbor.IsWater && !canMoveOnWater))
                     continue;

@@ -118,7 +118,7 @@ public class BuildManager : MonoBehaviour
             if (!CanBuild(construction, town)) continue;
             if (!CanBuildMore(construction)) continue;
             
-                currentScore = construction.AdorationScoreConsideration(town) * UnityEngine.Random.Range(1f- randomModifierStrength, 1f + randomModifierStrength) * 
+                currentScore = construction.AdorationScoreConsideration(town) * UnityEngine.Random.Range(1f - randomModifierStrength, 1f + randomModifierStrength) * 
                     2f * (1f - numberOfConstructionBuilt[construction.prefab.GetComponent<Building>().BuildingType] * 0.1f);
                 if ( currentScore > score)
                 {
@@ -128,6 +128,7 @@ public class BuildManager : MonoBehaviour
                 
 
         }
+        if (bestConstruction == null) Debug.Log("All building built!!");
         return bestConstruction;
     }
 }

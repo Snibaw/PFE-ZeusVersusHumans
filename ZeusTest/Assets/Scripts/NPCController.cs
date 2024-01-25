@@ -292,7 +292,7 @@ public class NPCController : MonoBehaviour
 
     private void ExecuteBuild()
     {
-        if (buildingToBuild == null) return;
+        if (buildingToBuild == null) {Debug.Log("No Building To Build"); return;}
         buildingToBuild.GetComponent<Building>().changeToCivColor(homeTown.townColor);
         buildingToBuild.SetActive(true);
 
