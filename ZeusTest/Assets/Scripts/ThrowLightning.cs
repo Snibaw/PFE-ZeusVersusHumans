@@ -76,7 +76,7 @@ public class ThrowLightning : MonoBehaviour
         _numberOfLightning--;
         lightningUI[_numberOfLightning].SetActive(false);
 
-        AudioManager.instance.PlaySoundEffect(SoundEffects.LightningThrow, Mathf.Clamp01(0.5f*intensity));
+        AudioManager.instance.PlaySoundEffect(SoundEffects.LightningThrow, Mathf.Clamp01(intensity));
 
         Destroy(_target);
         _target = null;

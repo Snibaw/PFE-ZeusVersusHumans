@@ -37,14 +37,14 @@ public class GameManager : MonoBehaviour
         WolfPacks = new List<WolfPack>();
         Application.targetFrameRate = 60;
         
-        if(SceneManager.GetActiveScene().name == "MainScene")
-        {
-            if (!PlayerPrefs.HasKey("Tutorial"))
-            {
-                SceneManager.LoadScene("Tuto");
-                return;
-            }
-        }
+        // if(SceneManager.GetActiveScene().name == "MainScene")
+        // {
+        //     if (!PlayerPrefs.HasKey("Tutorial"))
+        //     {
+        //         SceneManager.LoadScene("Tuto");
+        //         return;
+        //     }
+        // }
         Time.timeScale = gameSpeed;
 
         if (instance == null) instance = this;
