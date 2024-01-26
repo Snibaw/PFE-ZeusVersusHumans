@@ -48,9 +48,10 @@ public class HealthBarRessources : MonoBehaviour
         GameManager.ShowHealthBarsChanged -= OnShowHealthBarsChanged;
     }
 
-    public void ShowHealthBar(bool show)
+    public void ShowHealthBar(bool show, bool startShowTimer = false)
     {
         sliderGameObject.SetActive(show);
+        if(startShowTimer) currentTimer = 2*timerUntilHided;
     }
 
     private void InitializeBar()

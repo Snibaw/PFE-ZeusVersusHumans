@@ -19,6 +19,8 @@ public class InputController : MonoBehaviour
     private Camera mainCam;
     private float xWhenPressed, yWhenPressed;
     private Touch touch;
+
+    private HealthBarRessources _healthBarOfObjectHit;
     
     void Start()
     {
@@ -40,6 +42,7 @@ public class InputController : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, 100f))
             {
+                 _healthBarOfObjectHit = hit.collider.gameObject.GetComponentInChildren<HealthBarRessources>();
                 if( hit.collider.gameObject.CompareTag("Building"))
                 {
                     Building building = hit.collider.gameObject.GetComponent<Building>();
@@ -58,9 +61,16 @@ public class InputController : MonoBehaviour
 
             if (hitVillage == false)
             {
+                //Unshow Village
                 canvasUI.GetComponent<ResourcesSlider>().SetVisible(false);
                 AdorationBar.instance.SetVisible(false);
                 relationBtwCiv.SetVisible(false);
+                
+                //Show healthbar of object
+                if(_healthBarOfObjectHit != null)
+                {
+                    _healthBarOfObjectHit.ShowHealthBar(true, true);
+                }
             }
         }
         
