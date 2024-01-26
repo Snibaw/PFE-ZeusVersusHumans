@@ -35,30 +35,35 @@ public class InputController : MonoBehaviour
         bool hitVillage = false;
 
         if(canvasUI == null) return;
-        if (Physics.Raycast(ray, out hit, 100f))
+
+        if (Time.time - timePressed < timeBtwClickAndHold)
         {
-            if( hit.collider.gameObject.CompareTag("Building"))
+            if (Physics.Raycast(ray, out hit, 100f))
             {
-                Building building = hit.collider.gameObject.GetComponent<Building>();
-                if (building.BuildingType == BuildingType.village)
+                if( hit.collider.gameObject.CompareTag("Building"))
                 {
-                    hitVillage = true;
-                    canvasUI.SetActive(true);
-                    AdorationBar.instance.SetVisible(true,
-                        building.gameObject.GetComponentInChildren<AdorationBarManager>());
-                    canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponent<TownBehaviour>().townIndex);
-                    relationBtwCiv.SetVisible(true, building.gameObject);
+                    Building building = hit.collider.gameObject.GetComponent<Building>();
+                    if (building.BuildingType == BuildingType.village)
+                    {
+                        hitVillage = true;
+                        canvasUI.SetActive(true);
+                        AdorationBar.instance.SetVisible(true,
+                            building.gameObject.GetComponentInChildren<AdorationBarManager>());
+                        canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponent<TownBehaviour>().townIndex);
+                        relationBtwCiv.SetVisible(true, building.gameObject);
+                    }
                 }
+
             }
 
+            if (hitVillage == false)
+            {
+                canvasUI.GetComponent<ResourcesSlider>().SetVisible(false);
+                AdorationBar.instance.SetVisible(false);
+                relationBtwCiv.SetVisible(false);
+            }
         }
-
-        if (hitVillage == false)
-        {
-            canvasUI.GetComponent<ResourcesSlider>().SetVisible(false);
-            AdorationBar.instance.SetVisible(false);
-            relationBtwCiv.SetVisible(false);
-        }
+        
 
     }
 
@@ -75,7 +80,6 @@ public class InputController : MonoBehaviour
             {
                 case TouchPhase.Began: // If the player just touched the screen
                     timePressed = Time.time;
-                    ManageTownUI(true);
 
                     if (touch.position.y < Screen.height * yBorderBtwRotationAndLightning)
                         isBelowYBorder = true;
@@ -123,7 +127,7 @@ public class InputController : MonoBehaviour
                     break;
 
                 case TouchPhase.Ended: // If the player stop touching the screen
-
+                    ManageTownUI(true);
                     if(isBelowYBorder && Time.time-timePressed > 0) // The player wants to throw lightning
                     {
                         if(xWhenPressed != x || yWhenPressed != y) // If the player move the mouse
@@ -166,10 +170,11 @@ public class InputController : MonoBehaviour
 
         void Zoom(float increment)
         {
-            Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - increment, 35, 80);
-            if (Camera.main.fieldOfView <= 50)
+            
+            mainCam.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - increment, 35, 80);
+            if (mainCam.fieldOfView <= 50)
             {
-                GameManager.instance.ChangeShowHealthBars(true);
+                GameManager.instance.ChangeShowHealthBars(true, 0.5f);
             }
             else
             {

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class HealthBarRessources : MonoBehaviour
 {
+    private float _initScale;
     [SerializeField] private float maxHealthOfRessource = 10;
     [SerializeField] private Slider healthBarSlider;
     [SerializeField] private Slider delayedSlider;
@@ -22,7 +23,7 @@ public class HealthBarRessources : MonoBehaviour
     void Start()
     {
         InitializeBar();
-
+        _initScale = transform.localScale.x;
         GameManager.ShowHealthBarsChanged += OnShowHealthBarsChanged;
         
         ShowHealthBar(false);
@@ -30,12 +31,18 @@ public class HealthBarRessources : MonoBehaviour
         LookTowardsCamera();
     }
     
-    void OnShowHealthBarsChanged(bool show)
+    void OnShowHealthBarsChanged(bool show = false, float newScale = 1)
     {
         canStopShowingHealthBar = !show;
         ShowHealthBar(show);
+        ChangeScaleHealthBar(newScale);
     }
-
+    
+    private void ChangeScaleHealthBar(float newScale)
+    {
+        float newScaleValue = _initScale * newScale;
+        transform.localScale = new Vector3(newScaleValue, newScaleValue, newScaleValue);
+    }
     private void OnDestroy()
     {
         GameManager.ShowHealthBarsChanged -= OnShowHealthBarsChanged;

@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     
     public List<GameObject> Towns = new List<GameObject>();
     
-    public delegate void ShowHealthBarsChangedEventHandler(bool show);
+    public delegate void ShowHealthBarsChangedEventHandler(bool show, float newScale);
     public static event ShowHealthBarsChangedEventHandler ShowHealthBarsChanged;
 
     private void Awake() {
@@ -84,10 +84,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    public void ChangeShowHealthBars(bool show)
+    public void ChangeShowHealthBars(bool show, float newScale = 1)
     {
         ShowHealthBar = show;
-        if(ShowHealthBarsChanged != null) ShowHealthBarsChanged(show);
+        if(ShowHealthBarsChanged != null) ShowHealthBarsChanged(show, newScale);
     }
     
 
