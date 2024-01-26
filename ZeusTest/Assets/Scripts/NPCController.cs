@@ -94,7 +94,7 @@ public class NPCController : MonoBehaviour
 
     public void FSMTick()
     {
-        billboard.UpdateStateText(currentState.ToString());
+        if(billboard != null) billboard.UpdateStateText(currentState.ToString());
         switch (currentState)
         {
             case State.decide:
