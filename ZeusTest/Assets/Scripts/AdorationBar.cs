@@ -38,7 +38,7 @@ public class AdorationBar : MonoBehaviour
 
     private void Start()
     {
-        slider = GetComponent<Slider>();
+        slider = GetComponentInChildren<Slider>();
         adorationBarUI = transform.GetChild(0).gameObject;
     }
 
