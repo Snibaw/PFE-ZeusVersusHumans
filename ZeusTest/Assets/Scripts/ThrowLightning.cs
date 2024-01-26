@@ -25,6 +25,7 @@ public class ThrowLightning : MonoBehaviour
 
     [SerializeField] private GameObject[] lightningUI;
     private int _numberOfLightning;
+    private bool isResourceHit = false;
     
 
     void Start()
@@ -107,8 +108,10 @@ public class ThrowLightning : MonoBehaviour
          curve.B.position = finalPosition;
          //Create a raycast from camera to curve.B.position
          RaycastHit hit;
+         isResourceHit = false;
          if (Physics.Raycast(mainCam.transform.position, curve.B.position - mainCam.transform.position, out hit, Mathf.Infinity))
          {
+             isResourceHit = hit.collider.GetComponent<Resource>() != null;
              curve.B.position = hit.point;
              curve.B.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
          }
@@ -129,8 +132,7 @@ public class ThrowLightning : MonoBehaviour
         else
         {
             _target.transform.position = curve.B.position;
-            _target.transform.rotation = curve.B.rotation;
-            //_target.transform.rotation = new Quaternion(curve.B.rotation.x - 90, curve.B.rotation.y, curve.B.rotation.z, curve.B.rotation.w);
+            if(!isResourceHit) _target.transform.rotation = curve.B.rotation;
         }
         _target.transform.localScale = new Vector3(intensity, 0.1f, intensity);
         

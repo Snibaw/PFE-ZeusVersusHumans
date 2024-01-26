@@ -89,7 +89,7 @@ public class InputController : MonoBehaviour
                     break;
 
                 case TouchPhase.Moved: // If the player move his finger
-                    if (isBelowYBorder)
+                    if(isBelowYBorder && Time.time-timePressed > 0)
                     {
                         x = touch.position.x;
                         y = touch.position.y;
@@ -112,7 +112,7 @@ public class InputController : MonoBehaviour
                     break;
 
                 case TouchPhase.Stationary: // If the player didn't move his finger
-                    if (isBelowYBorder)
+                    if(isBelowYBorder && Time.time-timePressed > 0)
                     {
                         x = touch.position.x;
                         y = touch.position.y;
