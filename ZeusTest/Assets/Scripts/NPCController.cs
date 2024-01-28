@@ -493,9 +493,10 @@ public class NPCController : MonoBehaviour
         if (_wolfTarget == null) return;
         if (Time.time - _timeLastAttackWolf < _cooldownAttackWolf) return;
         if (Vector3.Distance(_wolfTarget.transform.position, transform.position) > _rangeAttack) return;
-        
+
 
         //Debug.Log("Detect: AttackWolf Wolf");
+        StartCoroutine(StopMovingTime(1));
         int damage = CalculateDamage();
         _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
         _timeLastAttackWolf = Time.time;
@@ -508,6 +509,7 @@ public class NPCController : MonoBehaviour
         if (Vector3.Distance(_humanTarget.transform.position, transform.position) > _rangeAttack) return;
 
         //Debug.Log("Detect: AttackWolf Human");
+        StartCoroutine(StopMovingTime(1));
         int damage = CalculateDamage();
         _humanTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
         _timeLastAttackHuman = Time.time;
@@ -533,6 +535,23 @@ public class NPCController : MonoBehaviour
         }
 
         return damage;
+    }
+
+    IEnumerator StopMovingTime(float timeSecond)
+    {
+        float timeBegin = Time.time;
+        while (true)
+        {
+            if(Time.time - timeBegin > timeSecond)
+            {
+                break;
+            }
+            else
+            {
+                mover.StopMoving();
+                yield return new WaitForEndOfFrame();
+            }
+        }
     }
 
 
