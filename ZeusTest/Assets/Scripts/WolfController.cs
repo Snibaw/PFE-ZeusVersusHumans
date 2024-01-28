@@ -140,6 +140,7 @@ public class WolfController : MonoBehaviour
         //Debug.Log("Wolf: Attack Human");
         Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_closestHumanToFollow.gameObject);
 
+        StartCoroutine(StopMovingTime(1));
         _closestHumanToFollow.parent.parent.GetComponent<ObjectToDestroy>().TakeDamage(295);
         _timeLastAttack = Time.time;
 
@@ -154,6 +155,23 @@ public class WolfController : MonoBehaviour
     private void OnDestroy()
     {
         Debug.Log("Detect: Je suis un Loup et je suis Mort");
+    }
+
+    IEnumerator StopMovingTime(float timeSecond)
+    {
+        float timeBegin = Time.time;
+        while (true)
+        {
+            if (Time.time - timeBegin > timeSecond)
+            {
+                break;
+            }
+            else
+            {
+                mover.StopMoving();
+                yield return new WaitForEndOfFrame();
+            }
+        }
     }
 
 
