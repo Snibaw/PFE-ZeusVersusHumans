@@ -42,7 +42,7 @@ public class MoveController : MonoBehaviour
         if (isMoving) return;
 
         isMoving = true;
-        _followPath = StartCoroutine(FollowPath(PointDistribution.instance.CalculatePath(
+        StartCoroutine(FollowPath(PointDistribution.instance.CalculatePath(
             PointDistribution.instance.FindTheClosestGraphNode(transform.position), 
             PointDistribution.instance.FindTheClosestGraphNode(position), canMoveOnWater)));
         
