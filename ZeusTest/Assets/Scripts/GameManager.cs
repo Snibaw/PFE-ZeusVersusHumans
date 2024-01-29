@@ -72,20 +72,16 @@ public class GameManager : MonoBehaviour
 
     public void EndGame(bool isBabelTowerBuilt)
     {
-        int score = (int)((Time.time - startTime)*1000);
+        int score = (int)(Time.time - startTime);
         if (score > PlayerPrefs.GetInt("BestScore",0))
         {
             PlayerPrefs.SetInt("BestScore", score);
         }
         endOfLevelPanel.SetActive(true);
-        endOfLevelPanel.GetComponent<EndGamePanel>().ShowEndGamePanel(isBabelTowerBuilt ? loseMessageWhenAdorationBarIsZero : loseMessageWhenAdorationBarIsFull, PlayerPrefs.GetInt("BestScore"), score);
+        endOfLevelPanel.GetComponent<EndGamePanel>().ShowEndGamePanel(score);
         Time.timeScale = 0;
     }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    
     public void ChangeShowHealthBars(bool show, float newScale = 1)
     {
         ShowHealthBar = show;
