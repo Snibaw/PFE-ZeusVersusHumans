@@ -97,7 +97,7 @@ public class WolfController : MonoBehaviour
             //Debug.Log("_wolfPack.humanToFollow: " + (_wolfPack.humanToFollow == null)); 
             if (_wolfPack.humanToFollow == null)
             {
-                if (collider.transform.parent.parent.gameObject.GetComponent<NPCController>().canBeAttacked()) _wolfPack.humanToFollow = collider.transform;
+                if (collider.transform.parent.parent.gameObject.GetComponent<NPCController>().canBeAttacked()) _wolfPack.HumanToFollow = collider.transform;
             }
             else
             {

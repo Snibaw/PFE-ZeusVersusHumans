@@ -11,6 +11,20 @@ public class WolfPack : MonoBehaviour
     PointDistribution _pointDistribution;
 
     public Transform humanToFollow;
+    private Coroutine _coroutinehumanToFollow;
+
+    public Transform HumanToFollow
+    {
+        get { return humanToFollow; }
+        set
+        {
+            if(_coroutinehumanToFollow != null) StopCoroutine(_coroutinehumanToFollow);
+
+            humanToFollow = value;
+
+            _coroutinehumanToFollow = StartCoroutine(ForgetHumanToFollow());
+        }
+    }
 
     [SerializeField] private float _rayonMovement = 30;
     [SerializeField] private float _rayonDistanceFromOtherWolfPack = 100;
@@ -117,6 +131,12 @@ public class WolfPack : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.instance.WolfPacks.Remove(this);
+    }
+
+    IEnumerator ForgetHumanToFollow()
+    {
+        yield return new WaitForSeconds(3);
+        humanToFollow = null;
     }
 
 
