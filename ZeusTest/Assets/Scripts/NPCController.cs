@@ -539,6 +539,7 @@ public class NPCController : MonoBehaviour
 
     IEnumerator StopMovingTime(float timeSecond)
     {
+        /*
         float timeBegin = Time.time;
         while (true)
         {
@@ -552,6 +553,8 @@ public class NPCController : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
+        */
+        yield return new WaitForEndOfFrame();
     }
 
 
