@@ -52,6 +52,11 @@ public class GameManager : MonoBehaviour
         
         startTime = Time.time;
         endOfLevelPanel.SetActive(false);
+        
+        if(!PlayerPrefs.HasKey("BestScore")) PlayerPrefs.SetInt("BestScore", 0);
+        if(!PlayerPrefs.HasKey("Sound")) PlayerPrefs.SetInt("Sound", 1);
+        if(!PlayerPrefs.HasKey("SFVolume")) PlayerPrefs.SetFloat("SFVolume", 0.5f);
+        if(!PlayerPrefs.HasKey("MusicVolume")) PlayerPrefs.SetFloat("MusicVolume", 0.2f);
     }
     
     
