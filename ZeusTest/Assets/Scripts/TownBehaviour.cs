@@ -59,7 +59,15 @@ public class TownBehaviour : MonoBehaviour
         while (canSpanwHuman)
         {
             SpawnHuman();
-            yield return new WaitForSeconds(timeBtwHumanSpawn);
+            if(humanAI.Count == 0 && wolfPackToAttack != null)
+            {
+                yield return new WaitForSeconds(timeBtwHumanSpawn/4f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(timeBtwHumanSpawn);
+            }
+            
             
         }
     }
