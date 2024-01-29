@@ -19,6 +19,12 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] private TMP_Text musicVolumeText;
     [SerializeField] private TMP_Text sfVolumeText;
     
+    [Header("Shake")]
+    private float shakePower = 0;
+    [SerializeField] private float shakeTime = 0.5f;
+    [SerializeField] private GameObject shakeText;
+    private bool _waitingForShake = false;
+    private bool _shakeForMusic = false;
 
     private void Start()
     {
@@ -27,6 +33,16 @@ public class PauseMenuManager : MonoBehaviour
         soundImage.sprite = soundSprites[PlayerPrefs.GetInt("Sound")];
         SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
         SetSFVolume(PlayerPrefs.GetFloat("SFVolume"));
+    }
+
+    private void Update()
+    {
+        if(_waitingForShake && Input.acceleration.magnitude > 1.5f)
+        {
+            _waitingForShake = false;
+            shakeText.SetActive(false);
+            StartCoroutine(RecordShake(_shakeForMusic));
+        }
     }
 
     public void OpenPauseMenu()
@@ -41,6 +57,8 @@ public class PauseMenuManager : MonoBehaviour
     {
         if(!pauseMenu.activeSelf) return;
         
+        _waitingForShake = false;
+        shakeText.SetActive(false);
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
     }
@@ -58,6 +76,9 @@ public class PauseMenuManager : MonoBehaviour
     public void CloseSettingsMenu()
     {
         if(!settingsParent.activeSelf) return;
+        
+        _waitingForShake = false;
+        shakeText.SetActive(false);
         settingsParent.SetActive(false);
         pauseParent.SetActive(true);
     }
@@ -70,13 +91,26 @@ public class PauseMenuManager : MonoBehaviour
         AudioManager.instance.PlayPauseMusic();
     }
 
-    public void ClickOnMusicVolume()
+    public void ClickOnVolume(bool isMusic)
     {
-        SetMusicVolume(Random.Range(0, 1f));
+        _shakeForMusic = isMusic;
+        _waitingForShake = true;
+        shakeText.SetActive(true);
     }
-    public void ClickOnSFVolume()
+    private IEnumerator RecordShake(bool isMusic)
     {
-        SetSFVolume(Random.Range(0, 1f));
+        shakePower = 0;
+        float elapsedTime = 0;
+        while (elapsedTime < shakeTime)
+        {
+            shakePower += Input.acceleration.magnitude;
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        shakePower = Mathf.Clamp01((shakePower-30) / 100);
+        Debug.Log("shakePower = " + shakePower);
+        if(isMusic) SetMusicVolume(shakePower);
+        else SetSFVolume(shakePower);
     }
     private void SetSFVolume(float volume)
     {
