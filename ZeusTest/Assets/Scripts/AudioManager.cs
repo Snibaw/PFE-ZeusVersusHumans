@@ -29,7 +29,12 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        if(!PlayerPrefs.HasKey("Sound")) PlayerPrefs.SetInt("Sound", 1);
+        if(!PlayerPrefs.HasKey("SFVolume")) PlayerPrefs.SetFloat("SFVolume", 0.5f);
+        if(!PlayerPrefs.HasKey("MusicVolume")) PlayerPrefs.SetFloat("MusicVolume", 0.2f);
         PlayPauseMusic();
+        SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
+        SetSFVolume(PlayerPrefs.GetFloat("SFVolume"));
     }
 
     public void PlaySoundEffect(SoundEffects soundEffect, float volume = 0.5f)
