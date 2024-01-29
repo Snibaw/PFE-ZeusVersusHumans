@@ -46,7 +46,7 @@ public class Resource : MonoBehaviour
         if (resourceType == ResourceType.wood)
         {
             _animator = GetComponentInChildren<Animator>();
-            InvokeRepeating("MakeTreeMove", Random.Range(5f, 10f), Random.Range(5f, 10f));
+            InvokeRepeating("MakeTreeMove", Random.Range(5f, 10f), Random.Range(10f, 15f));
         }
 
     }

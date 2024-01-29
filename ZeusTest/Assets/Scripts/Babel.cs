@@ -5,7 +5,7 @@ using UnityEngine;
 public class Babel : Building
 {
 
-    [SerializeField] private int maxLevel = 10;
+    public int maxLevel = 10;
 
    public override void levelUp()
    {
