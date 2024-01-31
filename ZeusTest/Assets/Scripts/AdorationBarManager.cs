@@ -12,8 +12,8 @@ public class AdorationBarManager : MonoBehaviour
 
     private void Start()
     {
-        adorationModifier = Random.Range(0.5f, 1f) * (Random.Range(0,2) == 0 ? -1 : 1);
-        adorationValue = 15 * adorationModifier + 50;
+        adorationModifier = Random.Range(1f, 1.5f) * (Random.Range(0,2) == 0 ? -1 : 1);
+        adorationValue = 10 * adorationModifier + 50;
         _townBehaviour = GetComponent<TownBehaviour>();
         InvokeRepeating("PassiveIncrease", 1, 1f);
     }

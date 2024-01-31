@@ -59,23 +59,7 @@ public class AStar
             }
         }
         Debug.Log("No path found between " + startNode.Position + " and " + goalNode.Position +"whiche are obstacles?" + startNode.IsObstacle + " " + goalNode.IsObstacle);
-        DebugFunction(startNode, goalNode);
         return null;
-    }
-
-    private void DebugFunction(GraphNode startNode, GraphNode goalNode)
-    {
-        foreach (var sphere in PointDistribution.instance.uspheres)
-        {
-            if (sphere.transform.position == startNode.Position)
-            {
-                sphere.GetComponent<Renderer>().material.color = Color.red;
-            }
-            if (sphere.transform.position == goalNode.Position)
-            {
-                sphere.GetComponent<Renderer>().material.color = Color.green;
-            }
-        }
     }
 private static List<Vector3> ReconstructPath(Dictionary<GraphNode, GraphNode> cameFrom, GraphNode current)
     {

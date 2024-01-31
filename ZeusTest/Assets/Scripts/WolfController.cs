@@ -13,8 +13,7 @@ public class WolfController : MonoBehaviour
     public WolfPack _wolfPack;
 
     private Transform _closestHumanToFollow;
-
-    [SerializeField] private float _rayonMovement = 10;
+    
 
     [SerializeField] private LayerMask _layerMask;
 

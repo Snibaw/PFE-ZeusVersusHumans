@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
     
     [Header("End Of Level")]
     [SerializeField] private GameObject endOfLevelPanel;
-    [SerializeField] private string loseMessageWhenAdorationBarIsZero = "0";
-    [SerializeField] private string loseMessageWhenAdorationBarIsFull = "1";
 
     [Header("CountRessources")]
     public List<WolfPack> WolfPacks;

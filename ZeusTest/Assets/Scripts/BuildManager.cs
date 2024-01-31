@@ -24,7 +24,7 @@ public class BuildManager : MonoBehaviour
     {
         foreach (BuildingType buildingType in Enum.GetValues(typeof(BuildingType)))
         {
-            numberOfConstructionBuilt.Add(buildingType, 0);
+            numberOfConstructionBuilt.TryAdd(buildingType, 0);
         }
     }
     public void AddConstructionBuilt(BuildingType buildingType)
@@ -78,7 +78,13 @@ public class BuildManager : MonoBehaviour
     private bool CanBuildMore(IAConstruction construction)
     {
         BuildingType buildTypeSearch = construction.prefab.GetComponent<Building>().BuildingType;
-        return numberOfConstructionBuilt[buildTypeSearch] < construction.numberMaxToSpawn;
+        
+        if(numberOfConstructionBuilt.TryGetValue(buildTypeSearch, out int value))
+        {
+            return value < construction.numberMaxToSpawn;
+        }
+        numberOfConstructionBuilt.TryAdd(buildTypeSearch, 0);
+        return true;
     }
 
     private bool CanBuild(IAConstruction construction, TownBehaviour town)
