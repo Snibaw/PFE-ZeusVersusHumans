@@ -113,6 +113,12 @@ public class WolfController : MonoBehaviour
             }
         }
         if(colliders.Length == 0) _closestHumanToFollow = null;
+        if(colliders.Length >= 3 && _wolfPack._wolfs.Count <= 1)
+        {
+            _wolfPack.humanToFollow = null;
+            _closestHumanToFollow = null;
+            _wolfPack.transform.position = transform.position + Random.onUnitSphere*10;
+        }
     }
 
 
@@ -141,7 +147,7 @@ public class WolfController : MonoBehaviour
         Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_closestHumanToFollow.gameObject);
 
         StartCoroutine(StopMovingTime(1));
-        _closestHumanToFollow.parent.parent.GetComponent<ObjectToDestroy>().TakeDamage(295);
+        _closestHumanToFollow.parent.parent.GetComponent<ObjectToDestroy>().TakeDamage(50);
         _timeLastAttack = Time.time;
 
     }
