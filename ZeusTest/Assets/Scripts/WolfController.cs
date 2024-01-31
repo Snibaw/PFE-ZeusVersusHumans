@@ -113,6 +113,12 @@ public class WolfController : MonoBehaviour
             }
         }
         if(colliders.Length == 0) _closestHumanToFollow = null;
+        if(colliders.Length >= 3 && _wolfPack._wolfs.Count <= 1)
+        {
+            _wolfPack.humanToFollow = null;
+            _closestHumanToFollow = null;
+            _wolfPack.transform.position = transform.position + Random.onUnitSphere*10;
+        }
     }
 
 
