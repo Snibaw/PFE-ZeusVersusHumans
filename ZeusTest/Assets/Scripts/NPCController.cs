@@ -500,7 +500,7 @@ public class NPCController : MonoBehaviour
 
 
         //Debug.Log("Detect: AttackWolf Wolf");
-        StartCoroutine(StopMovingTime(1));
+        StartCoroutine(StopMovingTime(2));
         int damage = CalculateDamage();
         _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
         _timeLastAttackWolf = Time.time;
@@ -513,7 +513,7 @@ public class NPCController : MonoBehaviour
         if (Vector3.Distance(_humanTarget.transform.position, transform.position) > _rangeAttack) return;
 
         //Debug.Log("Detect: AttackWolf Human");
-        StartCoroutine(StopMovingTime(1));
+        StartCoroutine(StopMovingTime(2));
         int damage = CalculateDamage();
         _humanTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
         _timeLastAttackHuman = Time.time;
