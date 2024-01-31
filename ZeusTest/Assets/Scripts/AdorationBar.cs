@@ -29,6 +29,8 @@ public class AdorationBar : MonoBehaviour
     private float _adorationValue = 0;
     private Slider slider;
     private AdorationBarManager _adorationBarManager;
+    [SerializeField] private Slider croyanceTopSlider;
+    [SerializeField] private Slider croyanceBotSlider;
     
     private void Awake()
     {
@@ -41,6 +43,8 @@ public class AdorationBar : MonoBehaviour
         slider = GetComponentInChildren<Slider>();
         adorationBarUI = transform.GetChild(0).gameObject;
         adorationBarUI.SetActive(false);
+        croyanceBotSlider.gameObject.SetActive(false);
+        croyanceTopSlider.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -57,12 +61,23 @@ public class AdorationBar : MonoBehaviour
             _adorationBarManager = adorationBarManager;
             UpdateSliderValue();
         }
+        else
+        {
+            croyanceBotSlider.gameObject.SetActive(false);
+            croyanceTopSlider.gameObject.SetActive(false);
+        }
     }
     private void UpdateSliderValue()
     {
         if (_adorationBarManager == null) return;
         _adorationValue = _adorationBarManager.adorationValue;
         slider.value = _adorationValue;
+        
+        bool isScientific = _adorationBarManager.adorationModifier > 0;
+        croyanceBotSlider.gameObject.SetActive(isScientific);
+        croyanceTopSlider.gameObject.SetActive(!isScientific);
+        if(isScientific) croyanceBotSlider.value = _adorationBarManager.adorationModifier;
+        else croyanceTopSlider.value = Mathf.Abs(_adorationBarManager.adorationModifier);
     }
 
     public void FindAndChangeAdorationBarNPC(NPCController _npcController, AdorationBarEvents adorationBarEventType)
