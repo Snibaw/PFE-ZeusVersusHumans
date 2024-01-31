@@ -21,6 +21,7 @@ public class InputController : MonoBehaviour
     private Touch touch;
 
     private HealthBarRessources _healthBarOfObjectHit;
+    [SerializeField] private BabelTowerInfo _babelTowerInfo;
     
     void Start()
     {
@@ -35,6 +36,7 @@ public class InputController : MonoBehaviour
         else ray = mainCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         bool hitVillage = false;
+        bool hitBabel = false;
 
         if(canvasUI == null) return;
 
@@ -55,16 +57,26 @@ public class InputController : MonoBehaviour
                         canvasUI.GetComponent<ResourcesSlider>().SetVisible(true, building.gameObject.GetComponent<TownBehaviour>().townIndex);
                         relationBtwCiv.SetVisible(true, building.gameObject);
                     }
+                    else if (building.BuildingType == BuildingType.babel)
+                    {
+                        Babel babel = hit.collider.gameObject.GetComponent<Babel>();
+                        if (babel != null)
+                        {
+                            hitBabel = true;
+                            _babelTowerInfo.SetVisible(true, babel.level, babel.maxLevel);
+                        }
+                    }
                 }
 
             }
 
-            if (hitVillage == false)
+            if (hitVillage == false && hitBabel == false)
             {
                 //Unshow Village
                 canvasUI.GetComponent<ResourcesSlider>().SetVisible(false);
                 AdorationBar.instance.SetVisible(false);
                 relationBtwCiv.SetVisible(false);
+                _babelTowerInfo.SetVisible(false);
                 
                 //Show healthbar of object
                 if(_healthBarOfObjectHit != null)

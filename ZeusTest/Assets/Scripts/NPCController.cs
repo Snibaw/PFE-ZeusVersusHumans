@@ -468,12 +468,16 @@ public class NPCController : MonoBehaviour
                     {
                         if (npc.townIndex != townIndex)
                         {
-                            float newValue = homeTownRelation.UpdateRelation(npc.homeTown.townIndex, npc.adorationBarManager.adorationValue);
-                            if (newValue < -10)
+                            if (npc.homeTown != null && npc.adorationBarManager != null)
                             {
-                                isTheirAHuman = true;
-                                currentState = State.AttackWolfHuman;
-                                _humanTarget = npc;
+                                float newValue = homeTownRelation.UpdateRelation(npc.homeTown.townIndex,
+                                    npc.adorationBarManager.adorationValue);
+                                if (newValue < -10)
+                                {
+                                    isTheirAHuman = true;
+                                    currentState = State.AttackWolfHuman;
+                                    _humanTarget = npc;
+                                }
                             }
                         }
                     }
@@ -496,7 +500,7 @@ public class NPCController : MonoBehaviour
 
 
         //Debug.Log("Detect: AttackWolf Wolf");
-        StartCoroutine(StopMovingTime(1));
+        StartCoroutine(StopMovingTime(2));
         int damage = CalculateDamage();
         _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
         _timeLastAttackWolf = Time.time;
@@ -509,7 +513,7 @@ public class NPCController : MonoBehaviour
         if (Vector3.Distance(_humanTarget.transform.position, transform.position) > _rangeAttack) return;
 
         //Debug.Log("Detect: AttackWolf Human");
-        StartCoroutine(StopMovingTime(1));
+        StartCoroutine(StopMovingTime(2));
         int damage = CalculateDamage();
         _humanTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
         _timeLastAttackHuman = Time.time;
@@ -539,7 +543,6 @@ public class NPCController : MonoBehaviour
 
     IEnumerator StopMovingTime(float timeSecond)
     {
-        /*
         float timeBegin = Time.time;
         while (true)
         {
@@ -553,7 +556,6 @@ public class NPCController : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
-        */
         yield return new WaitForEndOfFrame();
     }
 

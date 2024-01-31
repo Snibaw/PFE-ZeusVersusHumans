@@ -18,6 +18,7 @@ public class Resource : MonoBehaviour
     [SerializeField] private GameObject SpawnedModel;
     [SerializeField] private GameObject HarvestedModel;
     [SerializeField] private float timeBeforeRespawn = 5f;
+    private Animator _animator;
 
     [Header("Chose Model Randomly")] [SerializeField]
     private GameObject[] possibleModel;
@@ -41,12 +42,18 @@ public class Resource : MonoBehaviour
     {
         ChoseModelRandomly();
         ShowModelDependingOnHarvestedState();
+
+        if (resourceType == ResourceType.wood)
+        {
+            _animator = GetComponentInChildren<Animator>();
+            InvokeRepeating("MakeTreeMove", Random.Range(5f, 10f), Random.Range(10f, 15f));
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void MakeTreeMove()
     {
-
+        _animator.SetTrigger("Move");
     }
     private void ChoseModelRandomly()
     {

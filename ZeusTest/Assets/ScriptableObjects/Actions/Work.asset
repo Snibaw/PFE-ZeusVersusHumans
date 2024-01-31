@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Work
   m_EditorClassIdentifier: 
   Name: Work
-  timeToExecute: 1
+  timeToExecute: 3
   considerations:
   - {fileID: 11400000, guid: 5ff8881f6bd55224abe94e75aba92e1f, type: 2}

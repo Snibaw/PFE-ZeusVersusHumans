@@ -40,6 +40,7 @@ public class AdorationBar : MonoBehaviour
     {
         slider = GetComponentInChildren<Slider>();
         adorationBarUI = transform.GetChild(0).gameObject;
+        adorationBarUI.SetActive(false);
     }
 
     private void Update()
