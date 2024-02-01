@@ -75,7 +75,7 @@ public class TownBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if ( nextConstruction==null) chooseNextConstruction();
+        if ( nextConstruction==null) chooseNextConstruction();
         if ( nextUpgrade==null) chooseNextUpgrade();
     }
     void SpawnHuman()
@@ -124,8 +124,9 @@ public class TownBehaviour : MonoBehaviour
     public void chooseNextConstruction()
     {
         IAConstruction potentialConstruction = buildManager.FindNextConstruction(this);
+        if (potentialConstruction == null) return;
         GraphNode targetNode = null;
-        if (potentialConstruction != null) targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, potentialConstruction.prefab.GetComponent<BoxCollider>().size.x * 0.8f);
+        targetNode = _pointDistribution.FindClosestNodeWithAllFreeInRadius(transform.position, potentialConstruction.prefab.GetComponent<BoxCollider>().size.x * 0.8f);
         if (targetNode != null) 
         {
             nextConstruction = InitializeNextConstruction(potentialConstruction, targetNode.Position);

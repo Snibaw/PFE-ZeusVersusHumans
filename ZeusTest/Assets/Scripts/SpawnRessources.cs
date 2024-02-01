@@ -55,7 +55,7 @@ public class SpawnResources : MonoBehaviour
         var babelSpawned = InstantiateResource(babelPrefab, centerNode);
         _pointDistribution.SetAllInColliderToObstacle(babelSpawned.GetComponent<BoxCollider>());
         
-        // _constructionToAvoidWhenSpawnTown.Add(centerNode);
+        _constructionToAvoidWhenSpawnTown.Add(centerNode);
         
         SpawnTowns(babelSpawned);
         
@@ -142,7 +142,7 @@ public class SpawnResources : MonoBehaviour
                 {
                     if(neighbor2.IsObstacle) continue;
                     if (neighbor2.IsWater) continue;
-                    nodesAroundFree.Add(neighbor2);
+                    if (!nodesAroundFree.Contains(neighbor2)) nodesAroundFree.Add(neighbor2);
                 }
             }
             
@@ -163,37 +163,35 @@ public class SpawnResources : MonoBehaviour
     {
         // Find the node with the most space around in the graph
         int maxSpaceAround = 0;
-        if(nodesWithMostSpaceAround.Count == 0)
+        foreach (GraphNode node in _pointDistribution.nodes)
         {
-            foreach (GraphNode node in _pointDistribution.nodes)
+            if (node.IsObstacle) continue;
+            if (node.IsWater) continue;
+            int spaceAround = 0;
+            foreach (GraphNode neighbor in _pointDistribution.graph[node]) // We check the neighbors
             {
-                if (node.IsObstacle) continue;
-                if (node.IsWater) continue;
-                int spaceAround = 0;
-                foreach (GraphNode neighbor in _pointDistribution.graph[node]) // We check the neighbors
+                if (neighbor.IsObstacle) continue;
+                if (neighbor.IsWater) continue;
+                foreach (GraphNode neighbor2 in _pointDistribution.graph[neighbor]) // We check the neighbors of the neighbors
                 {
-                    if (neighbor.IsObstacle) continue;
-                    if (neighbor.IsWater) continue;
-                    foreach (GraphNode neighbor2 in _pointDistribution.graph[neighbor]) // We check the neighbors of the neighbors
-                    {
-                        if (neighbor2.IsObstacle) continue;
-                        if (neighbor2.IsWater) continue;
-                        spaceAround += 1;
-                    }
-                }
-                
-                if (spaceAround > maxSpaceAround) // We find a node with more space around
-                {
-                    maxSpaceAround = spaceAround;
-                    nodesWithMostSpaceAround.Clear();
-                    nodesWithMostSpaceAround.Add(node);
-                }
-                else if(spaceAround == maxSpaceAround) // We find a node with the same space around
-                {
-                    nodesWithMostSpaceAround.Add(node);
+                    if (neighbor2.IsObstacle) continue;
+                    if (neighbor2.IsWater) continue;
+                    spaceAround += 1;
                 }
             }
+            
+            if (spaceAround > maxSpaceAround) // We find a node with more space around
+            {
+                maxSpaceAround = spaceAround;
+                nodesWithMostSpaceAround.Clear();
+                nodesWithMostSpaceAround.Add(node);
+            }
+            else if(spaceAround == maxSpaceAround) // We find a node with the same space around
+            {
+                nodesWithMostSpaceAround.Add(node);
+            }
         }
+        if ( maxSpaceAround < 5) return null;
         // Return a random node with the most space around
         GraphNode nodeToReturn = null;
         if (!AvoidListOfNodes)
