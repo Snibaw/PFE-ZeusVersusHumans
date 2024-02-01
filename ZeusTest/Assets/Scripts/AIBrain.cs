@@ -56,8 +56,6 @@ public class AIBrain : MonoBehaviour
 
     private void SetBestActionThought(Action act)
     {
-        Debug.Log("set action");
-        
         var actionName = act.name;
         switch (actionName)
         {
@@ -67,15 +65,42 @@ public class AIBrain : MonoBehaviour
             case "DropOffResource" :
                 thoughtsScript.ChangeAction(ActionOfIA.Home);
                 break;
+            case "Build" :
+                thoughtsScript.ChangeAction(ActionOfIA.Build);
+                break;
+            case "Upgrade" :
+                thoughtsScript.ChangeAction(ActionOfIA.Build);
+                break;
             case "Eat" :
                 //thoughtsScript.ChangeAction(ActionOfIA.Food);
                 break;
             case "Work" :
-                //TODO : gerer les différents cas en fct du type de ressources ??
-                thoughtsScript.ChangeAction(ActionOfIA.Wood);
+                if (bestAction.RequiredDestination == null)
+                {
+                    thoughtsScript.ChangeAction(ActionOfIA.Wood);
+                    break;
+                }
+                Resource resource = bestAction.RequiredDestination.GetComponent<Resource>();
+                if (resource == null)
+                {
+                    thoughtsScript.ChangeAction(ActionOfIA.Wood);
+                    break;
+                }
+                switch (resource.ResourceType)
+                {
+                    case ResourceType.wood:
+                        thoughtsScript.ChangeAction(ActionOfIA.Wood);
+                        break;
+                    case ResourceType.stone:
+                        thoughtsScript.ChangeAction(ActionOfIA.Stone);
+                        break;
+                    case ResourceType.metal:
+                        thoughtsScript.ChangeAction(ActionOfIA.Iron);
+                        break;
+                }
                 break;
             default:
-                thoughtsScript.ChangeAction(ActionOfIA.Home);
+                thoughtsScript.ChangeAction(ActionOfIA.Sleep);
                 break;
         }
     }
