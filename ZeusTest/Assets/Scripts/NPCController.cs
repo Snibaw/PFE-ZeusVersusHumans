@@ -150,6 +150,9 @@ public class NPCController : MonoBehaviour
 
             case State.defendFromWolf:
                 //Debug.Log("Human defendFromWolf: homeTown.wolfPackToAttack= " + homeTown.wolfPackToAttack + " | _wolfTarget=" + _wolfTarget);
+                thoughtsScript.ActivateThoughts(true);
+                thoughtsScript.ChangeAction(ActionOfIA.Fight);
+                
                 if(homeTown.wolfPackToAttack != null)
                 {
                     if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
@@ -204,6 +207,10 @@ public class NPCController : MonoBehaviour
                 }
                 break;
             case State.AttackWolfHuman:
+                
+                thoughtsScript.ActivateThoughts(true);
+                thoughtsScript.ChangeAction(ActionOfIA.Fight);
+                
                 if(_humanTarget != null)
                 {
                     if (objectToDestroy.life / objectToDestroy.maxLife < 0.3f && Vector3.Distance(transform.position, homeTown.transform.position) > 1f)
@@ -299,7 +306,7 @@ public class NPCController : MonoBehaviour
             //     stats.hunger -= 30;
             //     break;
             case "DropOffResource":
-                thoughtsScript.ChangeAction(ActionOfIA.Home);
+                thoughtsScript.ChangeAction(ActionOfIA.Sleep);
                 thoughtsScript.ActivateThoughts(false);
                 
                 context.storage.GetAllResourcesFromNPC(Inventory);
@@ -498,8 +505,12 @@ public class NPCController : MonoBehaviour
 
     void AttackWolf()
     {
-        
-        if (_wolfTarget == null) return;
+
+        if (_wolfTarget == null)
+        {
+            currentState = State.decide;
+            return;
+        }
         if (Time.time - _timeLastAttackWolf < _cooldownAttackWolf) return;
         if (Vector3.Distance(_wolfTarget.transform.position, transform.position) > _rangeAttack) return;
 
@@ -514,7 +525,11 @@ public class NPCController : MonoBehaviour
     }
     void AttackHumans()
     {
-        if (_humanTarget == null) return;
+        if (_humanTarget == null)
+        {
+            currentState = State.decide;
+            return;
+        }
         if (Time.time - _timeLastAttackHuman < _cooldownAttackHuman) return;
         if (Vector3.Distance(_humanTarget.transform.position, transform.position) > _rangeAttack) return;
 

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sleep
   m_EditorClassIdentifier: 
   Name: Sleep
-  timeToExecute: 5
+  timeToExecute: 7
   considerations:
   - {fileID: 11400000, guid: ac6c021651fab5441b18e1dc9c23dee1, type: 2}
