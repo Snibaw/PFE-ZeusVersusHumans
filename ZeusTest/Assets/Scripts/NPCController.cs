@@ -31,7 +31,7 @@ public class NPCController : MonoBehaviour
 
     private bool isSleeping = false;
 
-    [SerializeField]private WolfController _wolfTarget;
+    [SerializeField] private WolfController _wolfTarget;
     private NPCController _humanTarget;
 
     private float _timeLastAttackWolf;
@@ -50,6 +50,8 @@ public class NPCController : MonoBehaviour
     private int townIndex;
     [HideInInspector] public AdorationBarManager adorationBarManager;
 
+    private Animator _animator;
+
 
 
     public bool isExecuting;
@@ -65,6 +67,7 @@ public class NPCController : MonoBehaviour
         upgradeManager = context.storage.gameObject.GetComponent<UpgradeManager>();
         _pointDistribution = GameObject.FindWithTag("Planet").GetComponent<PointDistribution>();
         billboard = GetComponentInChildren<Billboard>();
+        _animator = GetComponentInChildren<Animator>();
         isExecuting = false;
         constructionToBuild = null;
         _canMoveOnWater = false;
@@ -505,6 +508,7 @@ public class NPCController : MonoBehaviour
         StartCoroutine(StopMovingTime(2));
         int damage = CalculateDamage();
         _wolfTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
+        _animator.SetTrigger("attack");
         _timeLastAttackWolf = Time.time;
         //Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_wolfTarget.gameObject);
     }
@@ -518,6 +522,7 @@ public class NPCController : MonoBehaviour
         StartCoroutine(StopMovingTime(2));
         int damage = CalculateDamage();
         _humanTarget.GetComponent<ObjectToDestroy>().TakeDamage(damage);
+        _animator.SetTrigger("attack");
         _timeLastAttackHuman = Time.time;
         // Camera.main.transform.parent.GetComponent<CameraMovement>().MoveToObject(_humanTarget.gameObject);
     }

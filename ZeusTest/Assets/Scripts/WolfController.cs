@@ -143,7 +143,8 @@ public class WolfController : MonoBehaviour
         if (Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack) return;
         
         StartCoroutine(StopMovingTime(2));
-        _closestHumanToFollow.parent.parent.GetComponent<ObjectToDestroy>().TakeDamage(295);
+        _closestHumanToFollow.parent.parent.GetComponent<ObjectToDestroy>().TakeDamage(30);
+        _wolfAnimator.SetTrigger("Bite Attack");
         _timeLastAttack = Time.time;
 
     }
