@@ -459,6 +459,7 @@ public class NPCController : MonoBehaviour
                         aiBrain.bestAction = null;
                         aiBrain.finishedExecutingBestAction = true;
                         currentState = State.defendFromWolf;
+                        if (buildingToBuild != null) Destroy(buildingToBuild);
                     }
                 }
                 if(collider.CompareTag("canBeDestroyed"))
@@ -476,6 +477,7 @@ public class NPCController : MonoBehaviour
                                 {
                                     isTheirAHuman = true;
                                     currentState = State.AttackWolfHuman;
+                                    if (buildingToBuild != null) Destroy(buildingToBuild);
                                     _humanTarget = npc;
                                 }
                             }
@@ -569,7 +571,8 @@ public class NPCController : MonoBehaviour
 
     private void OnDestroy()
     {
-        Debug.Log("Human Tué");
+        Debug.Log("Human Tuï¿½");
+        if (buildingToBuild != null) Destroy(buildingToBuild);
         homeTown.humanAI.Remove(this);
     }
 

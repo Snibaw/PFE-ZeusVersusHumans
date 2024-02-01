@@ -32,6 +32,11 @@ public class BuildManager : MonoBehaviour
         numberOfConstructionBuilt[buildingType] += 1;
     }
 
+        public void DecreaseConstructionBuilt(BuildingType buildingType)
+    {
+        numberOfConstructionBuilt[buildingType] -= 1;
+    }
+
     public int HowManyConstructionCanBeBuilt(NPCController _npcController, StorageInventory inventory = null)
     {
         if(inventory == null) inventory = storageInventory;

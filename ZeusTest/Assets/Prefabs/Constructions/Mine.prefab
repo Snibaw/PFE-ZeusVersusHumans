@@ -1462,7 +1462,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5, y: 1, z: 1.5}
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2117260571585205483
 MonoBehaviour:
@@ -1477,6 +1477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 200
+  maxLife: 0
   healthBar: {fileID: 7101248540608285639}
 --- !u!114 &655288062332448453
 MonoBehaviour:
@@ -1516,6 +1517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceType: 1
   timeBetweenResources: 5
+  storage: {fileID: 0}
 --- !u!114 &5511883452739175488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1530,6 +1532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceType: 2
   timeBetweenResources: 10
+  storage: {fileID: 0}
 --- !u!1 &8334662353920048831
 GameObject:
   m_ObjectHideFlags: 0

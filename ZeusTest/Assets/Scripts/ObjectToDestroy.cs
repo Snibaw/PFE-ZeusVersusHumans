@@ -49,6 +49,7 @@ public class ObjectToDestroy : MonoBehaviour
                 {
                     building.context.RemoveObjectFromDestination(transform, DestinationType.rest);
                 }
+                PointDistribution.instance.SetAllInColliderToObstacle(GetComponent<BoxCollider>(), false);
                 
                 
             }

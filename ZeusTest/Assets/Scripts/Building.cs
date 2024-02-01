@@ -25,6 +25,8 @@ public class Building : MonoBehaviour
     [SerializeField] private GameObject changingMaterial;
     [SerializeField] private GameObject roof;
     [SerializeField] private GameObject civColorPart;
+
+    public TownBehaviour homeTown;
     public int level = 0;
     public virtual void levelUp()
     {
@@ -77,4 +79,10 @@ public class Building : MonoBehaviour
     {
         ChangeColor(civColorPart, col);
     }
+
+    private void OnDestroy()
+    {
+        if (homeTown != null) homeTown.buildManager.DecreaseConstructionBuilt(BuildingType);
+    }
+
 }

@@ -267,13 +267,13 @@ public class PointDistribution : MonoBehaviour
             }
     }
 
-    public void SetAllInColliderToObstacle(Collider collider)
+    public void SetAllInColliderToObstacle(Collider collider, bool IsObstacle = true)
     {
         for (int i = 0; i < nodes.Length; i++)
             {
                 if (IsInside(collider, nodes[i].Position))
                 {
-                    nodes[i].IsObstacle = true;
+                    nodes[i].IsObstacle = IsObstacle;
                 }
             }
     }

@@ -144,6 +144,7 @@ public class TownBehaviour : MonoBehaviour
         //Spawn the construction
         GameObject buildingToBuild = Instantiate(construction.prefab, pos, Quaternion.identity);
         _pointDistribution.SetAllInColliderToObstacle(buildingToBuild.GetComponent<BoxCollider>());
+        buildingToBuild.GetComponent<Building>().homeTown = this;
         buildingToBuild.SetActive(false);
 
         

@@ -3682,7 +3682,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.25, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2117260571585205483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3696,6 +3696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 200
+  maxLife: 0
   healthBar: {fileID: 8222581523220508372}
 --- !u!114 &-2581393076067340948
 MonoBehaviour:
