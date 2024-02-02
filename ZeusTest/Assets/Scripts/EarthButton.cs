@@ -23,7 +23,7 @@ public class EarthButton : MonoBehaviour
 
     private void Awake()
     {
-        _earthButton = GetComponent<Button>();
+        _earthButton = GetComponentInParent<Button>();
         _earthButton.enabled = true;
         shakePhoneUI.SetActive(false);
         _timerText = GetComponentInChildren<TMP_Text>();
