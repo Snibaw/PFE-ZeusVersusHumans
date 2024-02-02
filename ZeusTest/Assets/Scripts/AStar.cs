@@ -11,20 +11,16 @@ public class AStar
         Dictionary<GraphNode, float> gScore = new Dictionary<GraphNode, float>();
         Dictionary<GraphNode, float> fScore = new Dictionary<GraphNode, float>();
         
-        /*
         if(startNode.IsObstacle)
         {
             startNode = PointDistribution.instance.FindClosestNodeFree(startNode.Position, canMoveOnWater);
         }
-        */
 
         openSet.Enqueue(startNode, 0);
-        /*
         if (goalNode.IsObstacle)
         {
             goalNode = PointDistribution.instance.FindClosestNodeFree(goalNode.Position, canMoveOnWater);
         }
-        */
         
         gScore[startNode] = 0;
         fScore[startNode] = HeuristicCostEstimate(startNode.Position, goalNode.Position);

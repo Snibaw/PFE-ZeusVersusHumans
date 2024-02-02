@@ -2723,8 +2723,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 1.2307924, z: 1.3199418}
+  m_Center: {x: 0, y: 0.6019886, z: -0.044574708}
 --- !u!114 &8093354416066874265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2780,6 +2780,7 @@ MonoBehaviour:
   changingMaterial: {fileID: 5103645719215692502}
   roof: {fileID: 5002344510483273211}
   civColorPart: {fileID: 5195681634080080702}
+  homeTown: {fileID: 0}
   level: 1
 --- !u!114 &5787211579326384670
 MonoBehaviour:
