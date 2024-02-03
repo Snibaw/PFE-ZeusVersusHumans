@@ -1462,8 +1462,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2142828, y: 1.0892817, z: 1.4642854}
-  m_Center: {x: 0.14285862, y: 0.4910763, z: -0.017857313}
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2117260571585205483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1502,7 +1502,6 @@ MonoBehaviour:
   changingMaterial: {fileID: 0}
   roof: {fileID: 0}
   civColorPart: {fileID: 471001059276656514}
-  homeTown: {fileID: 0}
   level: 1
 --- !u!114 &-2591919945897852947
 MonoBehaviour:
