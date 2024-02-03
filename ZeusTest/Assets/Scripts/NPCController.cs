@@ -463,6 +463,8 @@ public class NPCController : MonoBehaviour
                 {
                     if (collider.transform.parent.gameObject.TryGetComponent<WolfController>(out _wolfTarget))
                     {
+                        if(currentState == State.execute) continue;
+                        
                         isTheirAWolf = true;
                         //Reset AiBrain
                         isExecuting = false;
@@ -485,6 +487,8 @@ public class NPCController : MonoBehaviour
                                     npc.adorationBarManager.adorationValue);
                                 if (newValue < -10)
                                 {
+                                    if(currentState == State.execute) continue;
+                                    
                                     isTheirAHuman = true;
                                     currentState = State.AttackWolfHuman;
                                     if (buildingToBuild != null) Destroy(buildingToBuild);
