@@ -551,16 +551,16 @@ public class NPCController : MonoBehaviour
         switch (homeTown.GetComponent<Building>().level)
         {
             case 1:
-                damage = 50;
+                damage = 30;
                 break;
             case 2: 
-                damage = 100; 
+                damage = 50; 
                 break;
             case 3:
-                damage = 150;
+                damage = 70;
                 break;
             default:
-                damage = 50;
+                damage = 30;
                 break;
         }
 
