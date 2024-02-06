@@ -37,7 +37,7 @@ public class SpawnResources : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(SpawnSingleResourceEveryCycleOfTimeWithAMaximumOfElement(_wolfPackPrefab,60,3));    
+         
     }
 
 
@@ -77,7 +77,9 @@ public class SpawnResources : MonoBehaviour
                 }
             }
         }
-        
+
+        StartCoroutine(SpawnSingleResourceEveryCycleOfTimeWithAMaximumOfElement(_wolfPackPrefab, 60, 3));
+
     }
 
     private void SpawnTowns(GameObject babelSpawned)
