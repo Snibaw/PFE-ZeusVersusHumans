@@ -25,6 +25,8 @@ public class WolfController : MonoBehaviour
 
     [SerializeField] private float _rangeAttack;
 
+    public ObjectToDestroy objectToDestroy;
+
     private void Start()
     {
         _closestHumanToFollow = null;
@@ -143,7 +145,7 @@ public class WolfController : MonoBehaviour
         if (Vector3.Distance(_closestHumanToFollow.position, transform.position) > _rangeAttack) return;
         
         StartCoroutine(StopMovingTime(2));
-        _closestHumanToFollow.parent.parent.GetComponent<ObjectToDestroy>().TakeDamage(50);
+        _closestHumanToFollow.parent.parent.GetComponent<NPCController>().objectToDestroy.TakeDamage(50);
         _wolfAnimator.SetTrigger("Bite Attack");
         _timeLastAttack = Time.time;
 

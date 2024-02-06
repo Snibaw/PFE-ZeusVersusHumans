@@ -6,6 +6,7 @@ public class ObjectToDestroy : MonoBehaviour
 {
     public float life;
     public float maxLife;
+    [SerializeField] private GameObject objToDestroy;
     [SerializeField] private HealthBarRessources healthBar;
 
 	void Start()
@@ -62,7 +63,8 @@ public class ObjectToDestroy : MonoBehaviour
             {
                 if(impactAdorationBarValue) AdorationBar.instance.FindAndChangeNearestAdorationBar(transform.position, AdorationBarEvents.KillWolf);
             }
-            Destroy(gameObject);
+            if (objToDestroy == null) Destroy(gameObject);
+            else Destroy(objToDestroy);
             //TODO: Event to tell the GameManager that the player destroyed an object or an AI (spawn more AI ...)
         }
     }

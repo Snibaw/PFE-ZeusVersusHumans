@@ -112,6 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 111639920865668062}
   - component: {fileID: 1700467809717930793}
+  - component: {fileID: 4122178788890387221}
   m_Layer: 3
   m_Name: Model
   m_TagString: Wolf
@@ -160,6 +161,22 @@ CapsuleCollider:
   m_Height: 1.8640385
   m_Direction: 2
   m_Center: {x: 0, y: 0.49356517, z: 0.056202173}
+--- !u!114 &4122178788890387221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5622174565267553124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19e381fb332f3940b51ea9989f807d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 150
+  maxLife: 0
+  objToDestroy: {fileID: 5949034007679275925}
+  healthBar: {fileID: 4091550324012908683}
 --- !u!1 &5949034007679275925
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +188,6 @@ GameObject:
   - component: {fileID: 7934102738315406830}
   - component: {fileID: 6105703995823874726}
   - component: {fileID: 5740206945855228412}
-  - component: {fileID: 2984830619238615538}
   m_Layer: 3
   m_Name: Wolf
   m_TagString: Wolf
@@ -230,23 +246,9 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
-  _cooldownAttack: 100
-  _rangeAttack: 3
---- !u!114 &2984830619238615538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5949034007679275925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19e381fb332f3940b51ea9989f807d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life: 150
-  maxLife: 0
-  healthBar: {fileID: 4091550324012908683}
+  _cooldownAttack: 5
+  _rangeAttack: 5
+  objectToDestroy: {fileID: 4122178788890387221}
 --- !u!1001 &619483620566770318
 PrefabInstance:
   m_ObjectHideFlags: 0
